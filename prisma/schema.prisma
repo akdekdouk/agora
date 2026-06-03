@@ -1,0 +1,50 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  password     String
+  businessName String
+  description  String?
+  category     String    // "shop" | "artisan" | "restaurant"
+  city         String
+  address      String?
+  phone        String?
+  logo         String?
+  createdAt    DateTime  @default(now())
+  offers       Offer[]
+  products     Product[]
+}
+
+model Offer {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  photo       String?
+  discount    Int      // percentage
+  validFrom   DateTime
+  validTo     DateTime
+  createdAt   DateTime @default(now())
+  merchant    User     @relation(fields: [merchantId], references: [id])
+  merchantId  String
+}
+
+model Product {
+  id              String   @id @default(cuid())
+  name            String
+  description     String
+  images          String   // JSON array of paths
+  originalPrice   Float
+  discountedPrice Float
+  category        String?
+  createdAt       DateTime @default(now())
+  merchant        User     @relation(fields: [merchantId], references: [id])
+  merchantId      String
+}
