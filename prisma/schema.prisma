@@ -48,3 +48,41 @@ model Product {
   merchant        User     @relation(fields: [merchantId], references: [id])
   merchantId      String
 }
+
+model Consumer {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  createdAt DateTime @default(now())
+  savedOffers       SavedOffer[]
+  savedProducts     SavedProduct[]
+  followedMerchants FollowedMerchant[]
+}
+
+model SavedOffer {
+  id         String   @id @default(cuid())
+  consumer   Consumer @relation(fields: [consumerId], references: [id])
+  consumerId String
+  offerId    String
+  savedAt    DateTime @default(now())
+  @@unique([consumerId, offerId])
+}
+
+model SavedProduct {
+  id         String   @id @default(cuid())
+  consumer   Consumer @relation(fields: [consumerId], references: [id])
+  consumerId String
+  productId  String
+  savedAt    DateTime @default(now())
+  @@unique([consumerId, productId])
+}
+
+model FollowedMerchant {
+  id         String   @id @default(cuid())
+  consumer   Consumer @relation(fields: [consumerId], references: [id])
+  consumerId String
+  merchantId String
+  followedAt DateTime @default(now())
+  @@unique([consumerId, merchantId])
+}
