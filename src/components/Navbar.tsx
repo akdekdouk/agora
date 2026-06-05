@@ -42,8 +42,8 @@ export default function Navbar() {
             Search
           </Link>
 
-          {/* Consumer section */}
-          {consumerSession?.user?.consumerId ? (
+          {/* Consumer section — only shown when logged in */}
+          {consumerSession?.user?.consumerId && (
             <div className="flex items-center gap-3 border-l border-gray-200 pl-4">
               <span className="text-sm text-gray-500">
                 {consumerSession.user.name ?? consumerSession.user.email}
@@ -58,13 +58,6 @@ export default function Navbar() {
                 Sign out
               </button>
             </div>
-          ) : (
-            <Link
-              href="/consumer/register"
-              className="text-gray-600 hover:text-orange-500 font-medium text-sm border-l border-gray-200 pl-4"
-            >
-              Save offers →
-            </Link>
           )}
 
           {/* Merchant section */}
