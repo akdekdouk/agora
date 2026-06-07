@@ -1,0 +1,81 @@
+"use client";
+
+import { useState, FormEvent } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+
+export default function NewOfferPage() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    const form = new FormData(e.currentTarget);
+    const body = {
+      title: form.get("title"),
+      description: form.get("description"),
+      discount: Number(form.get("discount")),
+      validFrom: form.get("validFrom"),
+      validTo: form.get("validTo"),
+    };
+    const res = await fetch("/api/offers", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    if (!res.ok) {
+      const data = await res.json() as { error?: string };
+      setError(data.error ?? "Failed to create offer.");
+      setLoading(false);
+      return;
+    }
+    router.push("/dashboard/offers");
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 py-10">
+      <div className="flex items-center gap-3 mb-6">
+        <Link href="/dashboard/offers" className="text-gray-400 hover:text-gray-600">←</Link>
+        <h1 className="text-2xl font-bold text-gray-900">New Offer</h1>
+      </div>
+
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+            <input name="title" required className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" placeholder="e.g. Summer Sale — 30% off everything" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Description *</label>
+            <textarea name="description" required rows={3} className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" placeholder="Describe your offer…" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Discount % *</label>
+            <input name="discount" type="number" required min={1} max={100} className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" placeholder="e.g. 20" />
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Valid from *</label>
+              <input name="validFrom" type="date" required className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Valid until *</label>
+              <input name="validTo" type="date" required className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400" />
+            </div>
+          </div>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2.5 rounded-lg transition disabled:opacity-60"
+          >
+            {loading ? "Creating…" : "Create offer"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}
