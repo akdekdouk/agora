@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+
+export const dynamic = "force-dynamic";
 import OfferCard from "@/components/OfferCard";
 import ProductCard from "@/components/ProductCard";
 

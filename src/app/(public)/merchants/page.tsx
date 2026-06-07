@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import MerchantCard from "@/components/MerchantCard";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function MerchantsPage() {
   const merchants = await prisma.user.findMany({

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import MerchantCard from "@/components/MerchantCard";
 import SearchBar from "@/components/SearchBar";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 async function getFeaturedMerchants() {
   return prisma.user.findMany({
