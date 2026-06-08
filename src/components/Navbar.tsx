@@ -23,14 +23,14 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    fetch("/api/consumer/auth/session")
+    fetch("/api/consumer/session")
       .then((r) => r.json())
-      .then((data) => { if (data?.user?.consumerId) setConsumerSession(data); })
+      .then((data: ConsumerSession) => { if (data?.user?.consumerId) setConsumerSession(data); })
       .catch(() => {});
   }, []);
 
   async function signOutConsumer() {
-    await fetch("/api/consumer/auth/signout", { method: "POST" });
+    await fetch("/api/consumer/logout", { method: "POST" });
     setConsumerSession(null);
     window.location.reload();
   }
