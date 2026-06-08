@@ -1,0 +1,157 @@
+{
+  "nav": {
+    "merchants": "Commerçants",
+    "search": "Rechercher",
+    "mySaves": "Mes sauvegardes",
+    "dashboard": "Tableau de bord",
+    "signOut": "Se déconnecter",
+    "signIn": "Se connecter"
+  },
+  "home": {
+    "heroTitle": "Découvrez les bons plans locaux",
+    "heroSubtitle": "Trouvez les meilleures offres des boutiques, artisans et restaurants près de chez vous",
+    "featuredMerchants": "Commerçants en vedette",
+    "viewAll": "Voir tout →",
+    "noMerchantsYet": "Aucun commerçant pour l'instant.",
+    "registerBusiness": "Inscrivez votre entreprise",
+    "ctaTitle": "Vous êtes un commerce local ?",
+    "ctaSubtitle": "Rejoignez Agora et commencez à publier vos offres et produits gratuitement.",
+    "ctaButton": "Inscrivez votre entreprise"
+  },
+  "login": {
+    "title": "Se connecter à Agora",
+    "email": "Email",
+    "password": "Mot de passe",
+    "signIn": "Se connecter",
+    "signingIn": "Connexion…",
+    "forgotPassword": "Mot de passe oublié ?",
+    "noAccount": "Pas de compte ?",
+    "registerLink": "Inscrivez votre entreprise",
+    "invalidCredentials": "Email ou mot de passe invalide. Veuillez vérifier vos identifiants.",
+    "accountCreated": "Compte créé ! Connectez-vous avec votre email et mot de passe.",
+    "passwordUpdated": "Mot de passe mis à jour ! Connectez-vous avec votre nouveau mot de passe."
+  },
+  "register": {
+    "title": "Inscrivez votre entreprise",
+    "businessName": "Nom de l'entreprise",
+    "category": "Catégorie",
+    "city": "Ville",
+    "description": "Description",
+    "address": "Adresse",
+    "phone": "Téléphone",
+    "email": "Email",
+    "password": "Mot de passe",
+    "createAccount": "Créer un compte",
+    "registering": "Inscription...",
+    "alreadyAccount": "Déjà un compte ?",
+    "signIn": "Se connecter",
+    "shop": "Boutique",
+    "artisan": "Artisan",
+    "restaurant": "Restaurant",
+    "registrationFailed": "Échec de l'inscription"
+  },
+  "forgotPassword": {
+    "title": "Réinitialiser votre mot de passe",
+    "enterEmail": "Entrez votre adresse email enregistrée.",
+    "email": "Email",
+    "continue": "Continuer",
+    "checking": "Vérification…",
+    "noAccountFound": "Aucun compte trouvé avec cet email.",
+    "accountFound": "Compte trouvé pour {email}. Entrez votre nouveau mot de passe.",
+    "newPassword": "Nouveau mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "savePassword": "Enregistrer le nouveau mot de passe",
+    "saving": "Enregistrement…",
+    "passwordsNoMatch": "Les mots de passe ne correspondent pas.",
+    "resetFailed": "Échec de la réinitialisation.",
+    "backToSignIn": "← Retour à la connexion"
+  },
+  "merchants": {
+    "title": "Tous les commerçants",
+    "subtitle": "{count} commerces locaux sur Agora",
+    "noMerchantsYet": "Aucun commerçant pour l'instant."
+  },
+  "merchantDetail": {
+    "activeOffers": "Offres actives",
+    "products": "Produits",
+    "noActiveOffers": "Aucune offre active en ce moment.",
+    "noProducts": "Aucun produit listé pour l'instant."
+  },
+  "search": {
+    "title": "Recherche par IA",
+    "placeholder": "ex. restaurants à Paris avec des réductions cette semaine...",
+    "searchButton": "Rechercher",
+    "loading": "Chargement...",
+    "searching": "Recherche avec l'IA...",
+    "results": "{count} résultat pour « {query} »",
+    "resultsPlural": "{count} résultats pour « {query} »",
+    "noResults": "Aucun résultat pour votre recherche.",
+    "enterQuery": "Entrez une recherche pour trouver des commerçants, offres et produits.",
+    "searchFailed": "Recherche échouée. Veuillez réessayer.",
+    "merchants": "Commerçants",
+    "offers": "Offres",
+    "products": "Produits"
+  },
+  "dashboard": {
+    "welcome": "Bienvenue, {name}",
+    "totalOffers": "Offres totales",
+    "activeOffers": "Offres actives",
+    "products": "Produits",
+    "offersSection": "Offres",
+    "productsSection": "Produits",
+    "viewAll": "Voir tout",
+    "newOffer": "+ Nouvelle offre",
+    "newProduct": "+ Nouveau produit",
+    "viewPublicProfile": "Voir votre profil public →"
+  },
+  "offerCard": {
+    "saveOffer": "Sauvegarder cette offre",
+    "unsave": "Retirer",
+    "createAccountToSave": "Créez un compte gratuit pour sauvegarder les offres",
+    "signUpFree": "S'inscrire gratuitement",
+    "signIn": "Se connecter"
+  },
+  "productCard": {
+    "saveProduct": "Sauvegarder ce produit",
+    "unsave": "Retirer",
+    "createAccountToSave": "Créez un compte gratuit pour sauvegarder les produits",
+    "signUpFree": "S'inscrire gratuitement",
+    "signIn": "Se connecter"
+  },
+  "merchantCard": {
+    "offers": "offres",
+    "products": "produits",
+    "shop": "Boutique",
+    "artisan": "Artisan",
+    "restaurant": "Restaurant"
+  },
+  "consumer": {
+    "loginTitle": "Se connecter en tant que client",
+    "registerTitle": "Créer un compte client",
+    "name": "Votre nom",
+    "email": "Email",
+    "password": "Mot de passe",
+    "signIn": "Se connecter",
+    "signingIn": "Connexion…",
+    "createAccount": "Créer un compte",
+    "registering": "Inscription...",
+    "noAccount": "Pas de compte ?",
+    "signUpFree": "S'inscrire gratuitement",
+    "alreadyAccount": "Déjà un compte ?",
+    "dashboard": "Mes éléments sauvegardés",
+    "savedOffers": "Offres sauvegardées",
+    "savedProducts": "Produits sauvegardés",
+    "followedMerchants": "Commerçants suivis",
+    "noSavedOffers": "Aucune offre sauvegardée.",
+    "noSavedProducts": "Aucun produit sauvegardé.",
+    "noFollowedMerchants": "Aucun commerçant suivi.",
+    "invalidCredentials": "Email ou mot de passe invalide.",
+    "registrationFailed": "Échec de l'inscription"
+  },
+  "common": {
+    "required": "*",
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue.",
+    "expired": "Expiré"
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "nav": {
+    "merchants": "التجار",
+    "search": "بحث",
+    "mySaves": "محفوظاتي",
+    "dashboard": "لوحة التحكم",
+    "signOut": "تسجيل الخروج",
+    "signIn": "تسجيل الدخول"
+  },
+  "home": {
+    "heroTitle": "اكتشف التخفيضات المحلية",
+    "heroSubtitle": "ابحث عن أفضل العروض من المحلات والحرفيين والمطاعم القريبة منك",
+    "featuredMerchants": "تجار مميزون",
+    "viewAll": "← عرض الكل",
+    "noMerchantsYet": "لا يوجد تجار بعد.",
+    "registerBusiness": "سجّل نشاطك التجاري",
+    "ctaTitle": "هل أنت نشاط تجاري محلي؟",
+    "ctaSubtitle": "انضم إلى أغورا وابدأ نشر عروضك ومنتجاتك مجاناً.",
+    "ctaButton": "سجّل نشاطك التجاري"
+  },
+  "login": {
+    "title": "تسجيل الدخول إلى أغورا",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "signIn": "تسجيل الدخول",
+    "signingIn": "جارٍ الدخول…",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "noAccount": "ليس لديك حساب؟",
+    "registerLink": "سجّل نشاطك التجاري",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة. يرجى التحقق من بياناتك.",
+    "accountCreated": "تم إنشاء الحساب! سجّل الدخول بالبريد الإلكتروني وكلمة المرور.",
+    "passwordUpdated": "تم تحديث كلمة المرور! سجّل الدخول بالكلمة الجديدة."
+  },
+  "register": {
+    "title": "سجّل نشاطك التجاري",
+    "businessName": "اسم النشاط التجاري",
+    "category": "الفئة",
+    "city": "المدينة",
+    "description": "الوصف",
+    "address": "العنوان",
+    "phone": "الهاتف",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "createAccount": "إنشاء حساب",
+    "registering": "جارٍ التسجيل...",
+    "alreadyAccount": "لديك حساب بالفعل؟",
+    "signIn": "تسجيل الدخول",
+    "shop": "متجر",
+    "artisan": "حرفي",
+    "restaurant": "مطعم",
+    "registrationFailed": "فشل التسجيل"
+  },
+  "forgotPassword": {
+    "title": "إعادة تعيين كلمة المرور",
+    "enterEmail": "أدخل عنوان بريدك الإلكتروني المسجّل.",
+    "email": "البريد الإلكتروني",
+    "continue": "متابعة",
+    "checking": "جارٍ التحقق…",
+    "noAccountFound": "لم يتم العثور على حساب بهذا البريد الإلكتروني.",
+    "accountFound": "تم العثور على حساب لـ {email}. أدخل كلمة المرور الجديدة.",
+    "newPassword": "كلمة المرور الجديدة",
+    "confirmPassword": "تأكيد كلمة المرور الجديدة",
+    "savePassword": "حفظ كلمة المرور الجديدة",
+    "saving": "جارٍ الحفظ…",
+    "passwordsNoMatch": "كلمتا المرور غير متطابقتين.",
+    "resetFailed": "فشل إعادة تعيين كلمة المرور.",
+    "backToSignIn": "العودة إلى تسجيل الدخول →"
+  },
+  "merchants": {
+    "title": "جميع التجار",
+    "subtitle": "{count} نشاط تجاري محلي على أغورا",
+    "noMerchantsYet": "لا يوجد تجار بعد."
+  },
+  "merchantDetail": {
+    "activeOffers": "العروض النشطة",
+    "products": "المنتجات",
+    "noActiveOffers": "لا توجد عروض نشطة في الوقت الحالي.",
+    "noProducts": "لا توجد منتجات مدرجة بعد."
+  },
+  "search": {
+    "title": "بحث بالذكاء الاصطناعي",
+    "placeholder": "مثال: مطاعم في الرياض بتخفيضات هذا الأسبوع...",
+    "searchButton": "بحث",
+    "loading": "جارٍ التحميل...",
+    "searching": "جارٍ البحث بالذكاء الاصطناعي...",
+    "results": "{count} نتيجة لـ \"{query}\"",
+    "resultsPlural": "{count} نتائج لـ \"{query}\"",
+    "noResults": "لا توجد نتائج لبحثك.",
+    "enterQuery": "أدخل كلمة بحث للعثور على تجار وعروض ومنتجات.",
+    "searchFailed": "فشل البحث. يرجى المحاولة مجدداً.",
+    "merchants": "التجار",
+    "offers": "العروض",
+    "products": "المنتجات"
+  },
+  "dashboard": {
+    "welcome": "مرحباً، {name}",
+    "totalOffers": "إجمالي العروض",
+    "activeOffers": "العروض النشطة",
+    "products": "المنتجات",
+    "offersSection": "العروض",
+    "productsSection": "المنتجات",
+    "viewAll": "عرض الكل",
+    "newOffer": "+ عرض جديد",
+    "newProduct": "+ منتج جديد",
+    "viewPublicProfile": "عرض ملفك الشخصي العام ←"
+  },
+  "offerCard": {
+    "saveOffer": "حفظ هذا العرض",
+    "unsave": "إزالة",
+    "createAccountToSave": "أنشئ حساباً مجانياً لحفظ العروض",
+    "signUpFree": "سجّل مجاناً",
+    "signIn": "تسجيل الدخول"
+  },
+  "productCard": {
+    "saveProduct": "حفظ هذا المنتج",
+    "unsave": "إزالة",
+    "createAccountToSave": "أنشئ حساباً مجانياً لحفظ المنتجات",
+    "signUpFree": "سجّل مجاناً",
+    "signIn": "تسجيل الدخول"
+  },
+  "merchantCard": {
+    "offers": "عروض",
+    "products": "منتجات",
+    "shop": "متجر",
+    "artisan": "حرفي",
+    "restaurant": "مطعم"
+  },
+  "consumer": {
+    "loginTitle": "تسجيل الدخول كعميل",
+    "registerTitle": "إنشاء حساب عميل",
+    "name": "اسمك",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "signIn": "تسجيل الدخول",
+    "signingIn": "جارٍ الدخول…",
+    "createAccount": "إنشاء حساب",
+    "registering": "جارٍ التسجيل...",
+    "noAccount": "ليس لديك حساب؟",
+    "signUpFree": "سجّل مجاناً",
+    "alreadyAccount": "لديك حساب بالفعل؟",
+    "dashboard": "عناصري المحفوظة",
+    "savedOffers": "العروض المحفوظة",
+    "savedProducts": "المنتجات المحفوظة",
+    "followedMerchants": "التجار المتابَعون",
+    "noSavedOffers": "لا توجد عروض محفوظة.",
+    "noSavedProducts": "لا توجد منتجات محفوظة.",
+    "noFollowedMerchants": "لا يوجد تجار متابَعون.",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    "registrationFailed": "فشل التسجيل"
+  },
+  "common": {
+    "required": "*",
+    "loading": "جارٍ التحميل...",
+    "error": "حدث خطأ.",
+    "expired": "منتهي الصلاحية"
+  }
+}
