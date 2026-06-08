@@ -150,12 +150,69 @@
     "invalidCredentials": "Invalid email or password.",
     "registrationFailed": "Registration failed",
     "myClaims": "My claims",
-    "noClaims": "No claimed offers yet."
+    "noClaims": "No claimed offers yet.",
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordTitle": "Reset your password",
+    "forgotPasswordEnterEmail": "Enter your registered email address.",
+    "forgotPasswordContinue": "Continue",
+    "forgotPasswordChecking": "Checking…",
+    "forgotPasswordNoAccount": "No account found with this email.",
+    "forgotPasswordAccountFound": "Account found for {email}. Enter your new password.",
+    "forgotPasswordNewPassword": "New password",
+    "forgotPasswordConfirm": "Confirm new password",
+    "forgotPasswordSave": "Save new password",
+    "forgotPasswordSaving": "Saving…",
+    "forgotPasswordNoMatch": "Passwords do not match.",
+    "forgotPasswordFailed": "Failed to reset password.",
+    "forgotPasswordBackToSignIn": "← Back to sign in",
+    "forgotPasswordResetSuccess": "Password updated! Please sign in with your new password."
   },
   "common": {
     "required": "*",
     "loading": "Loading...",
     "error": "An error occurred.",
     "expired": "Expired"
+  },
+  "claim": {
+    "used": "✓ Used",
+    "expired": "Expired",
+    "valid": "✓ Valid",
+    "showQR": "Show this QR code to the merchant",
+    "validUntil": "Valid until {date}",
+    "backToSaved": "← My saved items",
+    "notFound": "Claim not found",
+    "loadFailed": "Failed to load claim"
+  },
+  "scan": {
+    "title": "Scan & Validate Offer",
+    "enterCode": "Enter or scan the customer's code",
+    "placeholder": "Paste code or scan QR…",
+    "check": "Check",
+    "customer": "Customer: {name}",
+    "validUntil": "Valid until {date}",
+    "validated": "Validated! Discount applied.",
+    "alreadyUsed": "✗ Already used on {date}",
+    "offerExpired": "✗ This offer has expired",
+    "validate": "✓ Validate & Apply Discount",
+    "validating": "Validating…",
+    "footer": "Only offers from your business can be validated here.",
+    "invalidCode": "Invalid code",
+    "failedValidate": "Failed to validate"
+  },
+  "review": {
+    "leaveReview": "Leave a review",
+    "selectRating": "Please select a rating",
+    "placeholder": "Share your experience (optional)…",
+    "submitting": "Submitting…",
+    "submit": "Submit review",
+    "thankYou": "✓ Thank you for your review!",
+    "failed": "Failed",
+    "reviews": "Reviews",
+    "noReviews": "No reviews yet. Be the first!"
+  },
+  "dashboardScan": {
+    "title": "Scan & Validate Offers",
+    "subtitle": "Validate customer QR codes in-store",
+    "scanButton": "📷 Scan"
   }
 }
