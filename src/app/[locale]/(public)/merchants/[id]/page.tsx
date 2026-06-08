@@ -3,12 +3,28 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import OfferCard from "@/components/OfferCard";
 import ProductCard from "@/components/ProductCard";
+import ReviewsSection from "@/components/ReviewsSection";
 import { getTranslations } from "next-intl/server";
+import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
 interface Props {
   params: Promise<{ id: string }>;
+}
+
+async function getConsumerSession() {
+  try {
+    const cookieStore = await cookies();
+    const sessionToken = cookieStore.get("next-auth.session-token")?.value
+      ?? cookieStore.get("__Secure-next-auth.session-token")?.value;
+    if (!sessionToken) return null;
+    // Check consumer session cookie specifically
+    const consumerToken = cookieStore.get("consumer-session")?.value;
+    return consumerToken ? { consumerId: consumerToken } : null;
+  } catch {
+    return null;
+  }
 }
 
 export default async function MerchantProfilePage({ params }: Props) {
@@ -29,6 +45,7 @@ export default async function MerchantProfilePage({ params }: Props) {
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
+      {/* Header */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-8 flex items-start gap-5">
         {merchant.logo ? (
           <div className="relative w-20 h-20 shrink-0">
@@ -50,6 +67,7 @@ export default async function MerchantProfilePage({ params }: Props) {
         </div>
       </div>
 
+      {/* Active Offers */}
       <section className="mb-10">
         <h2 className="text-xl font-bold text-gray-900 mb-4">
           {t("activeOffers")} <span className="text-gray-400 font-normal text-base">({activeOffers.length})</span>
@@ -59,15 +77,24 @@ export default async function MerchantProfilePage({ params }: Props) {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {activeOffers.map((offer) => (
-              <OfferCard key={offer.id} title={offer.title} description={offer.description}
-                photo={offer.photo} discount={offer.discount}
-                validFrom={offer.validFrom} validTo={offer.validTo} />
+              <OfferCard
+                key={offer.id}
+                id={offer.id}
+                title={offer.title}
+                description={offer.description}
+                photo={offer.photo}
+                discount={offer.discount}
+                validFrom={offer.validFrom}
+                validTo={offer.validTo}
+                showClaim={true}
+              />
             ))}
           </div>
         )}
       </section>
 
-      <section>
+      {/* Products */}
+      <section className="mb-4">
         <h2 className="text-xl font-bold text-gray-900 mb-4">
           {t("products")} <span className="text-gray-400 font-normal text-base">({merchant.products.length})</span>
         </h2>
@@ -76,13 +103,22 @@ export default async function MerchantProfilePage({ params }: Props) {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {merchant.products.map((product) => (
-              <ProductCard key={product.id} name={product.name} description={product.description}
-                images={product.images} originalPrice={product.originalPrice}
-                discountedPrice={product.discountedPrice} category={product.category} />
+              <ProductCard
+                key={product.id}
+                name={product.name}
+                description={product.description}
+                images={product.images}
+                originalPrice={product.originalPrice}
+                discountedPrice={product.discountedPrice}
+                category={product.category}
+              />
             ))}
           </div>
         )}
       </section>
+
+      {/* Reviews */}
+      <ReviewsSection merchantId={id} isConsumerLoggedIn={false} />
     </div>
   );
 }

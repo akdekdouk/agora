@@ -5,7 +5,8 @@
     "mySaves": "I miei salvati",
     "dashboard": "Dashboard",
     "signOut": "Esci",
-    "signIn": "Accedi"
+    "signIn": "Accedi",
+    "scanValidate": "Scansiona e Valida"
   },
   "home": {
     "heroTitle": "Scopri gli sconti locali",
@@ -109,7 +110,8 @@
     "unsave": "Rimuovi",
     "createAccountToSave": "Crea un account gratuito per salvare le offerte",
     "signUpFree": "Registrati gratis",
-    "signIn": "Accedi"
+    "signIn": "Accedi",
+    "claimOffer": "Reclama questa offerta"
   },
   "productCard": {
     "saveProduct": "Salva questo prodotto",
@@ -146,7 +148,9 @@
     "noSavedProducts": "Nessun prodotto salvato.",
     "noFollowedMerchants": "Nessun commerciante seguito.",
     "invalidCredentials": "Email o password non validi.",
-    "registrationFailed": "Registrazione fallita"
+    "registrationFailed": "Registrazione fallita",
+    "myClaims": "I miei reclami",
+    "noClaims": "Nessuna offerta reclamata."
   },
   "common": {
     "required": "*",
