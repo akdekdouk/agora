@@ -11,6 +11,7 @@ export default async function DashboardPage() {
   if (!session?.user?.id) redirect("/login");
 
   const t = await getTranslations("dashboard");
+  const tScan = await getTranslations("dashboardScan");
 
   const merchant = await prisma.user.findUnique({
     where: { id: session.user.id },
@@ -71,11 +72,11 @@ export default async function DashboardPage() {
       {/* Scan link */}
       <div className="mt-6 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">Scan & Validate Offers</h2>
-          <p className="text-sm text-gray-500 mt-1">Validate customer QR codes in-store</p>
+          <h2 className="text-lg font-semibold text-gray-900">{tScan("title")}</h2>
+          <p className="text-sm text-gray-500 mt-1">{tScan("subtitle")}</p>
         </div>
         <Link href="/scan" className="bg-green-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 transition">
-          📷 Scan
+          {tScan("scanButton")}
         </Link>
       </div>
 

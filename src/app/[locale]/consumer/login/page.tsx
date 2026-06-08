@@ -76,6 +76,10 @@ function LoginForm() {
         </form>
 
         <p className="text-sm text-gray-500 mt-4 text-center">
+          <Link href="/consumer/forgot-password" className="text-orange-500 hover:underline">{t("forgotPassword")}</Link>
+        </p>
+
+        <p className="text-sm text-gray-500 mt-2 text-center">
           {t("noAccount")}{" "}
           <Link href="/consumer/register" className="text-orange-500 hover:underline font-medium">{t("signUpFree")}</Link>
         </p>

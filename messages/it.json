@@ -150,12 +150,69 @@
     "invalidCredentials": "Email o password non validi.",
     "registrationFailed": "Registrazione fallita",
     "myClaims": "I miei reclami",
-    "noClaims": "Nessuna offerta reclamata."
+    "noClaims": "Nessuna offerta reclamata.",
+    "forgotPassword": "Password dimenticata?",
+    "forgotPasswordTitle": "Reimposta la password",
+    "forgotPasswordEnterEmail": "Inserisci il tuo indirizzo email registrato.",
+    "forgotPasswordContinue": "Continua",
+    "forgotPasswordChecking": "Verifica…",
+    "forgotPasswordNoAccount": "Nessun account trovato con questa email.",
+    "forgotPasswordAccountFound": "Account trovato per {email}. Inserisci la nuova password.",
+    "forgotPasswordNewPassword": "Nuova password",
+    "forgotPasswordConfirm": "Conferma nuova password",
+    "forgotPasswordSave": "Salva nuova password",
+    "forgotPasswordSaving": "Salvataggio…",
+    "forgotPasswordNoMatch": "Le password non corrispondono.",
+    "forgotPasswordFailed": "Reimpostazione password fallita.",
+    "forgotPasswordBackToSignIn": "← Torna all'accesso",
+    "forgotPasswordResetSuccess": "Password aggiornata! Accedi con la nuova password."
   },
   "common": {
     "required": "*",
     "loading": "Caricamento...",
     "error": "Si è verificato un errore.",
     "expired": "Scaduto"
+  },
+  "claim": {
+    "used": "✓ Utilizzato",
+    "expired": "Scaduto",
+    "valid": "✓ Valido",
+    "showQR": "Mostra questo QR code al commerciante",
+    "validUntil": "Valido fino al {date}",
+    "backToSaved": "← I miei elementi salvati",
+    "notFound": "Reclamo non trovato",
+    "loadFailed": "Caricamento reclamo fallito"
+  },
+  "scan": {
+    "title": "Scansiona e Valida Offerta",
+    "enterCode": "Inserisci o scansiona il codice del cliente",
+    "placeholder": "Incolla il codice o scansiona il QR…",
+    "check": "Verifica",
+    "customer": "Cliente: {name}",
+    "validUntil": "Valido fino al {date}",
+    "validated": "Validato! Sconto applicato.",
+    "alreadyUsed": "✗ Già usato il {date}",
+    "offerExpired": "✗ Questa offerta è scaduta",
+    "validate": "✓ Valida & Applica Sconto",
+    "validating": "Validazione…",
+    "footer": "Solo le offerte della tua attività possono essere validate qui.",
+    "invalidCode": "Codice non valido",
+    "failedValidate": "Validazione fallita"
+  },
+  "review": {
+    "leaveReview": "Lascia una recensione",
+    "selectRating": "Seleziona una valutazione",
+    "placeholder": "Condividi la tua esperienza (facoltativo)…",
+    "submitting": "Invio…",
+    "submit": "Invia recensione",
+    "thankYou": "✓ Grazie per la tua recensione!",
+    "failed": "Errore",
+    "reviews": "Recensioni",
+    "noReviews": "Nessuna recensione ancora. Sii il primo!"
+  },
+  "dashboardScan": {
+    "title": "Scansiona e Valida Offerte",
+    "subtitle": "Valida i QR code dei clienti in negozio",
+    "scanButton": "📷 Scansiona"
   }
 }

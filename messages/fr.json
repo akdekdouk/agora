@@ -150,12 +150,69 @@
     "invalidCredentials": "Email ou mot de passe invalide.",
     "registrationFailed": "Échec de l'inscription",
     "myClaims": "Mes réclamations",
-    "noClaims": "Aucune offre réclamée."
+    "noClaims": "Aucune offre réclamée.",
+    "forgotPassword": "Mot de passe oublié ?",
+    "forgotPasswordTitle": "Réinitialiser votre mot de passe",
+    "forgotPasswordEnterEmail": "Entrez votre adresse email enregistrée.",
+    "forgotPasswordContinue": "Continuer",
+    "forgotPasswordChecking": "Vérification…",
+    "forgotPasswordNoAccount": "Aucun compte trouvé avec cet email.",
+    "forgotPasswordAccountFound": "Compte trouvé pour {email}. Entrez votre nouveau mot de passe.",
+    "forgotPasswordNewPassword": "Nouveau mot de passe",
+    "forgotPasswordConfirm": "Confirmer le mot de passe",
+    "forgotPasswordSave": "Enregistrer le nouveau mot de passe",
+    "forgotPasswordSaving": "Enregistrement…",
+    "forgotPasswordNoMatch": "Les mots de passe ne correspondent pas.",
+    "forgotPasswordFailed": "Échec de la réinitialisation.",
+    "forgotPasswordBackToSignIn": "← Retour à la connexion",
+    "forgotPasswordResetSuccess": "Mot de passe mis à jour ! Connectez-vous avec votre nouveau mot de passe."
   },
   "common": {
     "required": "*",
     "loading": "Chargement...",
     "error": "Une erreur est survenue.",
     "expired": "Expiré"
+  },
+  "claim": {
+    "used": "✓ Utilisé",
+    "expired": "Expiré",
+    "valid": "✓ Valide",
+    "showQR": "Montrez ce QR code au commerçant",
+    "validUntil": "Valable jusqu'au {date}",
+    "backToSaved": "← Mes éléments sauvegardés",
+    "notFound": "Réclamation introuvable",
+    "loadFailed": "Échec du chargement de la réclamation"
+  },
+  "scan": {
+    "title": "Scanner & Valider l'offre",
+    "enterCode": "Entrez ou scannez le code client",
+    "placeholder": "Collez le code ou scannez le QR…",
+    "check": "Vérifier",
+    "customer": "Client : {name}",
+    "validUntil": "Valable jusqu'au {date}",
+    "validated": "Validé ! Réduction appliquée.",
+    "alreadyUsed": "✗ Déjà utilisé le {date}",
+    "offerExpired": "✗ Cette offre a expiré",
+    "validate": "✓ Valider & Appliquer la réduction",
+    "validating": "Validation…",
+    "footer": "Seules les offres de votre commerce peuvent être validées ici.",
+    "invalidCode": "Code invalide",
+    "failedValidate": "Échec de la validation"
+  },
+  "review": {
+    "leaveReview": "Laisser un avis",
+    "selectRating": "Veuillez sélectionner une note",
+    "placeholder": "Partagez votre expérience (facultatif)…",
+    "submitting": "Envoi…",
+    "submit": "Soumettre l'avis",
+    "thankYou": "✓ Merci pour votre avis !",
+    "failed": "Échec",
+    "reviews": "Avis",
+    "noReviews": "Pas encore d'avis. Soyez le premier !"
+  },
+  "dashboardScan": {
+    "title": "Scanner & Valider les offres",
+    "subtitle": "Validez les QR codes clients en magasin",
+    "scanButton": "📷 Scanner"
   }
 }

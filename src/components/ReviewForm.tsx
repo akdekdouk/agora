@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface Props {
   merchantId: string;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export default function ReviewForm({ merchantId, onSubmitted }: Props) {
+  const t = useTranslations("review");
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
@@ -17,7 +19,7 @@ export default function ReviewForm({ merchantId, onSubmitted }: Props) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (rating === 0) { setError("Please select a rating"); return; }
+    if (rating === 0) { setError(t("selectRating")); return; }
     setLoading(true);
     const res = await fetch("/api/reviews", {
       method: "POST",
@@ -26,20 +28,20 @@ export default function ReviewForm({ merchantId, onSubmitted }: Props) {
     });
     setLoading(false);
     if (res.ok) { setDone(true); onSubmitted?.(); }
-    else { const d = await res.json() as { error?: string }; setError(d.error ?? "Failed"); }
+    else { const d = await res.json() as { error?: string }; setError(d.error ?? t("failed")); }
   }
 
   if (done) {
     return (
       <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center text-green-700 text-sm">
-        ✓ Thank you for your review!
+        {t("thankYou")}
       </div>
     );
   }
 
   return (
     <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-      <h3 className="font-semibold text-gray-900 mb-3">Leave a review</h3>
+      <h3 className="font-semibold text-gray-900 mb-3">{t("leaveReview")}</h3>
 
       <div className="flex gap-1 mb-3">
         {[1, 2, 3, 4, 5].map((star) => (
@@ -59,7 +61,7 @@ export default function ReviewForm({ merchantId, onSubmitted }: Props) {
       <textarea
         value={comment}
         onChange={(e) => setComment(e.target.value)}
-        placeholder="Share your experience (optional)…"
+        placeholder={t("placeholder")}
         rows={3}
         className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 mb-3"
       />
@@ -68,7 +70,7 @@ export default function ReviewForm({ merchantId, onSubmitted }: Props) {
 
       <button type="submit" disabled={loading}
         className="w-full bg-orange-500 hover:bg-orange-600 text-white font-medium py-2 rounded-lg transition disabled:opacity-60 text-sm">
-        {loading ? "Submitting…" : "Submit review"}
+        {loading ? t("submitting") : t("submit")}
       </button>
     </form>
   );

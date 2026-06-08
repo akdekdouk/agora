@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ReviewForm from "./ReviewForm";
+import { useTranslations } from "next-intl";
 
 interface Review {
   id: string;
@@ -27,6 +28,7 @@ function Stars({ rating }: { rating: number }) {
 }
 
 export default function ReviewsSection({ merchantId, isConsumerLoggedIn }: Props) {
+  const t = useTranslations("review");
   const [data, setData] = useState<{ reviews: Review[]; average: number | null; count: number } | null>(null);
 
   function load() {
@@ -42,7 +44,7 @@ export default function ReviewsSection({ merchantId, isConsumerLoggedIn }: Props
   return (
     <section className="mt-10">
       <div className="flex items-center gap-3 mb-4">
-        <h2 className="text-xl font-bold text-gray-900">Reviews</h2>
+        <h2 className="text-xl font-bold text-gray-900">{t("reviews")}</h2>
         {data.average && (
           <span className="flex items-center gap-1 text-sm text-gray-500">
             <Stars rating={Math.round(data.average)} />
@@ -59,7 +61,7 @@ export default function ReviewsSection({ merchantId, isConsumerLoggedIn }: Props
       )}
 
       {data.reviews.length === 0 ? (
-        <p className="text-gray-400 text-sm">No reviews yet. Be the first!</p>
+        <p className="text-gray-400 text-sm">{t("noReviews")}</p>
       ) : (
         <div className="space-y-3">
           {data.reviews.map((r) => (

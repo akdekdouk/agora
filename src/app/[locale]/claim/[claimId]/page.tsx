@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useParams } from "next/navigation";
 import QRCode from "qrcode";
 import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 interface ClaimData {
   id: string;
@@ -24,6 +25,7 @@ export default function ClaimPage() {
   const [claim, setClaim] = useState<ClaimData | null>(null);
   const [error, setError] = useState("");
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const t = useTranslations("claim");
 
   useEffect(() => {
     fetch(`/api/consumer/claims-list?claimId=${claimId}`)
@@ -32,10 +34,10 @@ export default function ClaimPage() {
         if (data && !("error" in data)) {
           setClaim(data);
         } else {
-          setError("Claim not found");
+          setError(t("notFound"));
         }
       })
-      .catch(() => setError("Failed to load claim"));
+      .catch(() => setError(t("loadFailed")));
   }, [claimId]);
 
   useEffect(() => {
@@ -74,15 +76,15 @@ export default function ClaimPage() {
         {/* Status badge */}
         {isUsed ? (
           <div className="bg-gray-100 text-gray-500 rounded-full px-4 py-1 text-sm font-medium mb-4 inline-block">
-            ✓ Used
+            {t("used")}
           </div>
         ) : expired ? (
           <div className="bg-red-50 text-red-500 rounded-full px-4 py-1 text-sm font-medium mb-4 inline-block">
-            Expired
+            {t("expired")}
           </div>
         ) : (
           <div className="bg-green-50 text-green-600 rounded-full px-4 py-1 text-sm font-medium mb-4 inline-block">
-            ✓ Valid
+            {t("valid")}
           </div>
         )}
 
@@ -94,7 +96,7 @@ export default function ClaimPage() {
 
         {!isUsed && !expired ? (
           <>
-            <p className="text-xs text-gray-400 mb-3">Show this QR code to the merchant</p>
+            <p className="text-xs text-gray-400 mb-3">{t("showQR")}</p>
             <div className="flex justify-center mb-4">
               <canvas ref={canvasRef} className="rounded-xl" />
             </div>
@@ -107,11 +109,11 @@ export default function ClaimPage() {
         )}
 
         <p className="text-xs text-gray-400 mt-4">
-          Valid until {new Date(claim.offer.validTo).toLocaleDateString()}
+          {t("validUntil", { date: new Date(claim.offer.validTo).toLocaleDateString() })}
         </p>
 
         <Link href="/consumer/dashboard" className="block mt-6 text-sm text-orange-500 hover:underline">
-          ← My saved items
+          {t("backToSaved")}
         </Link>
       </div>
     </div>

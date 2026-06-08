@@ -150,12 +150,69 @@
     "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
     "registrationFailed": "فشل التسجيل",
     "myClaims": "مطالباتي",
-    "noClaims": "لا توجد عروض مستردة بعد."
+    "noClaims": "لا توجد عروض مستردة بعد.",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "forgotPasswordTitle": "إعادة تعيين كلمة المرور",
+    "forgotPasswordEnterEmail": "أدخل عنوان بريدك الإلكتروني المسجّل.",
+    "forgotPasswordContinue": "متابعة",
+    "forgotPasswordChecking": "جارٍ التحقق…",
+    "forgotPasswordNoAccount": "لم يتم العثور على حساب بهذا البريد الإلكتروني.",
+    "forgotPasswordAccountFound": "تم العثور على حساب لـ {email}. أدخل كلمة المرور الجديدة.",
+    "forgotPasswordNewPassword": "كلمة المرور الجديدة",
+    "forgotPasswordConfirm": "تأكيد كلمة المرور الجديدة",
+    "forgotPasswordSave": "حفظ كلمة المرور الجديدة",
+    "forgotPasswordSaving": "جارٍ الحفظ…",
+    "forgotPasswordNoMatch": "كلمتا المرور غير متطابقتين.",
+    "forgotPasswordFailed": "فشل إعادة تعيين كلمة المرور.",
+    "forgotPasswordBackToSignIn": "العودة إلى تسجيل الدخول →",
+    "forgotPasswordResetSuccess": "تم تحديث كلمة المرور! سجّل الدخول بالكلمة الجديدة."
   },
   "common": {
     "required": "*",
     "loading": "جارٍ التحميل...",
     "error": "حدث خطأ.",
     "expired": "منتهي الصلاحية"
+  },
+  "claim": {
+    "used": "✓ مستخدم",
+    "expired": "منتهي الصلاحية",
+    "valid": "✓ صالح",
+    "showQR": "أرِ هذا الرمز للتاجر",
+    "validUntil": "صالح حتى {date}",
+    "backToSaved": "← عناصري المحفوظة",
+    "notFound": "المطالبة غير موجودة",
+    "loadFailed": "فشل تحميل المطالبة"
+  },
+  "scan": {
+    "title": "مسح والتحقق من العرض",
+    "enterCode": "أدخل أو امسح رمز العميل",
+    "placeholder": "الصق الرمز أو امسح رمز QR…",
+    "check": "تحقق",
+    "customer": "العميل: {name}",
+    "validUntil": "صالح حتى {date}",
+    "validated": "تم التحقق! تم تطبيق الخصم.",
+    "alreadyUsed": "✗ تم الاستخدام بالفعل في {date}",
+    "offerExpired": "✗ انتهت صلاحية هذا العرض",
+    "validate": "✓ التحقق وتطبيق الخصم",
+    "validating": "جارٍ التحقق…",
+    "footer": "يمكن التحقق فقط من عروض نشاطك التجاري هنا.",
+    "invalidCode": "رمز غير صالح",
+    "failedValidate": "فشل التحقق"
+  },
+  "review": {
+    "leaveReview": "اترك تقييماً",
+    "selectRating": "يرجى اختيار تقييم",
+    "placeholder": "شارك تجربتك (اختياري)…",
+    "submitting": "جارٍ الإرسال…",
+    "submit": "إرسال التقييم",
+    "thankYou": "✓ شكراً لتقييمك!",
+    "failed": "فشل",
+    "reviews": "التقييمات",
+    "noReviews": "لا توجد تقييمات بعد. كن الأول!"
+  },
+  "dashboardScan": {
+    "title": "مسح والتحقق من العروض",
+    "subtitle": "تحقق من رموز QR للعملاء في المتجر",
+    "scanButton": "📷 مسح"
   }
 }
