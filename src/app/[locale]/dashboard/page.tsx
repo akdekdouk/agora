@@ -68,7 +68,18 @@ export default async function DashboardPage() {
         </div>
       </div>
 
-      <div className="mt-6">
+      {/* Scan link */}
+      <div className="mt-6 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900">Scan & Validate Offers</h2>
+          <p className="text-sm text-gray-500 mt-1">Validate customer QR codes in-store</p>
+        </div>
+        <Link href="/scan" className="bg-green-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-green-600 transition">
+          📷 Scan
+        </Link>
+      </div>
+
+      <div className="mt-4">
         <Link href={`/merchants/${merchant.id}`} className="text-sm text-orange-500 hover:underline">
           {t("viewPublicProfile")}
         </Link>

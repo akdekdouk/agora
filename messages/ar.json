@@ -5,7 +5,8 @@
     "mySaves": "محفوظاتي",
     "dashboard": "لوحة التحكم",
     "signOut": "تسجيل الخروج",
-    "signIn": "تسجيل الدخول"
+    "signIn": "تسجيل الدخول",
+    "scanValidate": "مسح والتحقق"
   },
   "home": {
     "heroTitle": "اكتشف التخفيضات المحلية",
@@ -109,7 +110,8 @@
     "unsave": "إزالة",
     "createAccountToSave": "أنشئ حساباً مجانياً لحفظ العروض",
     "signUpFree": "سجّل مجاناً",
-    "signIn": "تسجيل الدخول"
+    "signIn": "تسجيل الدخول",
+    "claimOffer": "استرداد هذا العرض"
   },
   "productCard": {
     "saveProduct": "حفظ هذا المنتج",
@@ -146,7 +148,9 @@
     "noSavedProducts": "لا توجد منتجات محفوظة.",
     "noFollowedMerchants": "لا يوجد تجار متابَعون.",
     "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
-    "registrationFailed": "فشل التسجيل"
+    "registrationFailed": "فشل التسجيل",
+    "myClaims": "مطالباتي",
+    "noClaims": "لا توجد عروض مستردة بعد."
   },
   "common": {
     "required": "*",

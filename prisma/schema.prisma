@@ -21,6 +21,7 @@ model User {
   createdAt    DateTime  @default(now())
   offers       Offer[]
   products     Product[]
+  reviews      Review[]
 }
 
 model Offer {
@@ -34,6 +35,7 @@ model Offer {
   createdAt   DateTime @default(now())
   merchant    User     @relation(fields: [merchantId], references: [id])
   merchantId  String
+  claims      Claim[]
 }
 
 model Product {
@@ -58,6 +60,33 @@ model Consumer {
   savedOffers       SavedOffer[]
   savedProducts     SavedProduct[]
   followedMerchants FollowedMerchant[]
+  claims            Claim[]
+  reviews           Review[]
+}
+
+model Claim {
+  id         String    @id @default(cuid())
+  consumer   Consumer  @relation(fields: [consumerId], references: [id])
+  consumerId String
+  offer      Offer     @relation(fields: [offerId], references: [id])
+  offerId    String
+  code       String    @unique @default(cuid())
+  status     String    @default("active") // "active" | "used" | "expired"
+  claimedAt  DateTime  @default(now())
+  usedAt     DateTime?
+  @@unique([consumerId, offerId])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  consumer   Consumer @relation(fields: [consumerId], references: [id])
+  consumerId String
+  merchant   User     @relation(fields: [merchantId], references: [id])
+  merchantId String
+  rating     Int      // 1-5
+  comment    String?
+  createdAt  DateTime @default(now())
+  @@unique([consumerId, merchantId])
 }
 
 model SavedOffer {

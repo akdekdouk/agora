@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 interface Props {
+  id?: string;
   title: string;
   description: string;
   photo?: string | null;
@@ -16,22 +17,42 @@ interface Props {
   onSave?: () => void;
   isSaved?: boolean;
   isLoggedIn?: boolean;
+  showClaim?: boolean;
 }
 
-export default function OfferCard({ title, description, photo, discount, validFrom, validTo, merchantName, onSave, isSaved, isLoggedIn }: Props) {
+export default function OfferCard({
+  id, title, description, photo, discount, validFrom, validTo,
+  merchantName, onSave, isSaved, isLoggedIn, showClaim,
+}: Props) {
   const from = new Date(validFrom).toLocaleDateString();
   const to = new Date(validTo).toLocaleDateString();
   const [showPrompt, setShowPrompt] = useState(false);
+  const [claiming, setClaiming] = useState(false);
+  const [claimed, setClaimed] = useState(false);
   const t = useTranslations("offerCard");
+  const router = useRouter();
 
   function handleSaveClick(e: React.MouseEvent) {
     e.stopPropagation();
-    if (!isLoggedIn) {
-      setShowPrompt(true);
-      setTimeout(() => setShowPrompt(false), 3000);
-      return;
-    }
+    if (!isLoggedIn) { setShowPrompt(true); setTimeout(() => setShowPrompt(false), 3000); return; }
     onSave?.();
+  }
+
+  async function handleClaim(e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!isLoggedIn || !id) { setShowPrompt(true); setTimeout(() => setShowPrompt(false), 3000); return; }
+    setClaiming(true);
+    const res = await fetch("/api/consumer/claim", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ offerId: id }),
+    });
+    const data = await res.json() as { id: string };
+    setClaiming(false);
+    if (res.ok || res.status === 200) {
+      setClaimed(true);
+      router.push(`/claim/${data.id}`);
+    }
   }
 
   return (
@@ -58,6 +79,16 @@ export default function OfferCard({ title, description, photo, discount, validFr
         {merchantName && <p className="text-xs text-orange-500 font-medium mt-0.5">{merchantName}</p>}
         <p className="text-sm text-gray-600 mt-1 line-clamp-2">{description}</p>
         <p className="text-xs text-gray-400 mt-2">{from} → {to}</p>
+
+        {showClaim && id && (
+          <button
+            onClick={handleClaim}
+            disabled={claiming || claimed}
+            className="mt-3 w-full bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold py-2 rounded-lg transition disabled:opacity-60"
+          >
+            {claimed ? "✓ Claimed" : claiming ? "…" : t("claimOffer")}
+          </button>
+        )}
       </div>
 
       {showPrompt && (

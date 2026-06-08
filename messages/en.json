@@ -5,7 +5,8 @@
     "mySaves": "My saves",
     "dashboard": "Dashboard",
     "signOut": "Sign out",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "scanValidate": "Scan & Validate"
   },
   "home": {
     "heroTitle": "Discover Local Discounts",
@@ -109,7 +110,8 @@
     "unsave": "Unsave",
     "createAccountToSave": "Create a free account to save offers",
     "signUpFree": "Sign up free",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "claimOffer": "Claim this offer"
   },
   "productCard": {
     "saveProduct": "Save this product",
@@ -146,7 +148,9 @@
     "noSavedProducts": "No saved products yet.",
     "noFollowedMerchants": "No followed merchants yet.",
     "invalidCredentials": "Invalid email or password.",
-    "registrationFailed": "Registration failed"
+    "registrationFailed": "Registration failed",
+    "myClaims": "My claims",
+    "noClaims": "No claimed offers yet."
   },
   "common": {
     "required": "*",
