@@ -4,6 +4,7 @@ import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+
 function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
@@ -20,25 +21,13 @@ function LoginForm() {
     setLoading(true);
 
     try {
-      const csrfRes = await fetch("/api/consumer/auth/csrf");
-      const { csrfToken } = await csrfRes.json() as { csrfToken: string };
-
-      const body = new URLSearchParams({
-        csrfToken,
-        email: form.email,
-        password: form.password,
-        callbackUrl: "/consumer/dashboard",
-        json: "true",
-      });
-
-      const result = await fetch("/api/consumer/auth/callback/consumer-credentials", {
+      const res = await fetch("/api/consumer/login", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: body.toString(),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email, password: form.password }),
       });
 
-      const data = await result.json() as { url?: string };
-      if (data.url && !data.url.includes("error=")) {
+      if (res.ok) {
         router.push("/consumer/dashboard");
       } else {
         setError(t("invalidCredentials"));
