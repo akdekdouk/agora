@@ -4,8 +4,6 @@ import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { signIn } from "next-auth/react";
-
 function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
@@ -21,19 +19,34 @@ function LoginForm() {
     setError("");
     setLoading(true);
 
-    const result = await signIn("consumer-credentials", {
-      email: form.email,
-      password: form.password,
-      redirect: false,
-      callbackUrl: "/consumer/dashboard",
-    });
+    try {
+      const csrfRes = await fetch("/api/consumer/auth/csrf");
+      const { csrfToken } = await csrfRes.json() as { csrfToken: string };
 
-    setLoading(false);
+      const body = new URLSearchParams({
+        csrfToken,
+        email: form.email,
+        password: form.password,
+        callbackUrl: "/consumer/dashboard",
+        json: "true",
+      });
 
-    if (result?.ok && !result.error) {
-      router.push("/consumer/dashboard");
-    } else {
+      const result = await fetch("/api/consumer/auth/callback/consumer-credentials", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
+      });
+
+      const data = await result.json() as { url?: string };
+      if (data.url && !data.url.includes("error=")) {
+        router.push("/consumer/dashboard");
+      } else {
+        setError(t("invalidCredentials"));
+      }
+    } catch {
       setError(t("invalidCredentials"));
+    } finally {
+      setLoading(false);
     }
   }
 
