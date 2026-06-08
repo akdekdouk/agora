@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { getServerSession as nextAuthGetServerSession } from "next-auth";
 
+const isProd = process.env.NODE_ENV === "production";
+
 export const consumerAuthOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -44,6 +46,33 @@ export const consumerAuthOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt",
+  },
+  // Use distinct cookie names to avoid conflicts with the merchant next-auth instance
+  cookies: {
+    sessionToken: {
+      name: "consumer-next-auth.session-token",
+      options: { httpOnly: true, sameSite: "lax", path: "/", secure: isProd },
+    },
+    csrfToken: {
+      name: "consumer-next-auth.csrf-token",
+      options: { httpOnly: true, sameSite: "lax", path: "/" },
+    },
+    callbackUrl: {
+      name: "consumer-next-auth.callback-url",
+      options: { sameSite: "lax", path: "/" },
+    },
+    pkceCodeVerifier: {
+      name: "consumer-next-auth.pkce.code_verifier",
+      options: { httpOnly: true, sameSite: "lax", path: "/" },
+    },
+    state: {
+      name: "consumer-next-auth.state",
+      options: { httpOnly: true, sameSite: "lax", path: "/" },
+    },
+    nonce: {
+      name: "consumer-next-auth.nonce",
+      options: { httpOnly: true, sameSite: "lax", path: "/" },
+    },
   },
   callbacks: {
     async jwt({ token, user }) {
