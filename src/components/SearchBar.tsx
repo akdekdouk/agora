@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 interface SearchBarProps {
   initialQuery?: string;
@@ -10,6 +11,7 @@ interface SearchBarProps {
 export default function SearchBar({ initialQuery = "" }: SearchBarProps) {
   const [query, setQuery] = useState(initialQuery);
   const router = useRouter();
+  const t = useTranslations("search");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,14 +26,12 @@ export default function SearchBar({ initialQuery = "" }: SearchBarProps) {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="e.g. restaurants in Rome with discounts this week..."
+        placeholder={t("placeholder")}
         className="flex-1 px-4 py-3 rounded-xl text-gray-900 border border-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-400 shadow-sm"
       />
-      <button
-        type="submit"
-        className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-xl font-semibold transition"
-      >
-        Search
+      <button type="submit"
+        className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-xl font-semibold transition">
+        {t("searchButton")}
       </button>
     </form>
   );

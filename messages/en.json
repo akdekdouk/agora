@@ -1,0 +1,157 @@
+{
+  "nav": {
+    "merchants": "Merchants",
+    "search": "Search",
+    "mySaves": "My saves",
+    "dashboard": "Dashboard",
+    "signOut": "Sign out",
+    "signIn": "Sign in"
+  },
+  "home": {
+    "heroTitle": "Discover Local Discounts",
+    "heroSubtitle": "Find the best deals from shops, artisans and restaurants near you",
+    "featuredMerchants": "Featured Merchants",
+    "viewAll": "View all →",
+    "noMerchantsYet": "No merchants yet.",
+    "registerBusiness": "Register your business",
+    "ctaTitle": "Are you a local business?",
+    "ctaSubtitle": "Join Agora and start publishing your offers and products for free.",
+    "ctaButton": "Register your business"
+  },
+  "login": {
+    "title": "Sign in to Agora",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "No account?",
+    "registerLink": "Register your business",
+    "invalidCredentials": "Invalid email or password. Please check your credentials and try again.",
+    "accountCreated": "Account created! Please sign in with your email and password.",
+    "passwordUpdated": "Password updated! Please sign in with your new password."
+  },
+  "register": {
+    "title": "Register your business",
+    "businessName": "Business Name",
+    "category": "Category",
+    "city": "City",
+    "description": "Description",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "password": "Password",
+    "createAccount": "Create account",
+    "registering": "Registering...",
+    "alreadyAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "shop": "Shop",
+    "artisan": "Artisan",
+    "restaurant": "Restaurant",
+    "registrationFailed": "Registration failed"
+  },
+  "forgotPassword": {
+    "title": "Reset your password",
+    "enterEmail": "Enter your registered email address.",
+    "email": "Email",
+    "continue": "Continue",
+    "checking": "Checking…",
+    "noAccountFound": "No account found with this email.",
+    "accountFound": "Account found for {email}. Enter your new password.",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm new password",
+    "savePassword": "Save new password",
+    "saving": "Saving…",
+    "passwordsNoMatch": "Passwords do not match.",
+    "resetFailed": "Failed to reset password.",
+    "backToSignIn": "← Back to sign in"
+  },
+  "merchants": {
+    "title": "All Merchants",
+    "subtitle": "{count} local businesses on Agora",
+    "noMerchantsYet": "No merchants yet."
+  },
+  "merchantDetail": {
+    "activeOffers": "Active Offers",
+    "products": "Products",
+    "noActiveOffers": "No active offers at the moment.",
+    "noProducts": "No products listed yet."
+  },
+  "search": {
+    "title": "AI-Powered Search",
+    "placeholder": "e.g. restaurants in Rome with discounts this week...",
+    "searchButton": "Search",
+    "loading": "Loading...",
+    "searching": "Searching with AI...",
+    "results": "{count} result for \"{query}\"",
+    "resultsPlural": "{count} results for \"{query}\"",
+    "noResults": "No results found for your query.",
+    "enterQuery": "Enter a search query above to find merchants, offers and products.",
+    "searchFailed": "Search failed. Please try again.",
+    "merchants": "Merchants",
+    "offers": "Offers",
+    "products": "Products"
+  },
+  "dashboard": {
+    "welcome": "Welcome, {name}",
+    "totalOffers": "Total Offers",
+    "activeOffers": "Active Offers",
+    "products": "Products",
+    "offersSection": "Offers",
+    "productsSection": "Products",
+    "viewAll": "View all",
+    "newOffer": "+ New offer",
+    "newProduct": "+ New product",
+    "viewPublicProfile": "View your public profile →"
+  },
+  "offerCard": {
+    "saveOffer": "Save this offer",
+    "unsave": "Unsave",
+    "createAccountToSave": "Create a free account to save offers",
+    "signUpFree": "Sign up free",
+    "signIn": "Sign in"
+  },
+  "productCard": {
+    "saveProduct": "Save this product",
+    "unsave": "Unsave",
+    "createAccountToSave": "Create a free account to save products",
+    "signUpFree": "Sign up free",
+    "signIn": "Sign in"
+  },
+  "merchantCard": {
+    "offers": "offers",
+    "products": "products",
+    "shop": "Shop",
+    "artisan": "Artisan",
+    "restaurant": "Restaurant"
+  },
+  "consumer": {
+    "loginTitle": "Sign in as a customer",
+    "registerTitle": "Create a customer account",
+    "name": "Your name",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in…",
+    "createAccount": "Create account",
+    "registering": "Registering...",
+    "noAccount": "No account?",
+    "signUpFree": "Sign up free",
+    "alreadyAccount": "Already have an account?",
+    "dashboard": "My Saved Items",
+    "savedOffers": "Saved Offers",
+    "savedProducts": "Saved Products",
+    "followedMerchants": "Followed Merchants",
+    "noSavedOffers": "No saved offers yet.",
+    "noSavedProducts": "No saved products yet.",
+    "noFollowedMerchants": "No followed merchants yet.",
+    "invalidCredentials": "Invalid email or password.",
+    "registrationFailed": "Registration failed"
+  },
+  "common": {
+    "required": "*",
+    "loading": "Loading...",
+    "error": "An error occurred.",
+    "expired": "Expired"
+  }
+}

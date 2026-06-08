@@ -1,5 +1,6 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface MerchantData {
   id: string;
@@ -11,12 +12,6 @@ interface MerchantData {
   _count?: { offers: number; products: number };
 }
 
-const categoryLabel: Record<string, string> = {
-  shop: "Shop",
-  artisan: "Artisan",
-  restaurant: "Restaurant",
-};
-
 const categoryColor: Record<string, string> = {
   shop: "bg-blue-100 text-blue-700",
   artisan: "bg-purple-100 text-purple-700",
@@ -25,6 +20,14 @@ const categoryColor: Record<string, string> = {
 
 export default function MerchantCard({ merchant }: { merchant: MerchantData }) {
   const { id, businessName, category, city, description, logo, _count } = merchant;
+  const t = useTranslations("merchantCard");
+
+  const categoryLabel: Record<string, string> = {
+    shop: t("shop"),
+    artisan: t("artisan"),
+    restaurant: t("restaurant"),
+  };
+
   return (
     <Link href={`/merchants/${id}`}>
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-shadow cursor-pointer">
@@ -46,7 +49,7 @@ export default function MerchantCard({ merchant }: { merchant: MerchantData }) {
               </span>
               {_count && (
                 <span className="text-xs text-gray-400">
-                  {_count.offers} offers · {_count.products} products
+                  {_count.offers} {t("offers")} · {_count.products} {t("products")}
                 </span>
               )}
             </div>

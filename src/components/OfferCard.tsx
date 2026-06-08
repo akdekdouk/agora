@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 interface Props {
   title: string;
@@ -21,6 +22,7 @@ export default function OfferCard({ title, description, photo, discount, validFr
   const from = new Date(validFrom).toLocaleDateString();
   const to = new Date(validTo).toLocaleDateString();
   const [showPrompt, setShowPrompt] = useState(false);
+  const t = useTranslations("offerCard");
 
   function handleSaveClick(e: React.MouseEvent) {
     e.stopPropagation();
@@ -46,11 +48,9 @@ export default function OfferCard({ title, description, photo, discount, validFr
             <span className="bg-orange-500 text-white text-sm font-bold px-2 py-0.5 rounded-full">
               -{discount}%
             </span>
-            <button
-              onClick={handleSaveClick}
+            <button onClick={handleSaveClick}
               className={`p-1 rounded-full transition ${isSaved ? "text-orange-500" : "text-gray-300 hover:text-orange-400"}`}
-              title={isSaved ? "Unsave" : "Save this offer"}
-            >
+              title={isSaved ? t("unsave") : t("saveOffer")}>
               🔖
             </button>
           </div>
@@ -62,19 +62,13 @@ export default function OfferCard({ title, description, photo, discount, validFr
 
       {showPrompt && (
         <div className="absolute inset-0 bg-white/95 flex flex-col items-center justify-center text-center p-4 rounded-xl">
-          <p className="text-gray-800 font-medium mb-3">Create a free account to save offers</p>
+          <p className="text-gray-800 font-medium mb-3">{t("createAccountToSave")}</p>
           <div className="flex gap-2">
-            <Link
-              href="/consumer/register"
-              className="bg-orange-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-orange-600"
-            >
-              Sign up free
+            <Link href="/consumer/register" className="bg-orange-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-orange-600">
+              {t("signUpFree")}
             </Link>
-            <Link
-              href="/consumer/login"
-              className="border border-gray-200 text-gray-600 text-sm px-4 py-2 rounded-lg hover:bg-gray-50"
-            >
-              Sign in
+            <Link href="/consumer/login" className="border border-gray-200 text-gray-600 text-sm px-4 py-2 rounded-lg hover:bg-gray-50">
+              {t("signIn")}
             </Link>
           </div>
         </div>
