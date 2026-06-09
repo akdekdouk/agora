@@ -13,7 +13,11 @@
     "title": "Agora Assistant",
     "subtitle": "Find the best deals near you",
     "welcome": "Ask me anything about local deals!",
-    "suggestions": ["Best restaurant deals today", "Discounts over 30% near me", "Gift ideas under €20"],
+    "suggestions": [
+      "Best restaurant deals today",
+      "Discounts over 30% near me",
+      "How do I claim an offer?"
+    ],
     "placeholder": "Search for deals…",
     "error": "Sorry, something went wrong. Please try again."
   },
@@ -263,5 +267,15 @@
     "title": "Scan & Validate Offers",
     "subtitle": "Validate customer QR codes in-store",
     "scanButton": "📷 Scan"
+  },
+  "footer": {
+    "contactLink": "Contact / Report a bug",
+    "name": "Your name",
+    "email": "Your email",
+    "message": "Your message",
+    "send": "Send",
+    "sending": "Sending…",
+    "sent": "✓ Message sent! We'll get back to you shortly.",
+    "error": "An error occurred. Please try again."
   }
 }

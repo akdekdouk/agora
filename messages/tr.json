@@ -13,7 +13,11 @@
     "title": "Agora Asistanı",
     "subtitle": "Yakınındaki en iyi fırsatları bul",
     "welcome": "Yerel fırsatlar hakkında her şeyi sorabilirsin!",
-    "suggestions": ["Bugünün en iyi restoran fırsatları", "%30 üzeri indirimler", "20€ altında hediye fikirleri"],
+    "suggestions": [
+      "Bugün en iyi restoran fırsatları",
+      "Yakınımda %30'dan fazla indirim",
+      "Bir teklifi nasıl kullanabilirim?"
+    ],
     "placeholder": "Fırsat ara…",
     "error": "Üzgünüz, bir hata oluştu. Lütfen tekrar deneyin."
   },
@@ -263,5 +267,15 @@
     "title": "Fırsatları Tara & Doğrula",
     "subtitle": "Mağazada müşteri QR kodlarını doğrulayın",
     "scanButton": "📷 Tara"
+  },
+  "footer": {
+    "contactLink": "İletişim / Hata bildir",
+    "name": "Adınız",
+    "email": "E-postanız",
+    "message": "Mesajınız",
+    "send": "Gönder",
+    "sending": "Gönderiliyor…",
+    "sent": "✓ Mesaj gönderildi! Yakında size döneceğiz.",
+    "error": "Bir hata oluştu. Lütfen tekrar deneyin."
   }
 }
