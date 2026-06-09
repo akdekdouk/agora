@@ -1,6 +1,10 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+let _resend: Resend | null = null;
+function getResend() {
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY);
+  return _resend;
+}
 
 export async function sendNewOfferNotification({
   to,
@@ -25,7 +29,7 @@ export async function sendNewOfferNotification({
     year: "numeric",
   });
 
-  await resend.emails.send({
+  await getResend().emails.send({
     from: "Agora <notifications@agora-deals.com>",
     to,
     subject: `🎉 ${merchantName} a publié une nouvelle promo : ${discount}% de réduction`,
