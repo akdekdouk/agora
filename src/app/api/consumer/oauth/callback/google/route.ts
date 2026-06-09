@@ -52,7 +52,7 @@ export async function GET(req: NextRequest) {
     consumer = await prisma.consumer.create({ data: { email, name, googleId } });
   }
 
-  const token = await createConsumerSession(consumer.id, consumer.email);
+  const token = await createConsumerSession(consumer.id, consumer.email, consumer.name);
   const res = NextResponse.redirect(`${BASE_URL}/consumer/dashboard`);
   res.cookies.set(CONSUMER_COOKIE_NAME, token, {
     httpOnly: true,

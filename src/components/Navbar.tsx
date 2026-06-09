@@ -10,6 +10,10 @@ interface ConsumerSession {
   user?: { name?: string | null; email?: string | null; consumerId?: string };
 }
 
+function firstWord(str?: string | null) {
+  return str?.split(" ")[0] ?? "";
+}
+
 const localeLabels: Record<string, string> = {
   en: "🇬🇧 English",
   fr: "🇫🇷 Français",
@@ -62,8 +66,10 @@ export default function Navbar() {
           {/* Consumer session — hidden when logged in as merchant */}
           {consumerSession?.user?.consumerId && !session ? (
             <div className="flex items-center gap-2 border-l border-gray-200 pl-3">
-              <Link href="/consumer/dashboard" className="text-gray-600 hover:text-orange-500 font-medium text-sm">
-                {t("mySaves")}
+              <Link href="/consumer/dashboard" className="flex items-center gap-1.5 hover:opacity-80 transition">
+                <span className="text-xs bg-orange-100 text-orange-600 font-semibold px-2 py-0.5 rounded-full">
+                  👤 {firstWord(consumerSession.user.name) || consumerSession.user.email?.split("@")[0]}
+                </span>
               </Link>
               <button
                 onClick={signOutConsumer}
@@ -84,8 +90,10 @@ export default function Navbar() {
           {/* Merchant session */}
           {session && (
             <div className="flex items-center gap-2 border-l border-gray-200 pl-3">
-              <Link href="/dashboard" className="text-gray-600 hover:text-orange-500 font-medium text-sm">
-                {t("dashboard")}
+              <Link href="/dashboard" className="flex items-center gap-1.5 hover:opacity-80 transition">
+                <span className="text-xs bg-blue-100 text-blue-700 font-semibold px-2 py-0.5 rounded-full">
+                  🏪 {firstWord(session.user?.name)}
+                </span>
               </Link>
               <button
                 onClick={() => signOut()}
