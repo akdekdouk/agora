@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "@/lib/auth";
+import { sendNewOfferNotification } from "@/lib/email";
 
 export async function GET() {
   try {
@@ -68,6 +69,42 @@ export async function POST(request: NextRequest) {
         merchantId: session.user.id,
       },
     });
+
+    // Send email notifications to followers (fire-and-forget)
+    void (async () => {
+      try {
+        const merchant = await prisma.user.findUnique({
+          where: { id: session.user.id },
+          select: { businessName: true },
+        });
+        const followers = await prisma.followedMerchant.findMany({
+          where: { merchantId: session.user.id },
+          include: {
+            consumer: {
+              select: { email: true, name: true, emailNotifications: true },
+            },
+          },
+        });
+        const baseUrl = process.env.NEXTAUTH_URL ?? "http://localhost:3000";
+        await Promise.allSettled(
+          followers
+            .filter((f) => f.consumer.emailNotifications)
+            .map((f) =>
+            sendNewOfferNotification({
+              to: f.consumer.email,
+              consumerName: f.consumer.name,
+              merchantName: merchant?.businessName ?? "",
+              offerTitle: title,
+              discount,
+              validTo: new Date(validTo),
+              offerUrl: `${baseUrl}/merchants/${session.user.id}`,
+            })
+          )
+        );
+      } catch {
+        // non-blocking
+      }
+    })();
 
     return NextResponse.json(offer, { status: 201 });
   } catch (error) {
