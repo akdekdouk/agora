@@ -16,6 +16,7 @@ const localeLabels: Record<string, string> = {
   it: "🇮🇹 Italiano",
   ar: "🇸🇦 العربية",
   tr: "🇹🇷 Türkçe",
+  es: "🇪🇸 Español",
 };
 
 export default function Navbar() {
