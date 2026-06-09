@@ -137,7 +137,8 @@
     "signIn": "Giriş yap",
     "claimOffer": "Fırsatı al",
     "soldOut": "Tükendi",
-    "spotsLeft": "{count} yer kaldı"
+    "spotsLeft": "{count} yer kaldı",
+    "alreadyClaimed": "Zaten alındı"
   },
   "productCard": {
     "saveProduct": "Bu ürünü kaydet",

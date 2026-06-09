@@ -23,7 +23,7 @@ interface Merchant {
 }
 interface Claim {
   id: string; status: string; claimedAt: string; usedAt?: string;
-  offer: { title: string; discount: number; validTo: string; merchant: { businessName: string } };
+  offer: { id: string; title: string; discount: number; validTo: string; merchant: { businessName: string } };
 }
 
 export default function ConsumerDashboardPage() {
@@ -113,12 +113,15 @@ export default function ConsumerDashboardPage() {
             <p className="text-gray-400 text-sm">{t("noSavedOffers")} <Link href="/" className="text-orange-500 hover:underline">Browse</Link></p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {data.offers.map((offer) => (
-                <OfferCard key={offer.id} id={offer.id} title={offer.title} description={offer.description}
-                  photo={offer.photo} discount={offer.discount} validFrom={offer.validFrom}
-                  validTo={offer.validTo} merchantName={offer.merchant.businessName}
-                  isLoggedIn showClaim />
-              ))}
+              {(() => {
+                const claimedOfferIds = new Set(claims.map((c) => c.offer.id));
+                return data.offers.map((offer) => (
+                  <OfferCard key={offer.id} id={offer.id} title={offer.title} description={offer.description}
+                    photo={offer.photo} discount={offer.discount} validFrom={offer.validFrom}
+                    validTo={offer.validTo} merchantName={offer.merchant.businessName}
+                    isLoggedIn isSaved showClaim alreadyClaimed={claimedOfferIds.has(offer.id)} />
+                ));
+              })()}
             </div>
           )}
         </section>

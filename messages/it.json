@@ -137,7 +137,8 @@
     "signIn": "Accedi",
     "claimOffer": "Reclama questa offerta",
     "soldOut": "Esaurito",
-    "spotsLeft": "{count} posti rimasti"
+    "spotsLeft": "{count} posti rimasti",
+    "alreadyClaimed": "Già riscattato"
   },
   "productCard": {
     "saveProduct": "Salva questo prodotto",

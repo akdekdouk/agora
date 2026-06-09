@@ -137,7 +137,8 @@
     "signIn": "Sign in",
     "claimOffer": "Claim this offer",
     "soldOut": "Sold out",
-    "spotsLeft": "{count} spots left"
+    "spotsLeft": "{count} spots left",
+    "alreadyClaimed": "Already claimed"
   },
   "productCard": {
     "saveProduct": "Save this product",
