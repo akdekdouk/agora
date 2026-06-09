@@ -14,10 +14,16 @@ export async function POST(req: NextRequest) {
   const { offerId } = await req.json() as { offerId: string };
   if (!offerId) return NextResponse.json({ error: "offerId required" }, { status: 400 });
 
-  const offer = await prisma.offer.findUnique({ where: { id: offerId } });
+  const offer = await prisma.offer.findUnique({
+    where: { id: offerId },
+    include: { _count: { select: { claims: true } } },
+  });
   if (!offer) return NextResponse.json({ error: "Offer not found" }, { status: 404 });
   if (new Date(offer.validTo) < new Date()) {
     return NextResponse.json({ error: "Offer has expired" }, { status: 400 });
+  }
+  if (offer.maxClaims !== null && offer._count.claims >= offer.maxClaims) {
+    return NextResponse.json({ error: "soldOut" }, { status: 409 });
   }
 
   const existing = await prisma.claim.findUnique({
