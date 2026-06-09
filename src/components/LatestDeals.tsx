@@ -25,13 +25,14 @@ interface Props {
   offers: Offer[];
   isConsumerLoggedIn: boolean;
   savedOfferIds: string[];
+  defaultCategory?: string;
 }
 
 const CATEGORIES = ["all", "restaurant", "shop", "artisan"] as const;
 
-export default function LatestDeals({ offers, isConsumerLoggedIn, savedOfferIds }: Props) {
+export default function LatestDeals({ offers, isConsumerLoggedIn, savedOfferIds, defaultCategory = "all" }: Props) {
   const t = useTranslations("home");
-  const [activeTab, setActiveTab] = useState<string>("all");
+  const [activeTab, setActiveTab] = useState<string>(defaultCategory);
   const [saved, setSaved] = useState<Set<string>>(new Set(savedOfferIds));
 
   const filtered = activeTab === "all"
