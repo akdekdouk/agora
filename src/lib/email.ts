@@ -30,7 +30,7 @@ export async function sendNewOfferNotification({
   });
 
   await getResend().emails.send({
-    from: "Agora <notifications@agora-deals.com>",
+    from: "Agora <onboarding@resend.dev>",
     to,
     subject: `🎉 ${merchantName} a publié une nouvelle promo : ${discount}% de réduction`,
     html: `
