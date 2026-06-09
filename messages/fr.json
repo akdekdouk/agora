@@ -12,13 +12,20 @@
   "home": {
     "heroTitle": "Découvrez les bons plans locaux",
     "heroSubtitle": "Trouvez les meilleures offres des boutiques, artisans et restaurants près de chez vous",
+    "latestDeals": "Dernières promotions",
     "featuredMerchants": "Commerçants en vedette",
     "viewAll": "Voir tout →",
+    "viewAllOffers": "Voir toutes les offres →",
+    "noDealsYet": "Aucune promotion active pour l'instant.",
     "noMerchantsYet": "Aucun commerçant pour l'instant.",
     "registerBusiness": "Inscrivez votre entreprise",
     "ctaTitle": "Vous êtes un commerce local ?",
     "ctaSubtitle": "Rejoignez Agora et commencez à publier vos offres et produits gratuitement.",
-    "ctaButton": "Inscrivez votre entreprise"
+    "ctaButton": "Inscrivez votre entreprise",
+    "catAll": "Tout",
+    "catRestaurant": "Restaurants",
+    "catShop": "Boutiques",
+    "catArtisan": "Artisans"
   },
   "login": {
     "title": "Se connecter à Agora",

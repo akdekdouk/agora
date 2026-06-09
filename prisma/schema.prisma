@@ -30,6 +30,7 @@ model Offer {
   description String
   photo       String?
   discount    Int      // percentage
+  category    String?  // inherited from merchant or overridden
   validFrom   DateTime
   validTo     DateTime
   createdAt   DateTime @default(now())
@@ -56,8 +57,10 @@ model Consumer {
   email      String   @unique
   password   String   @default("")
   name       String?
+  phone      String?
   googleId   String?  @unique
   facebookId String?  @unique
+  emailNotifications Boolean @default(true)
   createdAt  DateTime @default(now())
   savedOffers       SavedOffer[]
   savedProducts     SavedProduct[]

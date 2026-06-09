@@ -12,13 +12,20 @@
   "home": {
     "heroTitle": "اكتشف التخفيضات المحلية",
     "heroSubtitle": "ابحث عن أفضل العروض من المحلات والحرفيين والمطاعم القريبة منك",
+    "latestDeals": "أحدث العروض",
     "featuredMerchants": "تجار مميزون",
     "viewAll": "← عرض الكل",
+    "viewAllOffers": "عرض جميع العروض ←",
+    "noDealsYet": "لا توجد عروض نشطة بعد.",
     "noMerchantsYet": "لا يوجد تجار بعد.",
     "registerBusiness": "سجّل نشاطك التجاري",
     "ctaTitle": "هل أنت نشاط تجاري محلي؟",
     "ctaSubtitle": "انضم إلى أغورا وابدأ نشر عروضك ومنتجاتك مجاناً.",
-    "ctaButton": "سجّل نشاطك التجاري"
+    "ctaButton": "سجّل نشاطك التجاري",
+    "catAll": "الكل",
+    "catRestaurant": "مطاعم",
+    "catShop": "متاجر",
+    "catArtisan": "حرفيون"
   },
   "login": {
     "title": "تسجيل الدخول إلى أغورا",

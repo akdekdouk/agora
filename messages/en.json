@@ -12,13 +12,20 @@
   "home": {
     "heroTitle": "Discover Local Discounts",
     "heroSubtitle": "Find the best deals from shops, artisans and restaurants near you",
+    "latestDeals": "Latest Deals",
     "featuredMerchants": "Featured Merchants",
     "viewAll": "View all →",
+    "viewAllOffers": "View all offers →",
+    "noDealsYet": "No active deals yet.",
     "noMerchantsYet": "No merchants yet.",
     "registerBusiness": "Register your business",
     "ctaTitle": "Are you a local business?",
     "ctaSubtitle": "Join Agora and start publishing your offers and products for free.",
-    "ctaButton": "Register your business"
+    "ctaButton": "Register your business",
+    "catAll": "All",
+    "catRestaurant": "Restaurants",
+    "catShop": "Shops",
+    "catArtisan": "Artisans"
   },
   "login": {
     "title": "Sign in to Agora",
