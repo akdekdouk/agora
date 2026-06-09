@@ -209,16 +209,24 @@ export interface ChatMessage {
   content: string;
 }
 
+const localeNames: Record<string, string> = {
+  en: "English", fr: "French", it: "Italian", ar: "Arabic", tr: "Turkish",
+};
+
 export interface ChatContext {
   offers: RecommendationOffer[];
   consumerCity?: string | null;
+  locale?: string;
 }
 
 export async function* chatWithAssistant(
   messages: ChatMessage[],
   context: ChatContext
 ): AsyncGenerator<string> {
+  const lang = localeNames[context.locale ?? "en"] ?? "English";
   const systemPrompt = `You are Agora's friendly shopping assistant. Help consumers find the best local deals.
+
+IMPORTANT: Always respond in ${lang}. Even if the user writes in another language, respond in ${lang}.
 
 Today's date: ${new Date().toISOString().split("T")[0]}
 Consumer's city: ${context.consumerCity ?? "not specified"}

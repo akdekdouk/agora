@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 interface Message {
   role: "user" | "assistant";
@@ -10,6 +10,7 @@ interface Message {
 
 export default function AiChat() {
   const t = useTranslations("aiChat");
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -37,7 +38,7 @@ export default function AiChat() {
       const res = await fetch("/api/ai/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages }),
+        body: JSON.stringify({ messages: newMessages, locale }),
       });
 
       if (!res.body) throw new Error("No stream");
