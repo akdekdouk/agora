@@ -220,7 +220,8 @@
     "catRestaurant": "مطاعم",
     "catShop": "متاجر",
     "catArtisan": "حرفيون",
-    "mySpace": "مساحتي في أغورا"
+    "mySpace": "مساحتي في أغورا",
+    "browse": "تصفح"
   },
   "common": {
     "required": "*",
@@ -230,9 +231,9 @@
   },
   "claim": {
     "used": "✓ مستخدم",
-    "expired": "منتهي الصلاحية",
-    "valid": "✓ صالح",
-    "showQR": "أرِ هذا الرمز للتاجر",
+    "expired": "منتهي",
+    "valid": "✓ نشط",
+    "showQR": "عرض QR",
     "validUntil": "صالح حتى {date}",
     "backToSaved": "← عناصري المحفوظة",
     "notFound": "المطالبة غير موجودة",

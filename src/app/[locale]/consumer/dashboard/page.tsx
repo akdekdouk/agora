@@ -30,6 +30,7 @@ export default function ConsumerDashboardPage() {
   const router = useRouter();
   const t = useTranslations("consumer");
   const tCommon = useTranslations("common");
+  const tClaim = useTranslations("claim");
   const [data, setData] = useState<{ offers: Offer[]; products: Product[]; merchants: Merchant[] } | null>(null);
   const [claims, setClaims] = useState<Claim[]>([]);
   const [loading, setLoading] = useState(true);
@@ -95,9 +96,9 @@ export default function ConsumerDashboardPage() {
                           expired ? "bg-red-100 text-red-600" :
                           "bg-green-100 text-green-700"
                         }`}>
-                          {claim.status === "used" ? "✓ Used" : expired ? "Expired" : "✓ Active"}
+                          {claim.status === "used" ? tClaim("used") : expired ? tClaim("expired") : tClaim("valid")}
                         </span>
-                        <span className="text-xs text-gray-400">Show QR →</span>
+                        <span className="text-xs text-gray-400">{tClaim("showQR")} →</span>
                       </div>
                     </div>
                   </Link>
@@ -110,7 +111,7 @@ export default function ConsumerDashboardPage() {
         <section className="mb-10">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("savedOffers")} ({data.offers.length})</h2>
           {data.offers.length === 0 ? (
-            <p className="text-gray-400 text-sm">{t("noSavedOffers")} <Link href="/" className="text-orange-500 hover:underline">Browse</Link></p>
+            <p className="text-gray-400 text-sm">{t("noSavedOffers")} <Link href="/" className="text-orange-500 hover:underline">{t("browse")}</Link></p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {(() => {
@@ -129,7 +130,7 @@ export default function ConsumerDashboardPage() {
         <section className="mb-10">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("savedProducts")} ({data.products.length})</h2>
           {data.products.length === 0 ? (
-            <p className="text-gray-400 text-sm">{t("noSavedProducts")} <Link href="/" className="text-orange-500 hover:underline">Browse</Link></p>
+            <p className="text-gray-400 text-sm">{t("noSavedProducts")} <Link href="/" className="text-orange-500 hover:underline">{t("browse")}</Link></p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {data.products.map((product) => (
@@ -146,7 +147,7 @@ export default function ConsumerDashboardPage() {
         <section className="mb-10">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("followedMerchants")} ({data.merchants.length})</h2>
           {data.merchants.length === 0 ? (
-            <p className="text-gray-400 text-sm">{t("noFollowedMerchants")} <Link href="/merchants" className="text-orange-500 hover:underline">Browse</Link></p>
+            <p className="text-gray-400 text-sm">{t("noFollowedMerchants")} <Link href="/merchants" className="text-orange-500 hover:underline">{t("browse")}</Link></p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {data.merchants.map((m) => <MerchantCard key={m.id} merchant={m} />)}

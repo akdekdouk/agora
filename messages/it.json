@@ -220,7 +220,8 @@
     "catRestaurant": "Ristoranti",
     "catShop": "Negozi",
     "catArtisan": "Artigiani",
-    "mySpace": "Il mio Agora"
+    "mySpace": "Il mio Agora",
+    "browse": "Sfoglia"
   },
   "common": {
     "required": "*",
@@ -229,10 +230,10 @@
     "expired": "Scaduto"
   },
   "claim": {
-    "used": "✓ Utilizzato",
+    "used": "✓ Usato",
     "expired": "Scaduto",
-    "valid": "✓ Valido",
-    "showQR": "Mostra questo QR code al commerciante",
+    "valid": "✓ Attivo",
+    "showQR": "Mostra QR",
     "validUntil": "Valido fino al {date}",
     "backToSaved": "← I miei elementi salvati",
     "notFound": "Reclamo non trovato",
