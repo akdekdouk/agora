@@ -9,6 +9,14 @@
     "signIn": "Sign in",
     "scanValidate": "Scan & Validate"
   },
+  "aiChat": {
+    "title": "Agora Assistant",
+    "subtitle": "Find the best deals near you",
+    "welcome": "Ask me anything about local deals!",
+    "suggestions": ["Best restaurant deals today", "Discounts over 30% near me", "Gift ideas under €20"],
+    "placeholder": "Search for deals…",
+    "error": "Sorry, something went wrong. Please try again."
+  },
   "home": {
     "heroTitle": "Discover Local Discounts",
     "heroSubtitle": "Find the best deals from shops, artisans and restaurants near you",
@@ -22,6 +30,8 @@
     "ctaTitle": "Are you a local business?",
     "ctaSubtitle": "Join Agora and start publishing your offers and products for free.",
     "ctaButton": "Register your business",
+    "forYou": "For You",
+    "aiPowered": "AI",
     "catAll": "All",
     "catRestaurant": "Restaurants",
     "catShop": "Shops",

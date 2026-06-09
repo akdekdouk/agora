@@ -1,8 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+let _anthropic: Anthropic | null = null;
+function getAnthropic() {
+  if (!_anthropic) _anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+  return _anthropic;
+}
 
 export interface SearchContext {
   merchants: Array<{
@@ -70,7 +72,7 @@ Rules:
 Context data:
 ${JSON.stringify(context, null, 2)}`;
 
-  const message = await anthropic.messages.create({
+  const message = await getAnthropic().messages.create({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 4096,
     messages: [
@@ -101,5 +103,157 @@ ${JSON.stringify(context, null, 2)}`;
     };
   } catch {
     return { merchants: [], offers: [], products: [] };
+  }
+}
+
+// --- Feature 2: Auto-generate offer description ---
+
+export async function generateOfferDescription(
+  title: string,
+  discount: number,
+  merchantCategory: string,
+  merchantName: string
+): Promise<string> {
+  const message = await getAnthropic().messages.create({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 200,
+    system: `You are a copywriter for a local commerce platform. Write short, punchy, commercial offer descriptions in 1-2 sentences. Be enthusiastic but concise. Match the language of the merchant category. Output ONLY the description text, no quotes, no extra formatting.`,
+    messages: [{
+      role: "user",
+      content: `Merchant: ${merchantName} (${merchantCategory})\nOffer title: ${title}\nDiscount: ${discount}%\n\nWrite a compelling description for this offer.`,
+    }],
+  });
+  const content = message.content[0];
+  return content.type === "text" ? content.text.trim() : "";
+}
+
+// --- Feature 1: Personalized recommendations ---
+
+export interface RecommendationOffer {
+  id: string;
+  title: string;
+  description: string;
+  discount: number;
+  validFrom: string;
+  validTo: string;
+  maxClaims: number | null;
+  claimsCount: number;
+  merchantId: string;
+  merchantName: string;
+  merchantCategory: string;
+  merchantCity: string;
+  photo?: string | null;
+}
+
+export async function getPersonalizedRecommendations(
+  offers: RecommendationOffer[],
+  consumerProfile: {
+    interests: string[];
+    city?: string | null;
+    claimedOfferIds: string[];
+    savedOfferIds: string[];
+  }
+): Promise<RecommendationOffer[]> {
+  if (offers.length === 0) return [];
+
+  const message = await getAnthropic().messages.create({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 1024,
+    system: `You are a recommendation engine for a local commerce platform. Given a consumer profile and a list of active offers, return the IDs of the top 6 most relevant offers for this consumer, ordered by relevance (best first).
+
+Rules:
+- Prioritize offers matching the consumer's category interests
+- Prioritize offers in or near the consumer's city
+- Exclude offers the consumer has already claimed or saved
+- Prefer offers with higher discounts when other factors are equal
+- Return ONLY a JSON array of offer IDs, e.g. ["id1","id2","id3"]`,
+    messages: [{
+      role: "user",
+      content: `Consumer profile:
+- Interests: ${consumerProfile.interests.length > 0 ? consumerProfile.interests.join(", ") : "all categories"}
+- City: ${consumerProfile.city ?? "not specified"}
+- Already claimed: ${consumerProfile.claimedOfferIds.length} offers
+- Already saved: ${consumerProfile.savedOfferIds.length} offers
+
+Available offers:
+${JSON.stringify(offers.map(o => ({
+  id: o.id,
+  title: o.title,
+  discount: o.discount,
+  category: o.merchantCategory,
+  city: o.merchantCity,
+  alreadyClaimed: consumerProfile.claimedOfferIds.includes(o.id),
+  alreadySaved: consumerProfile.savedOfferIds.includes(o.id),
+})), null, 2)}`,
+    }],
+  });
+
+  const content = message.content[0];
+  if (content.type !== "text") return offers.slice(0, 6);
+
+  try {
+    const match = content.text.match(/\[[\s\S]*\]/);
+    if (!match) return offers.slice(0, 6);
+    const ids = JSON.parse(match[0]) as string[];
+    const offerMap = new Map(offers.map(o => [o.id, o]));
+    return ids.map(id => offerMap.get(id)).filter(Boolean) as RecommendationOffer[];
+  } catch {
+    return offers.slice(0, 6);
+  }
+}
+
+// --- Feature 3: AI Chat assistant ---
+
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export interface ChatContext {
+  offers: RecommendationOffer[];
+  consumerCity?: string | null;
+}
+
+export async function* chatWithAssistant(
+  messages: ChatMessage[],
+  context: ChatContext
+): AsyncGenerator<string> {
+  const systemPrompt = `You are Agora's friendly shopping assistant. Help consumers find the best local deals.
+
+Today's date: ${new Date().toISOString().split("T")[0]}
+Consumer's city: ${context.consumerCity ?? "not specified"}
+
+Active offers available:
+${JSON.stringify(context.offers.map(o => ({
+  id: o.id,
+  title: o.title,
+  discount: o.discount,
+  merchant: o.merchantName,
+  category: o.merchantCategory,
+  city: o.merchantCity,
+  validTo: o.validTo,
+})), null, 2)}
+
+Rules:
+- Answer in the same language as the user's message
+- Be concise, friendly and helpful
+- When recommending offers, mention the merchant name, discount %, and city
+- If you recommend an offer, format it as: **[Title]** (-X%) at *MerchantName* in City
+- If no matching offers exist, say so honestly and suggest browsing other categories`;
+
+  const stream = getAnthropic().messages.stream({
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: 512,
+    system: systemPrompt,
+    messages,
+  });
+
+  for await (const event of stream) {
+    if (
+      event.type === "content_block_delta" &&
+      event.delta.type === "text_delta"
+    ) {
+      yield event.delta.text;
+    }
   }
 }

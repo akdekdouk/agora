@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import MerchantCard from "@/components/MerchantCard";
 import SearchBar from "@/components/SearchBar";
 import LatestDeals from "@/components/LatestDeals";
+import AiRecommendations from "@/components/AiRecommendations";
+import AiChat from "@/components/AiChat";
 import { getTranslations } from "next-intl/server";
 import { getConsumerSession } from "@/lib/auth-consumer";
 
@@ -92,6 +94,11 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Personalized AI recommendations — only for logged-in consumers */}
+      {isConsumerLoggedIn && (
+        <AiRecommendations savedOfferIds={savedOfferIds} />
+      )}
+
       {/* Latest Deals by category */}
       <section className="max-w-6xl mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-6">
@@ -134,6 +141,9 @@ export default async function HomePage() {
           )}
         </div>
       </section>
+
+      {/* AI Chat floating button — visible to all */}
+      <AiChat />
 
       <section className="bg-orange-50 py-12 px-4">
         <div className="max-w-3xl mx-auto text-center">

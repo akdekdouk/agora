@@ -9,6 +9,14 @@
     "signIn": "Accedi",
     "scanValidate": "Scansiona e Valida"
   },
+  "aiChat": {
+    "title": "Assistente Agora",
+    "subtitle": "Trova le migliori offerte vicino a te",
+    "welcome": "Chiedimi qualsiasi cosa sulle promozioni locali!",
+    "suggestions": ["Migliori offerte ristoranti oggi", "Sconti oltre il 30% vicino a me", "Idee regalo sotto i 20€"],
+    "placeholder": "Cerca offerte…",
+    "error": "Spiacente, si è verificato un errore. Riprova."
+  },
   "home": {
     "heroTitle": "Scopri gli sconti locali",
     "heroSubtitle": "Trova le migliori offerte da negozi, artigiani e ristoranti vicino a te",
@@ -22,6 +30,8 @@
     "ctaTitle": "Sei un'attività locale?",
     "ctaSubtitle": "Unisciti ad Agora e inizia a pubblicare offerte e prodotti gratuitamente.",
     "ctaButton": "Registra la tua attività",
+    "forYou": "Per te",
+    "aiPowered": "IA",
     "catAll": "Tutti",
     "catRestaurant": "Ristoranti",
     "catShop": "Negozi",
