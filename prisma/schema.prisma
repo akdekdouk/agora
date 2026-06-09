@@ -58,6 +58,8 @@ model Consumer {
   password   String   @default("")
   name       String?
   phone      String?
+  city       String?
+  interests  String   @default("[]") // JSON array: ["restaurant","shop","artisan"]
   googleId   String?  @unique
   facebookId String?  @unique
   emailNotifications Boolean @default(true)

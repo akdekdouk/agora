@@ -57,12 +57,20 @@ export default async function HomePage() {
   const isConsumerLoggedIn = !!consumerSession?.user?.consumerId;
 
   let savedOfferIds: string[] = [];
+  let consumerInterests: string[] = [];
   if (isConsumerLoggedIn && consumerSession?.user?.consumerId) {
-    const saved = await prisma.savedOffer.findMany({
-      where: { consumerId: consumerSession.user.consumerId },
-      select: { offerId: true },
-    });
+    const [saved, consumer] = await Promise.all([
+      prisma.savedOffer.findMany({
+        where: { consumerId: consumerSession.user.consumerId },
+        select: { offerId: true },
+      }),
+      prisma.consumer.findUnique({
+        where: { id: consumerSession.user.consumerId },
+        select: { interests: true },
+      }),
+    ]);
     savedOfferIds = saved.map((s) => s.offerId);
+    consumerInterests = JSON.parse(consumer?.interests ?? "[]") as string[];
   }
 
   const serializedOffers = offers.map((o) => ({
@@ -93,6 +101,7 @@ export default async function HomePage() {
           offers={serializedOffers}
           isConsumerLoggedIn={isConsumerLoggedIn}
           savedOfferIds={savedOfferIds}
+          defaultCategory={consumerInterests.length === 1 ? consumerInterests[0] : "all"}
         />
       </section>
 

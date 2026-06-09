@@ -61,7 +61,12 @@ export default function ConsumerDashboardPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">{t("dashboard")}</h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">{t("dashboard")}</h1>
+          <Link href="/consumer/settings" className="text-sm text-gray-500 hover:text-orange-500 flex items-center gap-1">
+            ⚙️ {t("settings")}
+          </Link>
+        </div>
 
         {/* Claims */}
         {claims.length > 0 && (
