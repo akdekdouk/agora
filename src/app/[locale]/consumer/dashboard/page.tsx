@@ -62,7 +62,7 @@ export default function ConsumerDashboardPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 py-10">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">{t("dashboard")}</h1>
+          <h1 className="text-3xl font-bold text-gray-900">{t("mySpace")}</h1>
           <Link href="/consumer/settings" className="text-sm text-gray-500 hover:text-orange-500 flex items-center gap-1">
             ⚙️ {t("settings")}
           </Link>
@@ -130,10 +130,11 @@ export default function ConsumerDashboardPage() {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {data.products.map((product) => (
-                <ProductCard key={product.id} name={product.name} description={product.description}
+                <ProductCard key={product.id} id={product.id} name={product.name} description={product.description}
                   images={product.images} originalPrice={product.originalPrice}
                   discountedPrice={product.discountedPrice} category={product.category}
-                  merchantName={product.merchant.businessName} merchantCity={product.merchant.city} />
+                  merchantName={product.merchant.businessName} merchantCity={product.merchant.city}
+                  isLoggedIn isSaved />
               ))}
             </div>
           )}

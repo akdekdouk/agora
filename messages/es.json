@@ -218,7 +218,8 @@
     "oauthAccount": "Tu cuenta está vinculada a Google o Facebook — puedes establecer una contraseña para activar también el inicio de sesión por correo.",
     "catRestaurant": "Restaurantes",
     "catShop": "Tiendas",
-    "catArtisan": "Artesanos"
+    "catArtisan": "Artesanos",
+    "mySpace": "Mi Agora"
   },
   "common": {
     "required": "*",

@@ -218,7 +218,8 @@
     "oauthAccount": "Votre compte est lié via Google ou Facebook — vous pouvez définir un mot de passe ci-dessous pour activer également la connexion par email.",
     "catRestaurant": "Restaurants",
     "catShop": "Boutiques",
-    "catArtisan": "Artisans"
+    "catArtisan": "Artisans",
+    "mySpace": "Mon Agora"
   },
   "common": {
     "required": "*",

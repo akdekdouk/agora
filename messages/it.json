@@ -218,7 +218,8 @@
     "oauthAccount": "Il tuo account è collegato tramite Google o Facebook — puoi impostare una password per abilitare anche l'accesso via email.",
     "catRestaurant": "Ristoranti",
     "catShop": "Negozi",
-    "catArtisan": "Artigiani"
+    "catArtisan": "Artigiani",
+    "mySpace": "Il mio Agora"
   },
   "common": {
     "required": "*",

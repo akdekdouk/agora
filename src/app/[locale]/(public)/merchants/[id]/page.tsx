@@ -113,12 +113,14 @@ export default async function MerchantProfilePage({ params }: Props) {
             {merchant.products.map((product) => (
               <ProductCard
                 key={product.id}
+                id={product.id}
                 name={product.name}
                 description={product.description}
                 images={product.images}
                 originalPrice={product.originalPrice}
                 discountedPrice={product.discountedPrice}
                 category={product.category}
+                isLoggedIn={isConsumerLoggedIn}
               />
             ))}
           </div>
