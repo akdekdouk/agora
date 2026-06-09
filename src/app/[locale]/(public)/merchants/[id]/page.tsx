@@ -4,6 +4,7 @@ import Image from "next/image";
 import OfferCard from "@/components/OfferCard";
 import ProductCard from "@/components/ProductCard";
 import ReviewsSection from "@/components/ReviewsSection";
+import FollowButton from "@/components/FollowButton";
 import { getTranslations } from "next-intl/server";
 import { getConsumerSession } from "@/lib/auth-consumer";
 
@@ -18,6 +19,13 @@ export default async function MerchantProfilePage({ params }: Props) {
   const t = await getTranslations("merchantDetail");
   const consumerSession = await getConsumerSession();
   const isConsumerLoggedIn = !!consumerSession?.user?.consumerId;
+  const consumerId = consumerSession?.user?.consumerId;
+
+  const isFollowed = consumerId
+    ? !!(await prisma.followedMerchant.findUnique({
+        where: { consumerId_merchantId: { consumerId, merchantId: id } },
+      }))
+    : false;
 
   const merchant = await prisma.user.findUnique({
     where: { id },
@@ -55,6 +63,11 @@ export default async function MerchantProfilePage({ params }: Props) {
             {merchant.category}
           </span>
           {merchant.description && <p className="text-gray-600 mt-2">{merchant.description}</p>}
+          <FollowButton
+            merchantId={id}
+            initialFollowed={isFollowed}
+            isLoggedIn={isConsumerLoggedIn}
+          />
         </div>
       </div>
 

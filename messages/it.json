@@ -84,7 +84,9 @@
     "activeOffers": "Offerte attive",
     "products": "Prodotti",
     "noActiveOffers": "Nessuna offerta attiva al momento.",
-    "noProducts": "Nessun prodotto elencato."
+    "noProducts": "Nessun prodotto elencato.",
+    "follow": "Segui",
+    "unfollow": "Seguito ✓"
   },
   "search": {
     "title": "Ricerca con IA",

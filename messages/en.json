@@ -84,7 +84,9 @@
     "activeOffers": "Active Offers",
     "products": "Products",
     "noActiveOffers": "No active offers at the moment.",
-    "noProducts": "No products listed yet."
+    "noProducts": "No products listed yet.",
+    "follow": "Follow",
+    "unfollow": "Following ✓"
   },
   "search": {
     "title": "AI-Powered Search",
