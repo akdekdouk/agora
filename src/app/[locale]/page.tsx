@@ -20,12 +20,14 @@ async function getLatestOffers() {
       description: true,
       photo: true,
       discount: true,
+      maxClaims: true,
       validFrom: true,
       validTo: true,
       category: true,
       merchant: {
         select: { id: true, businessName: true, category: true, city: true },
       },
+      _count: { select: { claims: true } },
     },
   });
 }
@@ -77,6 +79,7 @@ export default async function HomePage() {
     ...o,
     validFrom: o.validFrom.toISOString(),
     validTo: o.validTo.toISOString(),
+    claimsCount: o._count.claims,
   }));
 
   return (

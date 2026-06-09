@@ -30,6 +30,7 @@ model Offer {
   description String
   photo       String?
   discount    Int      // percentage
+  maxClaims   Int?     // null = unlimited
   category    String?  // inherited from merchant or overridden
   validFrom   DateTime
   validTo     DateTime

@@ -119,7 +119,9 @@
     "createAccountToSave": "Create a free account to save offers",
     "signUpFree": "Sign up free",
     "signIn": "Sign in",
-    "claimOffer": "Claim this offer"
+    "claimOffer": "Claim this offer",
+    "soldOut": "Sold out",
+    "spotsLeft": "{count} spots left"
   },
   "productCard": {
     "saveProduct": "Save this product",

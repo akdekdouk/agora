@@ -18,6 +18,7 @@ export default async function DashboardOffersPage() {
   const offers = await prisma.offer.findMany({
     where: { merchantId: session.user.id },
     orderBy: { createdAt: "desc" },
+    include: { _count: { select: { claims: true } } },
   });
 
   const now = new Date();
@@ -43,8 +44,12 @@ export default async function DashboardOffersPage() {
             const expired = new Date(offer.validTo) < now;
             return (
               <div key={offer.id} className={expired ? "opacity-50" : ""}>
-                <OfferCard {...offer} />
-                {expired && <p className="text-xs text-center text-gray-400 mt-1">{tCommon("expired")}</p>}
+                <OfferCard {...offer} claimsCount={offer._count.claims} />
+                <p className="text-xs text-center text-gray-500 mt-1">
+                  {offer._count.claims} claim{offer._count.claims !== 1 ? "s" : ""}
+                  {offer.maxClaims != null ? ` / ${offer.maxClaims}` : ""}
+                  {expired && <span className="text-gray-400"> — {tCommon("expired")}</span>}
+                </p>
               </div>
             );
           })}

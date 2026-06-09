@@ -11,6 +11,8 @@ interface Props {
   description: string;
   photo?: string | null;
   discount: number;
+  maxClaims?: number | null;
+  claimsCount?: number;
   validFrom: string | Date;
   validTo: string | Date;
   merchantName?: string;
@@ -21,16 +23,20 @@ interface Props {
 }
 
 export default function OfferCard({
-  id, title, description, photo, discount, validFrom, validTo,
-  merchantName, onSave, isSaved, isLoggedIn, showClaim,
+  id, title, description, photo, discount, maxClaims, claimsCount = 0,
+  validFrom, validTo, merchantName, onSave, isSaved, isLoggedIn, showClaim,
 }: Props) {
   const from = new Date(validFrom).toLocaleDateString();
   const to = new Date(validTo).toLocaleDateString();
   const [showPrompt, setShowPrompt] = useState(false);
   const [claiming, setClaiming] = useState(false);
   const [claimed, setClaimed] = useState(false);
+  const [soldOut, setSoldOut] = useState(
+    maxClaims !== null && maxClaims !== undefined && claimsCount >= maxClaims
+  );
   const t = useTranslations("offerCard");
   const router = useRouter();
+  const spotsLeft = maxClaims != null ? maxClaims - claimsCount : null;
 
   function handleSaveClick(e: React.MouseEvent) {
     e.stopPropagation();
@@ -47,9 +53,11 @@ export default function OfferCard({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ offerId: id }),
     });
-    const data = await res.json() as { id: string };
+    const data = await res.json() as { id?: string; error?: string };
     setClaiming(false);
-    if (res.ok || res.status === 200) {
+    if (res.status === 409 || data.error === "soldOut") {
+      setSoldOut(true);
+    } else if (res.ok && data.id) {
       setClaimed(true);
       router.push(`/claim/${data.id}`);
     }
@@ -80,13 +88,23 @@ export default function OfferCard({
         <p className="text-sm text-gray-600 mt-1 line-clamp-2">{description}</p>
         <p className="text-xs text-gray-400 mt-2">{from} → {to}</p>
 
+        {spotsLeft !== null && (
+          <p className={`text-xs font-medium mt-1 ${spotsLeft <= 5 ? "text-red-500" : "text-gray-400"}`}>
+            {soldOut ? t("soldOut") : t("spotsLeft", { count: spotsLeft })}
+          </p>
+        )}
+
         {showClaim && id && (
           <button
             onClick={handleClaim}
-            disabled={claiming || claimed}
-            className="mt-3 w-full bg-orange-500 hover:bg-orange-600 text-white text-sm font-semibold py-2 rounded-lg transition disabled:opacity-60"
+            disabled={claiming || claimed || soldOut}
+            className={`mt-3 w-full text-sm font-semibold py-2 rounded-lg transition ${
+              soldOut
+                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                : "bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-60"
+            }`}
           >
-            {claimed ? "✓ Claimed" : claiming ? "…" : t("claimOffer")}
+            {soldOut ? t("soldOut") : claimed ? "✓ Claimed" : claiming ? "…" : t("claimOffer")}
           </button>
         )}
       </div>

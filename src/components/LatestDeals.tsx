@@ -10,6 +10,8 @@ interface Offer {
   description: string;
   photo?: string | null;
   discount: number;
+  maxClaims?: number | null;
+  claimsCount?: number;
   validFrom: string;
   validTo: string;
   category?: string | null;
@@ -86,6 +88,8 @@ export default function LatestDeals({ offers, isConsumerLoggedIn, savedOfferIds,
               description={offer.description}
               photo={offer.photo}
               discount={offer.discount}
+              maxClaims={offer.maxClaims}
+              claimsCount={offer.claimsCount}
               validFrom={offer.validFrom}
               validTo={offer.validTo}
               merchantName={offer.merchant.businessName}

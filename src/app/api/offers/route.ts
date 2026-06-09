@@ -20,6 +20,7 @@ export async function GET() {
             logo: true,
           },
         },
+        _count: { select: { claims: true } },
       },
       orderBy: { createdAt: "desc" },
     });
@@ -45,11 +46,12 @@ export async function POST(request: NextRequest) {
       description: string;
       photo?: string;
       discount: number;
+      maxClaims?: number | null;
       validFrom: string;
       validTo: string;
     };
 
-    const { title, description, photo, discount, validFrom, validTo } = body;
+    const { title, description, photo, discount, maxClaims, validFrom, validTo } = body;
 
     if (!title || !description || !discount || !validFrom || !validTo) {
       return NextResponse.json(
@@ -64,6 +66,7 @@ export async function POST(request: NextRequest) {
         description,
         photo,
         discount,
+        maxClaims: maxClaims ?? null,
         validFrom: new Date(validFrom),
         validTo: new Date(validTo),
         merchantId: session.user.id,

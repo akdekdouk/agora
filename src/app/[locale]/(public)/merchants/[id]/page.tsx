@@ -22,7 +22,10 @@ export default async function MerchantProfilePage({ params }: Props) {
   const merchant = await prisma.user.findUnique({
     where: { id },
     include: {
-      offers: { orderBy: { createdAt: "desc" } },
+      offers: {
+        orderBy: { createdAt: "desc" },
+        include: { _count: { select: { claims: true } } },
+      },
       products: { orderBy: { createdAt: "desc" } },
     },
   });
@@ -72,6 +75,8 @@ export default async function MerchantProfilePage({ params }: Props) {
                 description={offer.description}
                 photo={offer.photo}
                 discount={offer.discount}
+                maxClaims={offer.maxClaims}
+                claimsCount={offer._count.claims}
                 validFrom={offer.validFrom}
                 validTo={offer.validTo}
                 merchantName={merchant.businessName}
