@@ -52,11 +52,13 @@ model Product {
 }
 
 model Consumer {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String?
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  email      String   @unique
+  password   String   @default("")
+  name       String?
+  googleId   String?  @unique
+  facebookId String?  @unique
+  createdAt  DateTime @default(now())
   savedOffers       SavedOffer[]
   savedProducts     SavedProduct[]
   followedMerchants FollowedMerchant[]
