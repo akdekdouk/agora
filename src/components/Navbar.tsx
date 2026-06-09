@@ -63,8 +63,8 @@ export default function Navbar() {
             {t("search")}
           </Link>
 
-          {/* Consumer session — hidden when logged in as merchant */}
-          {consumerSession?.user?.consumerId && !session ? (
+          {/* Consumer session */}
+          {consumerSession?.user?.consumerId ? (
             <div className="flex items-center gap-2 border-l border-gray-200 pl-3">
               <Link href="/consumer/dashboard" className="flex items-center gap-1.5 hover:opacity-80 transition">
                 <span className="text-xs bg-orange-100 text-orange-600 font-semibold px-2 py-0.5 rounded-full">
@@ -78,7 +78,7 @@ export default function Navbar() {
                 {t("signOut")}
               </button>
             </div>
-          ) : !session && (
+          ) : (
             <Link
               href="/consumer/login"
               className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 font-medium text-sm"
