@@ -127,7 +127,10 @@
     "viewAll": "عرض الكل",
     "newOffer": "+ عرض جديد",
     "newProduct": "+ منتج جديد",
-    "viewPublicProfile": "عرض ملفك الشخصي العام ←"
+    "viewPublicProfile": "عرض ملفك الشخصي العام ←",
+    "category_shop": "متجر",
+    "category_artisan": "حرفي",
+    "category_restaurant": "مطعم"
   },
   "offerCard": {
     "saveOffer": "حفظ هذا العرض",
