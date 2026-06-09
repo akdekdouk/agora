@@ -226,7 +226,7 @@ export async function* chatWithAssistant(
   const lang = localeNames[context.locale ?? "en"] ?? "English";
   const systemPrompt = `You are Agora's friendly shopping assistant. Help consumers find the best local deals.
 
-IMPORTANT: Always respond in ${lang}. Even if the user writes in another language, respond in ${lang}.
+CRITICAL LANGUAGE RULE: You MUST respond EXCLUSIVELY in ${lang}. This is non-negotiable. Do not use any other language under any circumstances, even if the user writes in a different language. Every single word of your response must be in ${lang}.
 
 Today's date: ${new Date().toISOString().split("T")[0]}
 Consumer's city: ${context.consumerCity ?? "not specified"}

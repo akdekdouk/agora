@@ -21,31 +21,23 @@ export default function AiChat() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  async function handleSend(e: React.FormEvent) {
-    e.preventDefault();
-    const text = input.trim();
-    if (!text || loading) return;
-
-    const newMessages: Message[] = [...messages, { role: "user", content: text }];
+  async function sendMessage(text: string) {
+    if (!text.trim() || loading) return;
+    const newMessages: Message[] = [...messages, { role: "user", content: text.trim() }];
     setMessages(newMessages);
     setInput("");
     setLoading(true);
-
-    const assistantMsg: Message = { role: "assistant", content: "" };
-    setMessages([...newMessages, assistantMsg]);
-
+    setMessages([...newMessages, { role: "assistant", content: "" }]);
     try {
       const res = await fetch("/api/ai/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: newMessages, locale }),
       });
-
       if (!res.body) throw new Error("No stream");
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let accumulated = "";
-
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
@@ -57,6 +49,11 @@ export default function AiChat() {
     } finally {
       setLoading(false);
     }
+  }
+
+  async function handleSend(e: React.FormEvent) {
+    e.preventDefault();
+    await sendMessage(input);
   }
 
   return (
@@ -92,7 +89,7 @@ export default function AiChat() {
                   {(t.raw("suggestions") as string[]).map((s, i) => (
                     <button
                       key={i}
-                      onClick={() => { setInput(s); }}
+                      onClick={() => sendMessage(s)}
                       className="block w-full text-left text-xs bg-orange-50 hover:bg-orange-100 text-orange-700 px-3 py-2 rounded-lg transition"
                     >
                       {s}
