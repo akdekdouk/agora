@@ -84,9 +84,9 @@ _Dernière mise à jour : 2026-06-09_
 
 | # | Fonctionnalité | Priorité | Statut | PR |
 |---|---|---|---|---|
-| 1 | Recommandations personnalisées | P1 | ☐ À faire | — |
-| 2 | Génération description offre | P1 | ☐ À faire | — |
-| 3 | Chatbot assistant | P1 | ☐ À faire | — |
+| 1 | Recommandations personnalisées | P1 | ✅ Livré | PR #17 |
+| 2 | Génération description offre | P1 | ✅ Livré | PR #17 |
+| 3 | Chatbot assistant | P1 | ✅ Livré | PR #17 |
 | 4 | Score de pertinence recherche | P2 | ☐ À faire | — |
 | 5 | Génération description marchand | P2 | ☐ À faire | — |
 | 6 | Analyse des tendances marchand | P2 | ☐ À faire | — |

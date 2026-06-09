@@ -9,6 +9,14 @@
     "signIn": "Se connecter",
     "scanValidate": "Scanner & Valider"
   },
+  "aiChat": {
+    "title": "Assistant Agora",
+    "subtitle": "Trouvez les meilleures offres près de vous",
+    "welcome": "Posez-moi n'importe quelle question sur les promotions locales !",
+    "suggestions": ["Meilleures offres restaurant aujourd'hui", "Réductions de plus de 30% près de moi", "Idées cadeaux à moins de 20€"],
+    "placeholder": "Rechercher des offres…",
+    "error": "Désolé, une erreur est survenue. Réessayez."
+  },
   "home": {
     "heroTitle": "Découvrez les bons plans locaux",
     "heroSubtitle": "Trouvez les meilleures offres des boutiques, artisans et restaurants près de chez vous",
@@ -22,6 +30,8 @@
     "ctaTitle": "Vous êtes un commerce local ?",
     "ctaSubtitle": "Rejoignez Agora et commencez à publier vos offres et produits gratuitement.",
     "ctaButton": "Inscrivez votre entreprise",
+    "forYou": "Pour vous",
+    "aiPowered": "IA",
     "catAll": "Tout",
     "catRestaurant": "Restaurants",
     "catShop": "Boutiques",
