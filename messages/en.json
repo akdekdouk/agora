@@ -220,7 +220,8 @@
     "catRestaurant": "Restaurants",
     "catShop": "Shops",
     "catArtisan": "Artisans",
-    "mySpace": "My Agora"
+    "mySpace": "My Agora",
+    "browse": "Browse"
   },
   "common": {
     "required": "*",
@@ -231,8 +232,8 @@
   "claim": {
     "used": "✓ Used",
     "expired": "Expired",
-    "valid": "✓ Valid",
-    "showQR": "Show this QR code to the merchant",
+    "valid": "✓ Active",
+    "showQR": "Show QR",
     "validUntil": "Valid until {date}",
     "backToSaved": "← My saved items",
     "notFound": "Claim not found",

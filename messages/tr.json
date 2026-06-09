@@ -220,7 +220,8 @@
     "catRestaurant": "Restoranlar",
     "catShop": "Dükkanlar",
     "catArtisan": "Esnaf",
-    "mySpace": "Agora'm"
+    "mySpace": "Agora'm",
+    "browse": "Keşfet"
   },
   "common": {
     "required": "*",
@@ -230,9 +231,9 @@
   },
   "claim": {
     "used": "✓ Kullanıldı",
-    "expired": "Süresi doldu",
-    "valid": "✓ Geçerli",
-    "showQR": "Bu QR kodu esnafa gösterin",
+    "expired": "Süresi Doldu",
+    "valid": "✓ Aktif",
+    "showQR": "QR Göster",
     "validUntil": "{date} tarihine kadar geçerli",
     "backToSaved": "← Kaydettiklerime dön",
     "notFound": "Fırsat bulunamadı",

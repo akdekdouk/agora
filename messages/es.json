@@ -220,7 +220,8 @@
     "catRestaurant": "Restaurantes",
     "catShop": "Tiendas",
     "catArtisan": "Artesanos",
-    "mySpace": "Mi Agora"
+    "mySpace": "Mi Agora",
+    "browse": "Explorar"
   },
   "common": {
     "required": "*",
@@ -231,8 +232,8 @@
   "claim": {
     "used": "✓ Usado",
     "expired": "Expirado",
-    "valid": "✓ Válido",
-    "showQR": "Muestra este código QR al comerciante",
+    "valid": "✓ Activo",
+    "showQR": "Ver QR",
     "validUntil": "Válido hasta {date}",
     "backToSaved": "← Mis guardados",
     "notFound": "Oferta no encontrada",
