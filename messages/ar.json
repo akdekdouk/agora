@@ -272,7 +272,7 @@
   "dashboardScan": {
     "title": "مسح والتحقق من العروض",
     "subtitle": "تحقق من رموز QR للعملاء في المتجر",
-    "scanButton": "📷 مسح"
+    "scanButton": "مسح 📷"
   },
   "footer": {
     "contactLink": "تواصل / أبلغ عن خطأ",
