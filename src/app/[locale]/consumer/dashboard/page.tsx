@@ -72,7 +72,7 @@ export default function ConsumerDashboardPage() {
         {/* Claims */}
         {claims.length > 0 && (
           <section className="mb-10">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("myClaims")} ({claims.length})</h2>
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("myClaims")} <span dir="ltr">({claims.length})</span></h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {claims.map((claim) => {
                 const expired = new Date(claim.offer.validTo) < new Date();
@@ -109,7 +109,7 @@ export default function ConsumerDashboardPage() {
         )}
 
         <section className="mb-10">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("savedOffers")} ({data.offers.length})</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("savedOffers")} <span dir="ltr">({data.offers.length})</span></h2>
           {data.offers.length === 0 ? (
             <p className="text-gray-400 text-sm">{t("noSavedOffers")} <Link href="/" className="text-orange-500 hover:underline">{t("browse")}</Link></p>
           ) : (
@@ -128,7 +128,7 @@ export default function ConsumerDashboardPage() {
         </section>
 
         <section className="mb-10">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("savedProducts")} ({data.products.length})</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("savedProducts")} <span dir="ltr">({data.products.length})</span></h2>
           {data.products.length === 0 ? (
             <p className="text-gray-400 text-sm">{t("noSavedProducts")} <Link href="/" className="text-orange-500 hover:underline">{t("browse")}</Link></p>
           ) : (
@@ -145,7 +145,7 @@ export default function ConsumerDashboardPage() {
         </section>
 
         <section className="mb-10">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("followedMerchants")} ({data.merchants.length})</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">{t("followedMerchants")} <span dir="ltr">({data.merchants.length})</span></h2>
           {data.merchants.length === 0 ? (
             <p className="text-gray-400 text-sm">{t("noFollowedMerchants")} <Link href="/merchants" className="text-orange-500 hover:underline">{t("browse")}</Link></p>
           ) : (
