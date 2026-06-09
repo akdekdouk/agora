@@ -7,13 +7,18 @@
     "signOut": "Esci",
     "merchantAccess": "Accesso commerciante",
     "signIn": "Accedi",
-    "scanValidate": "Scansiona e Valida"
+    "scanValidate": "Scansiona e Valida",
+    "help": "Aiuto"
   },
   "aiChat": {
     "title": "Assistente Agora",
     "subtitle": "Trova le migliori offerte vicino a te",
     "welcome": "Chiedimi qualsiasi cosa sulle promozioni locali!",
-    "suggestions": ["Migliori offerte ristoranti oggi", "Sconti oltre il 30% vicino a me", "Idee regalo sotto i 20€"],
+    "suggestions": [
+      "Migliori offerte ristoranti oggi",
+      "Sconti oltre il 30% vicino a me",
+      "Idee regalo sotto i 20€"
+    ],
     "placeholder": "Cerca offerte…",
     "error": "Spiacente, si è verificato un errore. Riprova."
   },
@@ -263,5 +268,50 @@
     "title": "Scansiona e Valida Offerte",
     "subtitle": "Valida i QR code dei clienti in negozio",
     "scanButton": "📷 Scansiona"
+  },
+  "help": {
+    "title": "Aiuto & Supporto",
+    "subtitle": "Trova risposte alle domande frequenti o contattaci.",
+    "faqTitle": "Domande frequenti",
+    "faqs": [
+      {
+        "q": "Come creo un account commerciante?",
+        "a": "Clicca su \"Accesso commerciante\" in fondo alla pagina, poi su \"Registra la tua attività\". Compila i tuoi dati e potrai pubblicare offerte immediatamente."
+      },
+      {
+        "q": "Come uso un'offerta come consumatore?",
+        "a": "Sfoglia le offerte nella home page o usa la ricerca. Clicca su \"Riscatta questa offerta\" e mostra il codice QR al commerciante in negozio per ricevere lo sconto."
+      },
+      {
+        "q": "Come funziona il salvataggio?",
+        "a": "Crea un account consumatore gratuito e clicca il pulsante di salvataggio su qualsiasi offerta o prodotto. Trovi tutto nella tua area personale."
+      },
+      {
+        "q": "Come i commercianti validano un'offerta?",
+        "a": "Accedi alla dashboard commerciante e vai a Scansiona e Valida. Scansiona il QR code del consumatore o inserisci il codice manualmente per applicare lo sconto."
+      },
+      {
+        "q": "Agora è gratuito?",
+        "a": "Sì, Agora è completamente gratuito sia per i commercianti che per i consumatori."
+      },
+      {
+        "q": "Come cambio la lingua?",
+        "a": "Usa il selettore della lingua nella barra di navigazione in alto. La piattaforma supporta inglese, francese, italiano, arabo, turco e spagnolo."
+      },
+      {
+        "q": "Ho un problema tecnico. Cosa faccio?",
+        "a": "Usa il modulo di contatto qui sotto per descrivere il problema e ti risponderemo il prima possibile."
+      }
+    ],
+    "contactTitle": "Contattaci",
+    "contactSubtitle": "Una domanda o un bug da segnalare? Scrivici e ti risponderemo rapidamente.",
+    "contactName": "Il tuo nome",
+    "contactEmail": "La tua email",
+    "contactMessage": "Il tuo messaggio",
+    "contactSend": "Invia messaggio",
+    "contactSending": "Invio in corso…",
+    "contactSent": "✓ Messaggio inviato! Ti risponderemo presto.",
+    "contactError": "Si è verificato un errore. Riprova.",
+    "builtBy": "Creato da"
   }
 }

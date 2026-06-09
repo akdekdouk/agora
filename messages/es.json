@@ -7,13 +7,18 @@
     "signOut": "Cerrar sesión",
     "merchantAccess": "Acceso comerciante",
     "signIn": "Iniciar sesión",
-    "scanValidate": "Escanear y Validar"
+    "scanValidate": "Escanear y Validar",
+    "help": "Ayuda"
   },
   "aiChat": {
     "title": "Asistente Agora",
     "subtitle": "Encuentra las mejores ofertas cerca de ti",
     "welcome": "¡Pregúntame cualquier cosa sobre ofertas locales!",
-    "suggestions": ["Mejores ofertas de restaurantes hoy", "Descuentos de más del 30% cerca de mí", "Ideas de regalo por menos de 20€"],
+    "suggestions": [
+      "Mejores ofertas de restaurantes hoy",
+      "Descuentos de más del 30% cerca de mí",
+      "Ideas de regalo por menos de 20€"
+    ],
     "placeholder": "Buscar ofertas…",
     "error": "Lo sentimos, algo salió mal. Inténtalo de nuevo."
   },
@@ -263,5 +268,50 @@
     "title": "Escanear y Validar Ofertas",
     "subtitle": "Valida códigos QR de clientes en tienda",
     "scanButton": "📷 Escanear"
+  },
+  "help": {
+    "title": "Ayuda y Soporte",
+    "subtitle": "Encuentra respuestas a preguntas frecuentes o contáctanos.",
+    "faqTitle": "Preguntas Frecuentes",
+    "faqs": [
+      {
+        "q": "¿Cómo creo una cuenta de comerciante?",
+        "a": "Haz clic en \"Acceso comerciante\" en la parte inferior de la página y luego en \"Registra tu negocio\". Completa tus datos y podrás publicar ofertas de inmediato."
+      },
+      {
+        "q": "¿Cómo uso una oferta como consumidor?",
+        "a": "Explora las ofertas en la página principal o usa la búsqueda. Haz clic en \"Reclamar esta oferta\" y muestra el código QR al comerciante en la tienda para recibir tu descuento."
+      },
+      {
+        "q": "¿Cómo funciona el guardado?",
+        "a": "Crea una cuenta de consumidor gratuita y haz clic en el botón de guardar en cualquier oferta o producto. Encontrarás todo en tu panel personal."
+      },
+      {
+        "q": "¿Cómo validan los comerciantes una oferta?",
+        "a": "Inicia sesión en tu panel de comerciante y ve a Escanear y Validar. Escanea el código QR del consumidor o ingresa el código manualmente para aplicar el descuento."
+      },
+      {
+        "q": "¿Agora es gratuito?",
+        "a": "Sí, Agora es completamente gratuito tanto para comerciantes como para consumidores."
+      },
+      {
+        "q": "¿Cómo cambio el idioma?",
+        "a": "Usa el selector de idioma en la barra de navegación superior. La plataforma soporta inglés, francés, italiano, árabe, turco y español."
+      },
+      {
+        "q": "Tengo un problema técnico. ¿Qué hago?",
+        "a": "Usa el formulario de contacto a continuación para describir tu problema y te responderemos lo antes posible."
+      }
+    ],
+    "contactTitle": "Contáctanos",
+    "contactSubtitle": "¿Una pregunta o un error que reportar? Escríbenos y te responderemos rápido.",
+    "contactName": "Tu nombre",
+    "contactEmail": "Tu correo electrónico",
+    "contactMessage": "Tu mensaje",
+    "contactSend": "Enviar mensaje",
+    "contactSending": "Enviando…",
+    "contactSent": "✓ ¡Mensaje enviado! Te responderemos pronto.",
+    "contactError": "Ocurrió un error. Por favor inténtalo de nuevo.",
+    "builtBy": "Creado por"
   }
 }

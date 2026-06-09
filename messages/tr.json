@@ -7,13 +7,18 @@
     "signOut": "Çıkış yap",
     "merchantAccess": "Esnaf girişi",
     "signIn": "Giriş yap",
-    "scanValidate": "Tara & Doğrula"
+    "scanValidate": "Tara & Doğrula",
+    "help": "Yardım"
   },
   "aiChat": {
     "title": "Agora Asistanı",
     "subtitle": "Yakınındaki en iyi fırsatları bul",
     "welcome": "Yerel fırsatlar hakkında her şeyi sorabilirsin!",
-    "suggestions": ["Bugünün en iyi restoran fırsatları", "%30 üzeri indirimler", "20€ altında hediye fikirleri"],
+    "suggestions": [
+      "Bugünün en iyi restoran fırsatları",
+      "%30 üzeri indirimler",
+      "20€ altında hediye fikirleri"
+    ],
     "placeholder": "Fırsat ara…",
     "error": "Üzgünüz, bir hata oluştu. Lütfen tekrar deneyin."
   },
@@ -263,5 +268,50 @@
     "title": "Fırsatları Tara & Doğrula",
     "subtitle": "Mağazada müşteri QR kodlarını doğrulayın",
     "scanButton": "📷 Tara"
+  },
+  "help": {
+    "title": "Yardım & Destek",
+    "subtitle": "Sık sorulan sorulara cevap bulun veya bizimle iletişime geçin.",
+    "faqTitle": "Sık Sorulan Sorular",
+    "faqs": [
+      {
+        "q": "Nasıl satıcı hesabı oluştururum?",
+        "a": "Sayfanın altındaki \"Satıcı erişimi\" bağlantısına, ardından \"İşletmenizi kaydedin\" seçeneğine tıklayın. Bilgilerinizi doldurun ve hemen teklif yayınlamaya başlayın."
+      },
+      {
+        "q": "Tüketici olarak bir tekliften nasıl yararlanırım?",
+        "a": "Ana sayfadaki tekliflere göz atın veya arama kullanın. \"Bu teklifi al\" düğmesine tıklayın ve indiriminizi almak için QR kodunu mağazadaki satıcıya gösterin."
+      },
+      {
+        "q": "Kaydetme özelliği nasıl çalışır?",
+        "a": "Ücretsiz tüketici hesabı oluşturun ve herhangi bir teklif veya üründeki kaydet düğmesine tıklayın. Tüm kaydedilenleri kişisel panonuzda bulabilirsiniz."
+      },
+      {
+        "q": "Satıcılar teklifi nasıl doğrular?",
+        "a": "Satıcı panelinize giriş yapın ve Tara & Doğrula bölümüne gidin. Tüketicinin QR kodunu tarayın veya kodu manuel olarak girerek indirimi uygulayın."
+      },
+      {
+        "q": "Agora ücretsiz mi?",
+        "a": "Evet, Agora hem satıcılar hem de tüketiciler için tamamen ücretsizdir."
+      },
+      {
+        "q": "Dili nasıl değiştiririm?",
+        "a": "Üst gezinme çubuğundaki dil seçiciyi kullanın. Platform İngilizce, Fransızca, İtalyanca, Arapça, Türkçe ve İspanyolca destekler."
+      },
+      {
+        "q": "Teknik bir sorunum var. Ne yapmalıyım?",
+        "a": "Sorununuzu açıklamak için aşağıdaki iletişim formunu kullanın, en kısa sürede size dönelim."
+      }
+    ],
+    "contactTitle": "Bize ulaşın",
+    "contactSubtitle": "Bir sorunuz mu var veya bir hata mı bildirmek istiyorsunuz? Yazın, hızlıca yanıt verelim.",
+    "contactName": "Adınız",
+    "contactEmail": "E-posta adresiniz",
+    "contactMessage": "Mesajınız",
+    "contactSend": "Mesaj gönder",
+    "contactSending": "Gönderiliyor…",
+    "contactSent": "✓ Mesaj gönderildi! Yakında size döneceğiz.",
+    "contactError": "Bir hata oluştu. Lütfen tekrar deneyin.",
+    "builtBy": "Geliştirici"
   }
 }

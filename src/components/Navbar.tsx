@@ -58,9 +58,12 @@ export default function Navbar() {
           <Link href="/search" className="text-gray-600 hover:text-orange-500 font-medium hidden sm:block text-sm">
             {t("search")}
           </Link>
+          <Link href="/help" className="text-gray-600 hover:text-orange-500 font-medium hidden sm:block text-sm">
+            {t("help")}
+          </Link>
 
-          {/* Consumer session */}
-          {consumerSession?.user?.consumerId ? (
+          {/* Consumer session — hidden when logged in as merchant */}
+          {consumerSession?.user?.consumerId && !session ? (
             <div className="flex items-center gap-2 border-l border-gray-200 pl-3">
               <Link href="/consumer/dashboard" className="text-gray-600 hover:text-orange-500 font-medium text-sm">
                 {t("mySaves")}
