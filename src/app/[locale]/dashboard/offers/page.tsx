@@ -1,5 +1,5 @@
 import { getServerSession } from "@/lib/auth";
-import { redirect } from "@/i18n/navigation";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { Link } from "@/i18n/navigation";
 import OfferCard from "@/components/OfferCard";
