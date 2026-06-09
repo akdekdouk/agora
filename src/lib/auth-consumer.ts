@@ -6,8 +6,8 @@ const secret = new TextEncoder().encode(
   process.env.NEXTAUTH_SECRET ?? "consumer-fallback-secret-change-me"
 );
 
-export async function createConsumerSession(consumerId: string, email: string) {
-  const token = await new SignJWT({ consumerId, email, role: "consumer" })
+export async function createConsumerSession(consumerId: string, email: string, name?: string | null) {
+  const token = await new SignJWT({ consumerId, email, name: name ?? null, role: "consumer" })
     .setProtectedHeader({ alg: "HS256" })
     .setExpirationTime("30d")
     .sign(secret);
@@ -25,6 +25,7 @@ export async function getConsumerSession() {
       user: {
         consumerId: payload.consumerId as string,
         email: payload.email as string,
+        name: (payload.name as string | null) ?? null,
         role: "consumer",
       },
     };
