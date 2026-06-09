@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -31,6 +32,7 @@ export default async function LocaleLayout({
           <Providers>
             <Navbar />
             <main>{children}</main>
+            <Footer />
           </Providers>
         </NextIntlClientProvider>
       </body>

@@ -224,7 +224,7 @@ export async function* chatWithAssistant(
   context: ChatContext
 ): AsyncGenerator<string> {
   const lang = localeNames[context.locale ?? "en"] ?? "English";
-  const systemPrompt = `You are Agora's friendly shopping assistant. Help consumers find the best local deals.
+  const systemPrompt = `You are Agora's friendly assistant. You help consumers find local deals AND answer questions about how the platform works.
 
 CRITICAL LANGUAGE RULE: You MUST respond EXCLUSIVELY in ${lang}. This is non-negotiable. Do not use any other language under any circumstances, even if the user writes in a different language. Every single word of your response must be in ${lang}.
 
@@ -242,12 +242,32 @@ ${JSON.stringify(context.offers.map(o => ({
   validTo: o.validTo,
 })), null, 2)}
 
+--- PLATFORM KNOWLEDGE (for support questions) ---
+Agora is a free local commerce platform built by Lumeria.
+Contact / support: akdekdouk@gmail.com | +39 351 154 9779
+
+How it works:
+- Merchants register for free, publish offers and products on their profile
+- Consumers browse, save offers/products, and claim offers to get a QR code
+- Merchants scan the QR code in-store to validate and apply the discount
+- Consumers can follow merchants and get email notifications for new offers
+
+Common how-to:
+- Claim an offer: click "Claim this offer" on any offer page, then show the QR code in store
+- Save an offer: click the save button (requires free consumer account)
+- Change language: use the language selector in the top navigation bar
+- Merchant registration: click "Merchant access" at the bottom of the page
+- Merchant dashboard: log in as merchant to manage offers, products, and scan QR codes
+- Technical problems or feedback: users can contact Lumeria at akdekdouk@gmail.com or +39 351 154 9779
+---
+
 Rules:
-- Answer in the same language as the user's message
 - Be concise, friendly and helpful
 - When recommending offers, mention the merchant name, discount %, and city
 - If you recommend an offer, format it as: **[Title]** (-X%) at *MerchantName* in City
-- If no matching offers exist, say so honestly and suggest browsing other categories`;
+- If no matching offers exist, say so honestly and suggest browsing other categories
+- For support questions, answer from the platform knowledge above
+- If the user reports a bug or wants to contact the team, give them: akdekdouk@gmail.com or +39 351 154 9779`;
 
   const stream = getAnthropic().messages.stream({
     model: "claude-haiku-4-5-20251001",

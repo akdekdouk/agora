@@ -13,7 +13,11 @@
     "title": "Assistente Agora",
     "subtitle": "Trova le migliori offerte vicino a te",
     "welcome": "Chiedimi qualsiasi cosa sulle promozioni locali!",
-    "suggestions": ["Migliori offerte ristoranti oggi", "Sconti oltre il 30% vicino a me", "Idee regalo sotto i 20€"],
+    "suggestions": [
+      "Migliori offerte ristoranti oggi",
+      "Sconti oltre il 30% vicino a me",
+      "Come riscatto un'offerta?"
+    ],
     "placeholder": "Cerca offerte…",
     "error": "Spiacente, si è verificato un errore. Riprova."
   },
@@ -263,5 +267,15 @@
     "title": "Scansiona e Valida Offerte",
     "subtitle": "Valida i QR code dei clienti in negozio",
     "scanButton": "📷 Scansiona"
+  },
+  "footer": {
+    "contactLink": "Contatto / Segnala un bug",
+    "name": "Il tuo nome",
+    "email": "La tua email",
+    "message": "Il tuo messaggio",
+    "send": "Invia",
+    "sending": "Invio…",
+    "sent": "✓ Messaggio inviato! Ti risponderemo presto.",
+    "error": "Si è verificato un errore. Riprova."
   }
 }
