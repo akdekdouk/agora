@@ -11,7 +11,11 @@ interface ConsumerSession {
 }
 
 const localeLabels: Record<string, string> = {
-  en: "EN", fr: "FR", it: "IT", ar: "ع",
+  en: "🇬🇧 English",
+  fr: "🇫🇷 Français",
+  it: "🇮🇹 Italiano",
+  ar: "🇸🇦 العربية",
+  tr: "🇹🇷 Türkçe",
 };
 
 export default function Navbar() {
@@ -91,21 +95,17 @@ export default function Navbar() {
             </div>
           )}
 
-          {/* Language switcher */}
-          <div className="flex items-center gap-1 border-l border-gray-200 pl-3">
-            {routing.locales.map((loc) => (
-              <button
-                key={loc}
-                onClick={() => switchLocale(loc)}
-                className={`text-xs px-2 py-1 rounded font-medium transition ${
-                  locale === loc
-                    ? "bg-orange-500 text-white"
-                    : "text-gray-400 hover:text-gray-700"
-                }`}
-              >
-                {localeLabels[loc]}
-              </button>
-            ))}
+          {/* Language switcher — dropdown */}
+          <div className="border-l border-gray-200 pl-3">
+            <select
+              value={locale}
+              onChange={(e) => switchLocale(e.target.value)}
+              className="text-sm text-gray-600 bg-transparent border border-gray-200 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 focus:ring-orange-400 cursor-pointer"
+            >
+              {routing.locales.map((loc) => (
+                <option key={loc} value={loc}>{localeLabels[loc]}</option>
+              ))}
+            </select>
           </div>
         </div>
       </div>

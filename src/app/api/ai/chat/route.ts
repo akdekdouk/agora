@@ -4,7 +4,7 @@ import { getConsumerSession } from "@/lib/auth-consumer";
 import { chatWithAssistant, ChatMessage, RecommendationOffer } from "@/lib/claude";
 
 export async function POST(req: NextRequest) {
-  const { messages } = await req.json() as { messages: ChatMessage[] };
+  const { messages, locale } = await req.json() as { messages: ChatMessage[]; locale?: string };
   if (!messages?.length) {
     return new Response("messages required", { status: 400 });
   }
@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
         for await (const chunk of chatWithAssistant(messages, {
           offers: mappedOffers,
           consumerCity: consumer?.city,
+          locale,
         })) {
           controller.enqueue(new TextEncoder().encode(chunk));
         }
