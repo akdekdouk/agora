@@ -137,7 +137,8 @@
     "signIn": "Se connecter",
     "claimOffer": "Réclamer cette offre",
     "soldOut": "Complet",
-    "spotsLeft": "{count} place(s) restante(s)"
+    "spotsLeft": "{count} place(s) restante(s)",
+    "alreadyClaimed": "Déjà réclamé"
   },
   "productCard": {
     "saveProduct": "Sauvegarder ce produit",

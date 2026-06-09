@@ -137,7 +137,8 @@
     "signIn": "تسجيل الدخول",
     "claimOffer": "استرداد هذا العرض",
     "soldOut": "نفد المخزون",
-    "spotsLeft": "{count} مكان متبقٍ"
+    "spotsLeft": "{count} مكان متبقٍ",
+    "alreadyClaimed": "تم الاستخدام مسبقاً"
   },
   "productCard": {
     "saveProduct": "حفظ هذا المنتج",

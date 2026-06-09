@@ -20,11 +20,12 @@ interface Props {
   isSaved?: boolean;
   isLoggedIn?: boolean;
   showClaim?: boolean;
+  alreadyClaimed?: boolean;
 }
 
 export default function OfferCard({
   id, title, description, photo, discount, maxClaims, claimsCount = 0,
-  validFrom, validTo, merchantName, onSave, isSaved: initialSaved, isLoggedIn, showClaim,
+  validFrom, validTo, merchantName, onSave, isSaved: initialSaved, isLoggedIn, showClaim, alreadyClaimed,
 }: Props) {
   const from = new Date(validFrom).toLocaleDateString();
   const to = new Date(validTo).toLocaleDateString();
@@ -108,17 +109,23 @@ export default function OfferCard({
         )}
 
         {showClaim && id && (
-          <button
-            onClick={handleClaim}
-            disabled={claiming || claimed || soldOut}
-            className={`mt-3 w-full text-sm font-semibold py-2 rounded-lg transition ${
-              soldOut
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                : "bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-60"
-            }`}
-          >
-            {soldOut ? t("soldOut") : claimed ? "✓ Claimed" : claiming ? "…" : t("claimOffer")}
-          </button>
+          alreadyClaimed ? (
+            <div className="mt-3 w-full text-sm font-semibold py-2 rounded-lg bg-gray-100 text-gray-400 text-center cursor-default">
+              ✓ {t("alreadyClaimed")}
+            </div>
+          ) : (
+            <button
+              onClick={handleClaim}
+              disabled={claiming || claimed || soldOut}
+              className={`mt-3 w-full text-sm font-semibold py-2 rounded-lg transition ${
+                soldOut
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-60"
+              }`}
+            >
+              {soldOut ? t("soldOut") : claimed ? "✓ " + t("alreadyClaimed") : claiming ? "…" : t("claimOffer")}
+            </button>
+          )
         )}
       </div>
 

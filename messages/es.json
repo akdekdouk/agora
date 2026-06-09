@@ -137,7 +137,8 @@
     "signIn": "Iniciar sesión",
     "claimOffer": "Reclamar esta oferta",
     "soldOut": "Agotado",
-    "spotsLeft": "{count} plazas restantes"
+    "spotsLeft": "{count} plazas restantes",
+    "alreadyClaimed": "Ya reclamado"
   },
   "productCard": {
     "saveProduct": "Guardar este producto",
