@@ -5,7 +5,7 @@ import OfferCard from "@/components/OfferCard";
 import ProductCard from "@/components/ProductCard";
 import ReviewsSection from "@/components/ReviewsSection";
 import { getTranslations } from "next-intl/server";
-import { cookies } from "next/headers";
+import { getConsumerSession } from "@/lib/auth-consumer";
 
 export const dynamic = "force-dynamic";
 
@@ -13,23 +13,11 @@ interface Props {
   params: Promise<{ id: string }>;
 }
 
-async function getConsumerSession() {
-  try {
-    const cookieStore = await cookies();
-    const sessionToken = cookieStore.get("next-auth.session-token")?.value
-      ?? cookieStore.get("__Secure-next-auth.session-token")?.value;
-    if (!sessionToken) return null;
-    // Check consumer session cookie specifically
-    const consumerToken = cookieStore.get("consumer-session")?.value;
-    return consumerToken ? { consumerId: consumerToken } : null;
-  } catch {
-    return null;
-  }
-}
-
 export default async function MerchantProfilePage({ params }: Props) {
   const { id } = await params;
   const t = await getTranslations("merchantDetail");
+  const consumerSession = await getConsumerSession();
+  const isConsumerLoggedIn = !!consumerSession?.user?.consumerId;
 
   const merchant = await prisma.user.findUnique({
     where: { id },
@@ -86,7 +74,9 @@ export default async function MerchantProfilePage({ params }: Props) {
                 discount={offer.discount}
                 validFrom={offer.validFrom}
                 validTo={offer.validTo}
-                showClaim={true}
+                merchantName={merchant.businessName}
+                isLoggedIn={isConsumerLoggedIn}
+                showClaim={isConsumerLoggedIn}
               />
             ))}
           </div>
@@ -118,7 +108,7 @@ export default async function MerchantProfilePage({ params }: Props) {
       </section>
 
       {/* Reviews */}
-      <ReviewsSection merchantId={id} isConsumerLoggedIn={false} />
+      <ReviewsSection merchantId={id} isConsumerLoggedIn={isConsumerLoggedIn} />
     </div>
   );
 }

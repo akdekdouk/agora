@@ -15,7 +15,14 @@ function SearchResults() {
   const [results, setResults] = useState<SearchResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [isConsumerLoggedIn, setIsConsumerLoggedIn] = useState(false);
   const t = useTranslations("search");
+
+  useEffect(() => {
+    fetch("/api/consumer/session").then(r => r.json()).then((s: { user?: { consumerId?: string } } | null) => {
+      if (s?.user?.consumerId) setIsConsumerLoggedIn(true);
+    }).catch(() => {});
+  }, []);
 
   useEffect(() => {
     if (!query.trim()) return;
@@ -69,8 +76,9 @@ function SearchResults() {
           <h2 className="text-xl font-bold text-gray-900 mb-4">{t("offers")} ({results.offers.length})</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {results.offers.map((o) => (
-              <OfferCard key={o.id} title={o.title} description={o.description}
-                discount={o.discount} validFrom={o.validFrom} validTo={o.validTo} merchantName={o.merchantName} />
+              <OfferCard key={o.id} id={o.id} title={o.title} description={o.description}
+                discount={o.discount} validFrom={o.validFrom} validTo={o.validTo} merchantName={o.merchantName}
+                isLoggedIn={isConsumerLoggedIn} showClaim={isConsumerLoggedIn} />
             ))}
           </div>
         </section>
