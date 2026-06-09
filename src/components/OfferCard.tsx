@@ -24,13 +24,14 @@ interface Props {
 
 export default function OfferCard({
   id, title, description, photo, discount, maxClaims, claimsCount = 0,
-  validFrom, validTo, merchantName, onSave, isSaved, isLoggedIn, showClaim,
+  validFrom, validTo, merchantName, onSave, isSaved: initialSaved, isLoggedIn, showClaim,
 }: Props) {
   const from = new Date(validFrom).toLocaleDateString();
   const to = new Date(validTo).toLocaleDateString();
   const [showPrompt, setShowPrompt] = useState(false);
   const [claiming, setClaiming] = useState(false);
   const [claimed, setClaimed] = useState(false);
+  const [isSaved, setIsSaved] = useState(initialSaved ?? false);
   const [soldOut, setSoldOut] = useState(
     maxClaims !== null && maxClaims !== undefined && claimsCount >= maxClaims
   );
@@ -38,10 +39,22 @@ export default function OfferCard({
   const router = useRouter();
   const spotsLeft = maxClaims != null ? maxClaims - claimsCount : null;
 
-  function handleSaveClick(e: React.MouseEvent) {
+  async function handleSaveClick(e: React.MouseEvent) {
     e.stopPropagation();
     if (!isLoggedIn) { setShowPrompt(true); setTimeout(() => setShowPrompt(false), 3000); return; }
-    onSave?.();
+    if (onSave) { onSave(); return; }
+    if (!id) return;
+    try {
+      const res = await fetch("/api/consumer/save-offer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ offerId: id }),
+      });
+      if (res.ok) {
+        const data = await res.json() as { saved: boolean };
+        setIsSaved(data.saved);
+      }
+    } catch { /* ignore */ }
   }
 
   async function handleClaim(e: React.MouseEvent) {
