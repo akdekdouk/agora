@@ -210,7 +210,7 @@ export interface ChatMessage {
 }
 
 const localeNames: Record<string, string> = {
-  en: "English", fr: "French", it: "Italian", ar: "Arabic", tr: "Turkish",
+  en: "English", fr: "French", it: "Italian", ar: "Arabic", tr: "Turkish", es: "Spanish",
 };
 
 export interface ChatContext {
