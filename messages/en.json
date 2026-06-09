@@ -127,7 +127,10 @@
     "viewAll": "View all",
     "newOffer": "+ New offer",
     "newProduct": "+ New product",
-    "viewPublicProfile": "View your public profile →"
+    "viewPublicProfile": "View your public profile →",
+    "category_shop": "Shop",
+    "category_artisan": "Artisan",
+    "category_restaurant": "Restaurant"
   },
   "offerCard": {
     "saveOffer": "Save this offer",

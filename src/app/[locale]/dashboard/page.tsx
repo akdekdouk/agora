@@ -27,7 +27,12 @@ export default async function DashboardPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-gray-900 mb-1">{t("welcome", { name: merchant.businessName })}</h1>
-      <p className="text-gray-500 mb-8">{merchant.city} · {merchant.category}</p>
+      <p className="text-gray-500 mb-8">{merchant.city} · {
+        merchant.category === "shop" ? t("category_shop") :
+        merchant.category === "artisan" ? t("category_artisan") :
+        merchant.category === "restaurant" ? t("category_restaurant") :
+        merchant.category
+      }</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 text-center">
