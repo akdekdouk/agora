@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 interface Props {
+  id?: string;
   name: string;
   description: string;
   images: string;
@@ -19,22 +20,35 @@ interface Props {
   isLoggedIn?: boolean;
 }
 
-export default function ProductCard({ name, description, images, originalPrice, discountedPrice, category, merchantName, merchantCity, onSave, isSaved, isLoggedIn }: Props) {
+export default function ProductCard({ id, name, description, images, originalPrice, discountedPrice, category, merchantName, merchantCity, onSave, isSaved: initialSaved, isLoggedIn }: Props) {
   let imageList: string[] = [];
   try { imageList = JSON.parse(images); } catch { /* empty */ }
   const firstImage = imageList[0];
   const savings = Math.round((1 - discountedPrice / originalPrice) * 100);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [isSaved, setIsSaved] = useState(initialSaved ?? false);
   const t = useTranslations("productCard");
 
-  function handleSaveClick(e: React.MouseEvent) {
+  async function handleSaveClick(e: React.MouseEvent) {
     e.stopPropagation();
     if (!isLoggedIn) {
       setShowPrompt(true);
       setTimeout(() => setShowPrompt(false), 3000);
       return;
     }
-    onSave?.();
+    if (onSave) { onSave(); return; }
+    if (!id) return;
+    try {
+      const res = await fetch("/api/consumer/save-product", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: id }),
+      });
+      if (res.ok) {
+        const data = await res.json() as { saved: boolean };
+        setIsSaved(data.saved);
+      }
+    } catch { /* ignore */ }
   }
 
   return (

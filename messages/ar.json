@@ -218,7 +218,8 @@
     "oauthAccount": "حسابك مرتبط عبر Google أو Facebook — يمكنك تعيين كلمة مرور لتفعيل تسجيل الدخول بالبريد الإلكتروني أيضاً.",
     "catRestaurant": "مطاعم",
     "catShop": "متاجر",
-    "catArtisan": "حرفيون"
+    "catArtisan": "حرفيون",
+    "mySpace": "مساحتي في أغورا"
   },
   "common": {
     "required": "*",

@@ -89,9 +89,10 @@ function SearchResults() {
           <h2 className="text-xl font-bold text-gray-900 mb-4">{t("products")} ({results.products.length})</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {results.products.map((p) => (
-              <ProductCard key={p.id} name={p.name} description={p.description}
+              <ProductCard key={p.id} id={p.id} name={p.name} description={p.description}
                 images={"[]"} originalPrice={p.originalPrice} discountedPrice={p.discountedPrice}
-                category={p.category} merchantName={p.merchantName} merchantCity={p.merchantCity} />
+                category={p.category} merchantName={p.merchantName} merchantCity={p.merchantCity}
+                isLoggedIn={isConsumerLoggedIn} />
             ))}
           </div>
         </section>

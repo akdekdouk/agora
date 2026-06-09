@@ -218,7 +218,8 @@
     "oauthAccount": "Hesabınız Google veya Facebook ile bağlı — e-posta girişini etkinleştirmek için aşağıdan şifre belirleyebilirsiniz.",
     "catRestaurant": "Restoranlar",
     "catShop": "Dükkanlar",
-    "catArtisan": "Esnaf"
+    "catArtisan": "Esnaf",
+    "mySpace": "Agora'm"
   },
   "common": {
     "required": "*",

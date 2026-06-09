@@ -218,7 +218,8 @@
     "oauthAccount": "Your account is linked via Google or Facebook — you can set a password below to also enable email login.",
     "catRestaurant": "Restaurants",
     "catShop": "Shops",
-    "catArtisan": "Artisans"
+    "catArtisan": "Artisans",
+    "mySpace": "My Agora"
   },
   "common": {
     "required": "*",
