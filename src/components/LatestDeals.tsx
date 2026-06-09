@@ -43,18 +43,19 @@ export default function LatestDeals({ offers, isConsumerLoggedIn, savedOfferIds,
 
   async function handleSave(offerId: string, isSaved: boolean) {
     if (!isConsumerLoggedIn) return;
-    const method = isSaved ? "DELETE" : "POST";
-    await fetch("/api/consumer/saved-offers", {
-      method,
+    const res = await fetch("/api/consumer/save-offer", {
+      method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ offerId }),
     });
-    setSaved((prev) => {
-      const next = new Set(prev);
-      if (isSaved) next.delete(offerId);
-      else next.add(offerId);
-      return next;
-    });
+    if (res.ok) {
+      setSaved((prev) => {
+        const next = new Set(prev);
+        if (isSaved) next.delete(offerId);
+        else next.add(offerId);
+        return next;
+      });
+    }
   }
 
   return (
