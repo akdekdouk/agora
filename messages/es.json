@@ -306,6 +306,9 @@
     "error": "Algo salió mal. Por favor inténtalo de nuevo.",
     "publishError": "No se pudo publicar el producto.",
     "tabChat": "Chat",
-    "tabPreview": "Vista previa"
+    "tabPreview": "Vista previa",
+    "uploadPhoto": "Subir una foto",
+    "photoUploaded": "He subido la foto.",
+    "uploadError": "Error al subir, por favor inténtalo de nuevo."
   }
 }

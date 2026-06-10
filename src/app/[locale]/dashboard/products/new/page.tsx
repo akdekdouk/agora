@@ -52,11 +52,13 @@ export default function NewProductPage() {
   const [streaming, setStreaming] = useState(false);
   const [fields, setFields] = useState<ProductFields>({});
   const [publishing, setPublishing] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   // Mobile tab: "chat" | "preview"
   const [mobileTab, setMobileTab] = useState<"chat" | "preview">("chat");
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     void startConversation();
@@ -127,6 +129,27 @@ export default function NewProductPage() {
     setInput("");
     setMobileTab("chat");
     await sendMessages([{ role: "user", content: text }]);
+  }
+
+  async function handleFileUpload(file: File) {
+    setUploading(true);
+    setError("");
+    const form = new FormData();
+    form.append("file", file);
+    try {
+      const res = await fetch("/api/upload", { method: "POST", body: form });
+      const data = await res.json() as { path?: string; error?: string };
+      if (!res.ok) throw new Error(data.error ?? t("uploadError"));
+      if (data.path) {
+        const url = data.path;
+        setFields((prev) => ({ ...prev, imageUrl: url }));
+        await sendMessages([{ role: "user", content: t("photoUploaded") }]);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("uploadError"));
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function handlePublish() {
@@ -201,18 +224,36 @@ export default function NewProductPage() {
 
       <div className="shrink-0 px-4 py-3 bg-white border-t border-gray-100">
         {error && <p className="text-red-500 text-xs mb-2">{error}</p>}
-        <form onSubmit={handleSend} className="flex gap-2">
+        <form onSubmit={handleSend} className="flex gap-2 items-center">
+          {/* Hidden file input */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0])}
+          />
+          {/* Upload button */}
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={streaming || uploading}
+            title={t("uploadPhoto")}
+            className="text-gray-400 hover:text-orange-500 transition disabled:opacity-40 text-xl shrink-0"
+          >
+            {uploading ? "⏳" : "📎"}
+          </button>
           <input
             ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={t("inputPlaceholder")}
-            disabled={streaming}
+            disabled={streaming || uploading}
             className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:opacity-50"
           />
           <button
             type="submit"
-            disabled={streaming || !input.trim()}
+            disabled={streaming || uploading || !input.trim()}
             className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition disabled:opacity-50"
           >
             {t("send")}

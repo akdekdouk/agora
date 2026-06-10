@@ -310,6 +310,9 @@
     "error": "Something went wrong. Please try again.",
     "publishError": "Failed to publish product.",
     "tabChat": "Chat",
-    "tabPreview": "Preview"
+    "tabPreview": "Preview",
+    "uploadPhoto": "Upload a photo",
+    "photoUploaded": "I've uploaded the photo.",
+    "uploadError": "Upload failed, please try again."
   }
 }

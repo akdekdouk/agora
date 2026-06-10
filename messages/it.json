@@ -310,6 +310,9 @@
     "error": "Qualcosa è andato storto. Riprova.",
     "publishError": "Impossibile pubblicare il prodotto.",
     "tabChat": "Chat",
-    "tabPreview": "Anteprima"
+    "tabPreview": "Anteprima",
+    "uploadPhoto": "Carica una foto",
+    "photoUploaded": "Ho caricato la foto.",
+    "uploadError": "Caricamento fallito, riprova."
   }
 }
