@@ -39,6 +39,7 @@ export const BANNERS: Banner[] = [
   { key: "banner-spring-tr", season: "spring", locale: "tr", label: "Bahar (TR)" },
 
   // Christmas
+  { key: "banner-christmas-fr", season: "winter", locale: "fr", label: "Noël (FR)" },
   { key: "banner-christmas-en", season: "winter", locale: "en", label: "Christmas (EN)" },
   { key: "banner-christmas-it", season: "winter", locale: "it", label: "Natale (IT)" },
   { key: "banner-christmas-ar", season: "winter", locale: "ar", label: "عيد الميلاد (AR)" },
