@@ -310,6 +310,9 @@
     "error": "Une erreur est survenue. Veuillez réessayer.",
     "publishError": "Échec de la publication du produit.",
     "tabChat": "Chat",
-    "tabPreview": "Aperçu"
+    "tabPreview": "Aperçu",
+    "uploadPhoto": "Télécharger une photo",
+    "photoUploaded": "J'ai téléchargé la photo.",
+    "uploadError": "Échec du téléchargement, veuillez réessayer."
   }
 }
