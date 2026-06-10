@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, FormEvent } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
@@ -146,7 +145,7 @@ export default function NewOfferPage() {
               <button
                 type="button"
                 onClick={() => setSelectedBanner(null)}
-                className={`relative h-16 rounded-lg border-2 flex items-center justify-center text-sm transition ${
+                className={`relative h-20 rounded-lg border-2 flex items-center justify-center text-sm transition ${
                   selectedBanner === null
                     ? "border-orange-500 bg-orange-50 text-orange-600 font-medium"
                     : "border-gray-200 text-gray-400 hover:border-gray-300"
@@ -159,18 +158,22 @@ export default function NewOfferPage() {
                   key={b.key}
                   type="button"
                   onClick={() => setSelectedBanner(b.key)}
-                  className={`relative h-16 rounded-lg border-2 overflow-hidden transition ${
+                  className={`relative h-20 rounded-lg border-2 overflow-hidden transition bg-gray-50 ${
                     selectedBanner === b.key
                       ? "border-orange-500 ring-2 ring-orange-300"
                       : "border-gray-200 hover:border-orange-300"
                   }`}
                 >
-                  <Image
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={getBannerUrl(b.key)}
                     alt={b.label}
-                    fill
-                    className="object-cover"
+                    className="absolute inset-0 w-full h-full object-cover"
+                    onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
                   />
+                  <span className="relative z-10 text-xs font-semibold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)] px-1 text-center leading-tight">
+                    {b.label}
+                  </span>
                 </button>
               ))}
             </div>
