@@ -37,7 +37,7 @@ function stripFieldsJson(text: string): string {
 }
 
 function isComplete(f: ProductFields): boolean {
-  return !!(f.name && f.description && f.originalPrice && f.discountedPrice);
+  return !!(f.name && f.description && f.originalPrice && f.discountedPrice && f.imageUrl);
 }
 
 export default function NewProductPage() {
@@ -168,7 +168,7 @@ export default function NewProductPage() {
     { key: "originalPrice", label: t("fieldOriginalPrice"), value: fields.originalPrice != null ? `€${fields.originalPrice}` : undefined },
     { key: "discountedPrice", label: t("fieldDiscountedPrice"), value: fields.discountedPrice != null ? `€${fields.discountedPrice}` : undefined },
     { key: "category", label: t("fieldCategory"), value: fields.category, optional: true },
-    { key: "imageUrl", label: t("fieldImage"), value: fields.imageUrl ? "✓" : undefined, optional: true },
+    { key: "imageUrl", label: t("fieldImage"), value: fields.imageUrl ? "✓" : undefined },
   ];
 
   // ── Chat panel content ──────────────────────────────────────────────────────
