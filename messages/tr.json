@@ -304,6 +304,8 @@
     "publish": "Ürünü yayımla",
     "publishing": "Yayımlanıyor…",
     "error": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
-    "publishError": "Ürün yayımlanamadı."
+    "publishError": "Ürün yayımlanamadı.",
+    "tabChat": "Sohbet",
+    "tabPreview": "Önizleme"
   }
 }

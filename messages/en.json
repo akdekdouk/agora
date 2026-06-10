@@ -308,6 +308,8 @@
     "publish": "Publish product",
     "publishing": "Publishing…",
     "error": "Something went wrong. Please try again.",
-    "publishError": "Failed to publish product."
+    "publishError": "Failed to publish product.",
+    "tabChat": "Chat",
+    "tabPreview": "Preview"
   }
 }
