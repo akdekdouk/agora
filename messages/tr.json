@@ -285,5 +285,25 @@
     "sending": "Gönderiliyor…",
     "sent": "✓ Mesaj gönderildi! Yakında size döneceğiz.",
     "error": "Bir hata oluştu. Lütfen tekrar deneyin."
+  },
+  "productAssistant": {
+    "title": "Yeni Ürün",
+    "aiPowered": "YZ Asistanı",
+    "initialPrompt": "Merhaba! Mağazama yeni bir ürün eklemek istiyorum.",
+    "inputPlaceholder": "Mesajınızı yazın…",
+    "send": "Gönder",
+    "preview": "Canlı Önizleme",
+    "previewEmpty": "Sohbet ederken ürün önizlemeniz burada görünecek.",
+    "fieldsCollected": "Toplanan bilgiler",
+    "fieldName": "Ad",
+    "fieldDescription": "Açıklama",
+    "fieldOriginalPrice": "Orijinal fiyat",
+    "fieldDiscountedPrice": "İndirimli fiyat",
+    "fieldCategory": "Kategori",
+    "fieldImage": "Fotoğraf",
+    "publish": "Ürünü yayımla",
+    "publishing": "Yayımlanıyor…",
+    "error": "Bir şeyler ters gitti. Lütfen tekrar deneyin.",
+    "publishError": "Ürün yayımlanamadı."
   }
 }

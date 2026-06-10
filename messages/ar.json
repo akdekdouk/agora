@@ -289,5 +289,25 @@
     "sending": "جارٍ الإرسال…",
     "sent": "✓ تم إرسال الرسالة! سنرد عليك قريباً.",
     "error": "حدث خطأ. يرجى المحاولة مرة أخرى."
+  },
+  "productAssistant": {
+    "title": "منتج جديد",
+    "aiPowered": "مساعد الذكاء الاصطناعي",
+    "initialPrompt": "مرحباً! أود إضافة منتج جديد إلى متجري.",
+    "inputPlaceholder": "اكتب رسالتك…",
+    "send": "إرسال",
+    "preview": "معاينة مباشرة",
+    "previewEmpty": "ستظهر معاينة منتجك هنا أثناء المحادثة.",
+    "fieldsCollected": "المعلومات المجمعة",
+    "fieldName": "الاسم",
+    "fieldDescription": "الوصف",
+    "fieldOriginalPrice": "السعر الأصلي",
+    "fieldDiscountedPrice": "السعر المخفض",
+    "fieldCategory": "الفئة",
+    "fieldImage": "صورة",
+    "publish": "نشر المنتج",
+    "publishing": "جارٍ النشر…",
+    "error": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+    "publishError": "فشل نشر المنتج."
   }
 }

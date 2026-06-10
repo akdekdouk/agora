@@ -289,5 +289,25 @@
     "sending": "Sending…",
     "sent": "✓ Message sent! We'll get back to you shortly.",
     "error": "An error occurred. Please try again."
+  },
+  "productAssistant": {
+    "title": "New Product",
+    "aiPowered": "AI Assistant",
+    "initialPrompt": "Hi! I'd like to add a new product to my store.",
+    "inputPlaceholder": "Type your message…",
+    "send": "Send",
+    "preview": "Live Preview",
+    "previewEmpty": "Your product preview will appear here as we chat.",
+    "fieldsCollected": "Information collected",
+    "fieldName": "Name",
+    "fieldDescription": "Description",
+    "fieldOriginalPrice": "Original price",
+    "fieldDiscountedPrice": "Sale price",
+    "fieldCategory": "Category",
+    "fieldImage": "Photo",
+    "publish": "Publish product",
+    "publishing": "Publishing…",
+    "error": "Something went wrong. Please try again.",
+    "publishError": "Failed to publish product."
   }
 }

@@ -289,5 +289,25 @@
     "sending": "Invio…",
     "sent": "✓ Messaggio inviato! Ti risponderemo presto.",
     "error": "Si è verificato un errore. Riprova."
+  },
+  "productAssistant": {
+    "title": "Nuovo prodotto",
+    "aiPowered": "Assistente IA",
+    "initialPrompt": "Ciao! Vorrei aggiungere un nuovo prodotto al mio negozio.",
+    "inputPlaceholder": "Scrivi il tuo messaggio…",
+    "send": "Invia",
+    "preview": "Anteprima live",
+    "previewEmpty": "L'anteprima del tuo prodotto apparirà qui mentre chatti.",
+    "fieldsCollected": "Informazioni raccolte",
+    "fieldName": "Nome",
+    "fieldDescription": "Descrizione",
+    "fieldOriginalPrice": "Prezzo originale",
+    "fieldDiscountedPrice": "Prezzo scontato",
+    "fieldCategory": "Categoria",
+    "fieldImage": "Foto",
+    "publish": "Pubblica prodotto",
+    "publishing": "Pubblicazione…",
+    "error": "Qualcosa è andato storto. Riprova.",
+    "publishError": "Impossibile pubblicare il prodotto."
   }
 }
