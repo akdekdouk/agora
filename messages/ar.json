@@ -128,6 +128,9 @@
     "newOffer": "+ عرض جديد",
     "newProduct": "+ منتج جديد",
     "viewPublicProfile": "عرض ملفك الشخصي العام ←",
+    "bannerSection": "لافتة ترويجية",
+    "bannerNone": "بدون لافتة",
+    "bannerSelected": "اللافتة المختارة",
     "category_shop": "متجر",
     "category_artisan": "حرفي",
     "category_restaurant": "مطعم"
@@ -241,7 +244,9 @@
     "validUntil": "صالح حتى {date}",
     "backToSaved": "← عناصري المحفوظة",
     "notFound": "المطالبة غير موجودة",
-    "loadFailed": "فشل تحميل المطالبة"
+    "loadFailed": "فشل تحميل المطالبة",
+    "claimedOn": "تم الطلب في {date}",
+    "cancelClaim": "إلغاء الطلب"
   },
   "scan": {
     "title": "مسح والتحقق من العرض",

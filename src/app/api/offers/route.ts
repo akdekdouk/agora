@@ -9,6 +9,7 @@ export async function GET() {
     const offers = await prisma.offer.findMany({
       where: {
         validTo: { gte: now },
+        deletedAt: null,
       },
       include: {
         merchant: {
@@ -45,13 +46,14 @@ export async function POST(request: NextRequest) {
       title: string;
       description: string;
       photo?: string;
+      bannerKey?: string | null;
       discount: number;
       maxClaims?: number | null;
       validFrom: string;
       validTo: string;
     };
 
-    const { title, description, photo, discount, maxClaims, validFrom, validTo } = body;
+    const { title, description, photo, bannerKey, discount, maxClaims, validFrom, validTo } = body;
 
     if (!title || !description || !discount || !validFrom || !validTo) {
       return NextResponse.json(
@@ -65,6 +67,7 @@ export async function POST(request: NextRequest) {
         title,
         description,
         photo,
+        bannerKey: bannerKey ?? null,
         discount,
         maxClaims: maxClaims ?? null,
         validFrom: new Date(validFrom),
@@ -138,7 +141,7 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: "Not found or unauthorized" }, { status: 404 });
     }
 
-    await prisma.offer.delete({ where: { id } });
+    await prisma.offer.update({ where: { id }, data: { deletedAt: new Date() } });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("Error deleting offer:", error);

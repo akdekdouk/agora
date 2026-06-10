@@ -128,6 +128,9 @@
     "newOffer": "+ Nouvelle offre",
     "newProduct": "+ Nouveau produit",
     "viewPublicProfile": "Voir votre profil public →",
+    "bannerSection": "Bannière promotionnelle",
+    "bannerNone": "Sans bannière",
+    "bannerSelected": "Bannière sélectionnée",
     "category_shop": "Boutique",
     "category_artisan": "Artisan",
     "category_restaurant": "Restaurant"
@@ -241,7 +244,9 @@
     "validUntil": "Valable jusqu'au {date}",
     "backToSaved": "← Mes éléments sauvegardés",
     "notFound": "Réclamation introuvable",
-    "loadFailed": "Échec du chargement de la réclamation"
+    "loadFailed": "Échec du chargement de la réclamation",
+    "claimedOn": "Demandé le {date}",
+    "cancelClaim": "Annuler la demande"
   },
   "scan": {
     "title": "Scanner & Valider l'offre",

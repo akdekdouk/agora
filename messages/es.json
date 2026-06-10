@@ -127,7 +127,10 @@
     "viewAll": "Ver todos",
     "newOffer": "+ Nueva oferta",
     "newProduct": "+ Nuevo producto",
-    "viewPublicProfile": "Ver tu perfil público →"
+    "viewPublicProfile": "Ver tu perfil público →",
+    "bannerSection": "Banner promocional",
+    "bannerNone": "Sin banner",
+    "bannerSelected": "Banner seleccionado"
   },
   "offerCard": {
     "saveOffer": "Guardar esta oferta",
@@ -237,7 +240,9 @@
     "validUntil": "Válido hasta {date}",
     "backToSaved": "← Mis guardados",
     "notFound": "Oferta no encontrada",
-    "loadFailed": "Error al cargar la oferta"
+    "loadFailed": "Error al cargar la oferta",
+    "claimedOn": "Solicitado el {date}",
+    "cancelClaim": "Cancelar solicitud"
   },
   "scan": {
     "title": "Escanear y Validar Oferta",

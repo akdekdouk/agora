@@ -1,9 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useState, FormEvent } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { BANNERS, SEASON_LABELS, getBannerUrl, type Banner } from "@/lib/banners";
+
+const SEASONS = Object.keys(SEASON_LABELS) as Banner["season"][];
 
 export default function NewOfferPage() {
   const router = useRouter();
@@ -13,7 +17,11 @@ export default function NewOfferPage() {
   const [title, setTitle] = useState("");
   const [discount, setDiscount] = useState("");
   const [description, setDescription] = useState("");
+  const [selectedBanner, setSelectedBanner] = useState<string | null>(null);
+  const [activeSeason, setActiveSeason] = useState<Banner["season"]>("default");
   const t = useTranslations("dashboard");
+
+  const filteredBanners = BANNERS.filter((b) => b.season === activeSeason);
 
   async function generateDescription() {
     if (!title || !discount) return;
@@ -41,6 +49,7 @@ export default function NewOfferPage() {
       description,
       discount: Number(discount),
       maxClaims: maxClaimsRaw ? Number(maxClaimsRaw) : null,
+      bannerKey: selectedBanner ?? null,
       validFrom: form.get("validFrom"),
       validTo: form.get("validTo"),
     };
@@ -111,6 +120,67 @@ export default function NewOfferPage() {
               placeholder="Laisser vide = illimité" />
             <p className="text-xs text-gray-400 mt-1">L&apos;offre se ferme automatiquement quand le stock est épuisé</p>
           </div>
+
+          {/* Banner picker */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{t("bannerSection")}</label>
+            {/* Season tabs */}
+            <div className="flex flex-wrap gap-1 mb-3">
+              {SEASONS.map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => setActiveSeason(s)}
+                  className={`text-xs px-2.5 py-1 rounded-full border transition ${
+                    activeSeason === s
+                      ? "bg-orange-500 text-white border-orange-500"
+                      : "text-gray-500 border-gray-200 hover:border-orange-300"
+                  }`}
+                >
+                  {SEASON_LABELS[s]}
+                </button>
+              ))}
+            </div>
+            {/* Banner grid */}
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setSelectedBanner(null)}
+                className={`relative h-16 rounded-lg border-2 flex items-center justify-center text-sm transition ${
+                  selectedBanner === null
+                    ? "border-orange-500 bg-orange-50 text-orange-600 font-medium"
+                    : "border-gray-200 text-gray-400 hover:border-gray-300"
+                }`}
+              >
+                {t("bannerNone")}
+              </button>
+              {filteredBanners.map((b) => (
+                <button
+                  key={b.key}
+                  type="button"
+                  onClick={() => setSelectedBanner(b.key)}
+                  className={`relative h-16 rounded-lg border-2 overflow-hidden transition ${
+                    selectedBanner === b.key
+                      ? "border-orange-500 ring-2 ring-orange-300"
+                      : "border-gray-200 hover:border-orange-300"
+                  }`}
+                >
+                  <Image
+                    src={getBannerUrl(b.key)}
+                    alt={b.label}
+                    fill
+                    className="object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+            {selectedBanner && (
+              <p className="text-xs text-orange-500 mt-1">
+                {t("bannerSelected")}: {BANNERS.find((b) => b.key === selectedBanner)?.label}
+              </p>
+            )}
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Valid from *</label>

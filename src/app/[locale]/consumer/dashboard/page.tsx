@@ -34,6 +34,7 @@ export default function ConsumerDashboardPage() {
   const [data, setData] = useState<{ offers: Offer[]; products: Product[]; merchants: Merchant[] } | null>(null);
   const [claims, setClaims] = useState<Claim[]>([]);
   const [loading, setLoading] = useState(true);
+  const [cancellingId, setCancellingId] = useState<string | null>(null);
 
   useEffect(() => {
     Promise.all([
@@ -48,6 +49,17 @@ export default function ConsumerDashboardPage() {
       setLoading(false);
     }).catch(() => setLoading(false));
   }, [router]);
+
+  async function handleCancelClaim(e: React.MouseEvent, claimId: string) {
+    e.preventDefault();
+    e.stopPropagation();
+    setCancellingId(claimId);
+    const res = await fetch(`/api/consumer/claim?claimId=${claimId}`, { method: "DELETE" });
+    if (res.ok) {
+      setClaims((prev) => prev.filter((c) => c.id !== claimId));
+    }
+    setCancellingId(null);
+  }
 
   if (loading) {
     return (
@@ -76,32 +88,48 @@ export default function ConsumerDashboardPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {claims.map((claim) => {
                 const expired = new Date(claim.offer.validTo) < new Date();
+                const isActive = claim.status === "active" && !expired;
                 return (
-                  <Link key={claim.id} href={`/claim/${claim.id}`}>
-                    <div className={`bg-white rounded-xl border shadow-sm p-4 hover:shadow-md transition cursor-pointer ${
-                      claim.status === "used" ? "opacity-60 border-gray-100" :
-                      expired ? "border-red-100 bg-red-50" :
-                      "border-orange-100"
-                    }`}>
-                      <div className="flex items-start justify-between gap-2">
-                        <h3 className="font-semibold text-gray-900 text-sm">{claim.offer.title}</h3>
-                        <span className="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shrink-0">
-                          -{claim.offer.discount}%
-                        </span>
+                  <div key={claim.id} className="relative">
+                    <Link href={`/claim/${claim.id}`}>
+                      <div className={`bg-white rounded-xl border shadow-sm p-4 hover:shadow-md transition cursor-pointer ${
+                        claim.status === "used" ? "opacity-60 border-gray-100" :
+                        expired ? "border-red-100 bg-red-50" :
+                        "border-orange-100"
+                      }`}>
+                        <div className="flex items-start justify-between gap-2">
+                          <h3 className="font-semibold text-gray-900 text-sm">{claim.offer.title}</h3>
+                          <span className="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shrink-0">
+                            -{claim.offer.discount}%
+                          </span>
+                        </div>
+                        <p className="text-xs text-orange-500 mt-1">{claim.offer.merchant.businessName}</p>
+                        <p className="text-xs text-gray-400 mt-1">
+                          {tClaim("claimedOn", { date: new Date(claim.claimedAt).toLocaleDateString() })}
+                        </p>
+                        <div className="flex items-center justify-between mt-3">
+                          <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+                            claim.status === "used" ? "bg-gray-100 text-gray-500" :
+                            expired ? "bg-red-100 text-red-600" :
+                            "bg-green-100 text-green-700"
+                          }`}>
+                            {claim.status === "used" ? tClaim("used") : expired ? tClaim("expired") : tClaim("valid")}
+                          </span>
+                          <span className="text-xs text-gray-400">{tClaim("showQR")} →</span>
+                        </div>
                       </div>
-                      <p className="text-xs text-orange-500 mt-1">{claim.offer.merchant.businessName}</p>
-                      <div className="flex items-center justify-between mt-3">
-                        <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                          claim.status === "used" ? "bg-gray-100 text-gray-500" :
-                          expired ? "bg-red-100 text-red-600" :
-                          "bg-green-100 text-green-700"
-                        }`}>
-                          {claim.status === "used" ? tClaim("used") : expired ? tClaim("expired") : tClaim("valid")}
-                        </span>
-                        <span className="text-xs text-gray-400">{tClaim("showQR")} →</span>
-                      </div>
-                    </div>
-                  </Link>
+                    </Link>
+                    {isActive && (
+                      <button
+                        onClick={(e) => handleCancelClaim(e, claim.id)}
+                        disabled={cancellingId === claim.id}
+                        className="absolute top-2 end-2 text-xs text-gray-400 hover:text-red-500 transition disabled:opacity-50"
+                        title={tClaim("cancelClaim")}
+                      >
+                        {cancellingId === claim.id ? "…" : "✕"}
+                      </button>
+                    )}
+                  </div>
                 );
               })}
             </div>

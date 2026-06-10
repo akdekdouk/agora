@@ -35,6 +35,24 @@ export async function POST(req: NextRequest) {
   return NextResponse.json(claim, { status: 201 });
 }
 
+export async function DELETE(req: NextRequest) {
+  const session = await getConsumerSession();
+  const consumerId = getConsumerId(session);
+  if (!consumerId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const claimId = req.nextUrl.searchParams.get("claimId");
+  if (!claimId) return NextResponse.json({ error: "claimId required" }, { status: 400 });
+
+  const claim = await prisma.claim.findFirst({ where: { id: claimId, consumerId } });
+  if (!claim) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (claim.status !== "active") {
+    return NextResponse.json({ error: "Cannot cancel a used or expired claim" }, { status: 409 });
+  }
+
+  await prisma.claim.delete({ where: { id: claimId } });
+  return NextResponse.json({ success: true });
+}
+
 export async function GET(req: NextRequest) {
   const session = await getConsumerSession();
   const consumerId = getConsumerId(session);

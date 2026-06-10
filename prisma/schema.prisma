@@ -25,17 +25,19 @@ model User {
 }
 
 model Offer {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
   description String
   photo       String?
-  discount    Int      // percentage
-  maxClaims   Int?     // null = unlimited
-  category    String?  // inherited from merchant or overridden
+  bannerKey   String?   // key into /public/banners/{bannerKey}.jpg
+  discount    Int       // percentage
+  maxClaims   Int?      // null = unlimited
+  category    String?   // inherited from merchant or overridden
   validFrom   DateTime
   validTo     DateTime
-  createdAt   DateTime @default(now())
-  merchant    User     @relation(fields: [merchantId], references: [id])
+  deletedAt   DateTime? // soft delete
+  createdAt   DateTime  @default(now())
+  merchant    User      @relation(fields: [merchantId], references: [id])
   merchantId  String
   claims      Claim[]
 }
