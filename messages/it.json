@@ -308,6 +308,8 @@
     "publish": "Pubblica prodotto",
     "publishing": "Pubblicazione…",
     "error": "Qualcosa è andato storto. Riprova.",
-    "publishError": "Impossibile pubblicare il prodotto."
+    "publishError": "Impossibile pubblicare il prodotto.",
+    "tabChat": "Chat",
+    "tabPreview": "Anteprima"
   }
 }

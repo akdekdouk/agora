@@ -21,8 +21,9 @@ interface ProductFields {
   imageUrl?: string;
 }
 
+// Matches FIELDS_JSON:{...} anywhere in the text (with or without leading newline)
 function extractFields(text: string): ProductFields {
-  const match = text.match(/FIELDS_JSON:(\{[^\n]+\})/);
+  const match = text.match(/FIELDS_JSON:(\{[^}]*\})/);
   if (!match) return {};
   try {
     return JSON.parse(match[1]) as ProductFields;
@@ -32,7 +33,7 @@ function extractFields(text: string): ProductFields {
 }
 
 function stripFieldsJson(text: string): string {
-  return text.replace(/\nFIELDS_JSON:\{[^\n]+\}/g, "").trim();
+  return text.replace(/\n?FIELDS_JSON:\{[^}]*\}/g, "").trim();
 }
 
 function isComplete(f: ProductFields): boolean {
@@ -52,11 +53,11 @@ export default function NewProductPage() {
   const [fields, setFields] = useState<ProductFields>({});
   const [publishing, setPublishing] = useState(false);
   const [error, setError] = useState("");
+  // Mobile tab: "chat" | "preview"
+  const [mobileTab, setMobileTab] = useState<"chat" | "preview">("chat");
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const accumulatedRef = useRef("");
 
-  // Kick off conversation on mount
   useEffect(() => {
     void startConversation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -76,8 +77,7 @@ export default function NewProductPage() {
     setMessages((prev) => [...prev, ...msgs]);
 
     let assistantText = "";
-    const assistantMsg: Message = { role: "assistant", content: "" };
-    setMessages((prev) => [...prev, assistantMsg]);
+    setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
     try {
       const res = await fetch("/api/ai/product-assistant", {
@@ -100,21 +100,15 @@ export default function NewProductPage() {
         if (done) break;
         const chunk = decoder.decode(value, { stream: true });
         assistantText += chunk;
-        accumulatedRef.current = assistantText;
 
-        // Extract fields from partial text
         const extracted = extractFields(assistantText);
         if (Object.keys(extracted).length > 0) {
           setFields((prev) => ({ ...prev, ...extracted }));
         }
 
-        // Update assistant message (strip JSON marker for display)
         setMessages((prev) => {
           const updated = [...prev];
-          updated[updated.length - 1] = {
-            role: "assistant",
-            content: assistantText,
-          };
+          updated[updated.length - 1] = { role: "assistant", content: assistantText };
           return updated;
         });
       }
@@ -131,6 +125,7 @@ export default function NewProductPage() {
     const text = input.trim();
     if (!text || streaming) return;
     setInput("");
+    setMobileTab("chat");
     await sendMessages([{ role: "user", content: text }]);
   }
 
@@ -164,8 +159,114 @@ export default function NewProductPage() {
     }
   }
 
-  const previewFields = fields;
-  const ready = isComplete(previewFields);
+  const ready = isComplete(fields);
+
+  // ── Checklist used in both panels ──────────────────────────────────────────
+  const checklistItems = [
+    { key: "name", label: t("fieldName"), value: fields.name },
+    { key: "description", label: t("fieldDescription"), value: fields.description },
+    { key: "originalPrice", label: t("fieldOriginalPrice"), value: fields.originalPrice != null ? `€${fields.originalPrice}` : undefined },
+    { key: "discountedPrice", label: t("fieldDiscountedPrice"), value: fields.discountedPrice != null ? `€${fields.discountedPrice}` : undefined },
+    { key: "category", label: t("fieldCategory"), value: fields.category, optional: true },
+    { key: "imageUrl", label: t("fieldImage"), value: fields.imageUrl ? "✓" : undefined, optional: true },
+  ];
+
+  // ── Chat panel content ──────────────────────────────────────────────────────
+  const chatPanel = (
+    <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
+        {messages.map((msg, i) => {
+          if (msg.role === "user") {
+            return (
+              <div key={i} className="flex justify-end">
+                <div className="bg-orange-500 text-white text-sm px-4 py-2 rounded-2xl rounded-tr-sm max-w-[80%]">
+                  {msg.content}
+                </div>
+              </div>
+            );
+          }
+          const display = stripFieldsJson(msg.content);
+          return (
+            <div key={i} className="flex justify-start">
+              <div className="bg-white border border-gray-100 shadow-sm text-sm px-4 py-2 rounded-2xl rounded-tl-sm max-w-[80%] whitespace-pre-wrap">
+                {display || (streaming && i === messages.length - 1
+                  ? <span className="inline-block w-2 h-4 bg-orange-400 animate-pulse rounded" />
+                  : "")}
+              </div>
+            </div>
+          );
+        })}
+        <div ref={bottomRef} />
+      </div>
+
+      <div className="shrink-0 px-4 py-3 bg-white border-t border-gray-100">
+        {error && <p className="text-red-500 text-xs mb-2">{error}</p>}
+        <form onSubmit={handleSend} className="flex gap-2">
+          <input
+            ref={inputRef}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={t("inputPlaceholder")}
+            disabled={streaming}
+            className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:opacity-50"
+          />
+          <button
+            type="submit"
+            disabled={streaming || !input.trim()}
+            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition disabled:opacity-50"
+          >
+            {t("send")}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+
+  // ── Preview panel content ───────────────────────────────────────────────────
+  const previewPanel = (
+    <div className="flex flex-col gap-4 p-4 overflow-y-auto">
+      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">{t("preview")}</p>
+
+      {ready ? (
+        <ProductCard
+          name={fields.name!}
+          description={fields.description!}
+          images={fields.imageUrl ? JSON.stringify([fields.imageUrl]) : "[]"}
+          originalPrice={fields.originalPrice!}
+          discountedPrice={fields.discountedPrice!}
+          category={fields.category}
+        />
+      ) : (
+        <div className="bg-white rounded-xl border border-dashed border-gray-200 h-48 flex items-center justify-center text-gray-400 text-sm text-center px-4">
+          {t("previewEmpty")}
+        </div>
+      )}
+
+      <div className="bg-white rounded-xl border border-gray-100 p-4 space-y-2">
+        <p className="text-xs font-semibold text-gray-500 mb-3">{t("fieldsCollected")}</p>
+        {checklistItems.map(({ key, label, value, optional }) => (
+          <div key={key} className="flex items-center gap-2 text-sm">
+            <span className={`w-4 h-4 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${value ? "bg-green-100 text-green-600" : optional ? "bg-gray-100 text-gray-400" : "bg-orange-100 text-orange-400"}`}>
+              {value ? "✓" : optional ? "–" : "·"}
+            </span>
+            <span className={`truncate ${value ? "text-gray-700" : "text-gray-400"}`}>
+              {label}{value && value !== "✓" ? `: ${String(value).slice(0, 30)}` : ""}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {ready && (
+        <button
+          onClick={handlePublish}
+          disabled={publishing}
+          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition disabled:opacity-60"
+        >
+          {publishing ? t("publishing") : t("publish")}
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <div className="flex flex-col h-screen max-h-screen bg-gray-50">
@@ -178,124 +279,34 @@ export default function NewProductPage() {
         </span>
       </div>
 
-      {/* Body — two columns on md+ */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Chat panel */}
-        <div className="flex flex-col flex-1 min-w-0 border-r border-gray-100">
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
-            {messages.map((msg, i) => {
-              if (msg.role === "user") {
-                return (
-                  <div key={i} className="flex justify-end">
-                    <div className="bg-orange-500 text-white text-sm px-4 py-2 rounded-2xl rounded-tr-sm max-w-[80%]">
-                      {msg.content}
-                    </div>
-                  </div>
-                );
-              }
-              const display = stripFieldsJson(msg.content);
-              return (
-                <div key={i} className="flex justify-start">
-                  <div className="bg-white border border-gray-100 shadow-sm text-sm px-4 py-2 rounded-2xl rounded-tl-sm max-w-[80%] whitespace-pre-wrap">
-                    {display || (streaming && i === messages.length - 1 ? (
-                      <span className="inline-block w-2 h-4 bg-orange-400 animate-pulse rounded" />
-                    ) : "")}
-                  </div>
-                </div>
-              );
-            })}
-            <div ref={bottomRef} />
-          </div>
-
-          {/* Input */}
-          <div className="shrink-0 px-4 py-3 bg-white border-t border-gray-100">
-            {error && <p className="text-red-500 text-xs mb-2">{error}</p>}
-            <form onSubmit={handleSend} className="flex gap-2">
-              <input
-                ref={inputRef}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={t("inputPlaceholder")}
-                disabled={streaming}
-                className="flex-1 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:opacity-50"
-              />
-              <button
-                type="submit"
-                disabled={streaming || !input.trim()}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl text-sm font-semibold transition disabled:opacity-50"
-              >
-                {t("send")}
-              </button>
-            </form>
-          </div>
-        </div>
-
-        {/* Preview panel */}
-        <div className="hidden md:flex flex-col w-80 xl:w-96 shrink-0 overflow-y-auto p-4 gap-4">
-          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">{t("preview")}</p>
-
-          {ready ? (
-            <ProductCard
-              name={previewFields.name!}
-              description={previewFields.description!}
-              images={previewFields.imageUrl ? JSON.stringify([previewFields.imageUrl]) : "[]"}
-              originalPrice={previewFields.originalPrice!}
-              discountedPrice={previewFields.discountedPrice!}
-              category={previewFields.category}
-            />
-          ) : (
-            <div className="bg-white rounded-xl border border-dashed border-gray-200 h-64 flex items-center justify-center text-gray-400 text-sm text-center px-4">
-              {t("previewEmpty")}
-            </div>
-          )}
-
-          {/* Fields checklist */}
-          <div className="bg-white rounded-xl border border-gray-100 p-4 space-y-2">
-            <p className="text-xs font-semibold text-gray-500 mb-3">{t("fieldsCollected")}</p>
-            {[
-              { key: "name", label: t("fieldName"), value: previewFields.name },
-              { key: "description", label: t("fieldDescription"), value: previewFields.description },
-              { key: "originalPrice", label: t("fieldOriginalPrice"), value: previewFields.originalPrice != null ? `€${previewFields.originalPrice}` : undefined },
-              { key: "discountedPrice", label: t("fieldDiscountedPrice"), value: previewFields.discountedPrice != null ? `€${previewFields.discountedPrice}` : undefined },
-              { key: "category", label: t("fieldCategory"), value: previewFields.category, optional: true },
-              { key: "imageUrl", label: t("fieldImage"), value: previewFields.imageUrl ? "✓" : undefined, optional: true },
-            ].map(({ key, label, value, optional }) => (
-              <div key={key} className="flex items-center gap-2 text-sm">
-                <span className={`w-4 h-4 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${value ? "bg-green-100 text-green-600" : optional ? "bg-gray-100 text-gray-400" : "bg-orange-100 text-orange-400"}`}>
-                  {value ? "✓" : optional ? "–" : "·"}
-                </span>
-                <span className={`truncate ${value ? "text-gray-700" : "text-gray-400"}`}>
-                  {label}{value && value !== "✓" ? `: ${String(value).slice(0, 30)}` : ""}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {ready && (
-            <button
-              onClick={handlePublish}
-              disabled={publishing}
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition disabled:opacity-60"
-            >
-              {publishing ? t("publishing") : t("publish")}
-            </button>
-          )}
-        </div>
+      {/* Mobile tab bar */}
+      <div className="md:hidden flex border-b border-gray-100 bg-white shrink-0">
+        <button
+          onClick={() => setMobileTab("chat")}
+          className={`flex-1 py-2 text-sm font-medium transition ${mobileTab === "chat" ? "text-orange-500 border-b-2 border-orange-500" : "text-gray-400"}`}
+        >
+          💬 {t("tabChat")}
+        </button>
+        <button
+          onClick={() => setMobileTab("preview")}
+          className={`flex-1 py-2 text-sm font-medium transition ${mobileTab === "preview" ? "text-orange-500 border-b-2 border-orange-500" : "text-gray-400"}`}
+        >
+          👁 {t("tabPreview")}
+          {ready && <span className="ml-1 w-2 h-2 bg-green-400 rounded-full inline-block" />}
+        </button>
       </div>
 
-      {/* Mobile publish button */}
-      {ready && (
-        <div className="md:hidden shrink-0 px-4 py-3 bg-white border-t border-gray-100">
-          <button
-            onClick={handlePublish}
-            disabled={publishing}
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition disabled:opacity-60"
-          >
-            {publishing ? t("publishing") : t("publish")}
-          </button>
+      {/* Body */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Desktop: both panels side by side */}
+        <div className={`flex-col flex-1 min-w-0 border-r border-gray-100 md:flex ${mobileTab === "chat" ? "flex" : "hidden"}`}>
+          {chatPanel}
         </div>
-      )}
+
+        <div className={`flex-col w-full md:w-80 xl:w-96 shrink-0 overflow-hidden md:flex ${mobileTab === "preview" ? "flex" : "hidden"}`}>
+          {previewPanel}
+        </div>
+      </div>
     </div>
   );
 }

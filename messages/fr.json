@@ -308,6 +308,8 @@
     "publish": "Publier le produit",
     "publishing": "Publication…",
     "error": "Une erreur est survenue. Veuillez réessayer.",
-    "publishError": "Échec de la publication du produit."
+    "publishError": "Échec de la publication du produit.",
+    "tabChat": "Chat",
+    "tabPreview": "Aperçu"
   }
 }

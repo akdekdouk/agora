@@ -304,6 +304,8 @@
     "publish": "Publicar producto",
     "publishing": "Publicando…",
     "error": "Algo salió mal. Por favor inténtalo de nuevo.",
-    "publishError": "No se pudo publicar el producto."
+    "publishError": "No se pudo publicar el producto.",
+    "tabChat": "Chat",
+    "tabPreview": "Vista previa"
   }
 }
