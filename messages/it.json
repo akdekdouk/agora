@@ -139,9 +139,10 @@
     "signUpFree": "Registrati gratis",
     "signIn": "Accedi",
     "claimOffer": "Reclama questa offerta",
+    "claimed": "✓ Reclamato",
     "soldOut": "Esaurito",
     "spotsLeft": "{count} posti rimasti",
-    "alreadyClaimed": "Già riscattato"
+    "alreadyClaimed": "✓ Già reclamato"
   },
   "productCard": {
     "saveProduct": "Salva questo prodotto",
