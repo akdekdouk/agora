@@ -143,7 +143,8 @@ export default function NewProductPage() {
       if (data.path) {
         const url = data.path;
         setFields((prev) => ({ ...prev, imageUrl: url }));
-        await sendMessages([{ role: "user", content: t("photoUploaded") }]);
+        // Include the actual URL so Claude knows the photo is ready and stops asking
+        await sendMessages([{ role: "user", content: `${t("photoUploaded")} ${url}` }]);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : t("uploadError"));
