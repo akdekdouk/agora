@@ -111,7 +111,7 @@ export default function OfferCard({
         {showClaim && id && (
           alreadyClaimed ? (
             <div className="mt-3 w-full text-sm font-semibold py-2 rounded-lg bg-gray-100 text-gray-400 text-center cursor-default">
-              ✓ {t("alreadyClaimed")}
+              {t("alreadyClaimed")}
             </div>
           ) : (
             <button
@@ -123,7 +123,7 @@ export default function OfferCard({
                   : "bg-orange-500 hover:bg-orange-600 text-white disabled:opacity-60"
               }`}
             >
-              {soldOut ? t("soldOut") : claimed ? "✓ " + t("alreadyClaimed") : claiming ? "…" : t("claimOffer")}
+              {soldOut ? t("soldOut") : claimed ? t("claimed") : claiming ? "…" : t("claimOffer")}
             </button>
           )
         )}

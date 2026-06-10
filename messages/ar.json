@@ -139,9 +139,10 @@
     "signUpFree": "سجّل مجاناً",
     "signIn": "تسجيل الدخول",
     "claimOffer": "استرداد هذا العرض",
+    "claimed": "✓ تم الاسترداد",
     "soldOut": "نفد المخزون",
     "spotsLeft": "{count} مكان متبقٍ",
-    "alreadyClaimed": "تم الاستخدام مسبقاً"
+    "alreadyClaimed": "✓ تم الاسترداد مسبقاً"
   },
   "productCard": {
     "saveProduct": "حفظ هذا المنتج",

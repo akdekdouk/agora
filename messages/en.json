@@ -139,9 +139,10 @@
     "signUpFree": "Sign up free",
     "signIn": "Sign in",
     "claimOffer": "Claim this offer",
+    "claimed": "✓ Claimed",
     "soldOut": "Sold out",
     "spotsLeft": "{count} spots left",
-    "alreadyClaimed": "Already claimed"
+    "alreadyClaimed": "✓ Already claimed"
   },
   "productCard": {
     "saveProduct": "Save this product",
