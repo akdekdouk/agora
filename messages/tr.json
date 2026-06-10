@@ -127,7 +127,10 @@
     "viewAll": "Tümünü gör",
     "newOffer": "+ Yeni fırsat",
     "newProduct": "+ Yeni ürün",
-    "viewPublicProfile": "Herkese açık profilinizi görün →"
+    "viewPublicProfile": "Herkese açık profilinizi görün →",
+    "bannerSection": "Tanıtım Afişi",
+    "bannerNone": "Afiş yok",
+    "bannerSelected": "Seçilen afiş"
   },
   "offerCard": {
     "saveOffer": "Bu fırsatı kaydet",
@@ -237,7 +240,9 @@
     "validUntil": "{date} tarihine kadar geçerli",
     "backToSaved": "← Kaydettiklerime dön",
     "notFound": "Fırsat bulunamadı",
-    "loadFailed": "Fırsat yüklenemedi"
+    "loadFailed": "Fırsat yüklenemedi",
+    "claimedOn": "{date} tarihinde talep edildi",
+    "cancelClaim": "Talebi iptal et"
   },
   "scan": {
     "title": "Fırsatı Tara & Doğrula",

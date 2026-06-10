@@ -20,6 +20,7 @@ export async function GET(
         logo: true,
         createdAt: true,
         offers: {
+          where: { deletedAt: null },
           orderBy: { createdAt: "desc" },
         },
         products: {

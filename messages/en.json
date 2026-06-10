@@ -128,6 +128,9 @@
     "newOffer": "+ New offer",
     "newProduct": "+ New product",
     "viewPublicProfile": "View your public profile →",
+    "bannerSection": "Promotional Banner",
+    "bannerNone": "No banner",
+    "bannerSelected": "Selected banner",
     "category_shop": "Shop",
     "category_artisan": "Artisan",
     "category_restaurant": "Restaurant"
@@ -241,7 +244,9 @@
     "validUntil": "Valid until {date}",
     "backToSaved": "← My saved items",
     "notFound": "Claim not found",
-    "loadFailed": "Failed to load claim"
+    "loadFailed": "Failed to load claim",
+    "claimedOn": "Claimed on {date}",
+    "cancelClaim": "Cancel claim"
   },
   "scan": {
     "title": "Scan & Validate Offer",

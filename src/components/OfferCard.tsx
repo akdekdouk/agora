@@ -4,12 +4,14 @@ import Image from "next/image";
 import { useState } from "react";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
+import { getBannerUrl } from "@/lib/banners";
 
 interface Props {
   id?: string;
   title: string;
   description: string;
   photo?: string | null;
+  bannerKey?: string | null;
   discount: number;
   maxClaims?: number | null;
   claimsCount?: number;
@@ -24,7 +26,7 @@ interface Props {
 }
 
 export default function OfferCard({
-  id, title, description, photo, discount, maxClaims, claimsCount = 0,
+  id, title, description, photo, bannerKey, discount, maxClaims, claimsCount = 0,
   validFrom, validTo, merchantName, onSave, isSaved: initialSaved, isLoggedIn, showClaim, alreadyClaimed,
 }: Props) {
   const from = new Date(validFrom).toLocaleDateString();
@@ -77,11 +79,13 @@ export default function OfferCard({
     }
   }
 
+  const heroImage = bannerKey ? getBannerUrl(bannerKey) : photo ?? null;
+
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden relative">
-      {photo && (
+      {heroImage && (
         <div className="relative h-40 w-full">
-          <Image src={photo} alt={title} fill className="object-cover" />
+          <Image src={heroImage} alt={title} fill className="object-cover" />
         </div>
       )}
       <div className="p-4">

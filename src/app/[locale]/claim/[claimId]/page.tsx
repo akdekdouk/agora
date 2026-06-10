@@ -111,6 +111,9 @@ export default function ClaimPage() {
         <p className="text-xs text-gray-400 mt-4">
           {t("validUntil", { date: new Date(claim.offer.validTo).toLocaleDateString() })}
         </p>
+        <p className="text-xs text-gray-300 mt-1">
+          {t("claimedOn", { date: new Date(claim.claimedAt).toLocaleDateString() })}
+        </p>
 
         <Link href="/consumer/dashboard" className="block mt-6 text-sm text-orange-500 hover:underline">
           {t("backToSaved")}

@@ -28,7 +28,7 @@ export async function GET() {
   const [offers, products, merchants] = await Promise.all([
     offerIds.length > 0
       ? prisma.offer.findMany({
-          where: { id: { in: offerIds } },
+          where: { id: { in: offerIds }, deletedAt: null },
           include: { merchant: { select: { businessName: true, city: true } } },
         })
       : [],

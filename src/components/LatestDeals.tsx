@@ -9,6 +9,7 @@ interface Offer {
   title: string;
   description: string;
   photo?: string | null;
+  bannerKey?: string | null;
   discount: number;
   maxClaims?: number | null;
   claimsCount?: number;
@@ -88,6 +89,7 @@ export default function LatestDeals({ offers, isConsumerLoggedIn, savedOfferIds,
               title={offer.title}
               description={offer.description}
               photo={offer.photo}
+              bannerKey={offer.bannerKey}
               discount={offer.discount}
               maxClaims={offer.maxClaims}
               claimsCount={offer.claimsCount}
