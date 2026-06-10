@@ -72,5 +72,5 @@ export const SEASON_LABELS: Record<Banner["season"], string> = {
 };
 
 export function getBannerUrl(bannerKey: string): string {
-  return `/banners/${bannerKey}.jpg`;
+  return `/banners/${bannerKey}.png`;
 }
