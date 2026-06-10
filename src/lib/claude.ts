@@ -213,10 +213,30 @@ const localeNames: Record<string, string> = {
   en: "English", fr: "French", it: "Italian", ar: "Arabic", tr: "Turkish", es: "Spanish",
 };
 
+export interface ConsumerProfile {
+  name?: string | null;
+  city?: string | null;
+  savedOffers: Array<{ id: string; title: string; discount: number; merchant: { businessName: string } }>;
+  followedMerchants: Array<{ id: string; businessName: string; category: string; city: string }>;
+  activeClaims: Array<{ title: string; discount: number; validTo: string; merchantName: string }>;
+}
+
+export interface MerchantProfile {
+  businessName: string;
+  category: string;
+  city: string;
+  totalOffers: number;
+  totalProducts: number;
+  activeOffers: Array<{ title: string; discount: number; validTo: string; claimsCount: number }>;
+  products: Array<{ name: string; originalPrice: number; discountedPrice: number }>;
+}
+
 export interface ChatContext {
   offers: RecommendationOffer[];
-  consumerCity?: string | null;
   locale?: string;
+  userType: "consumer" | "merchant" | "guest";
+  consumerProfile?: ConsumerProfile | null;
+  merchantProfile?: MerchantProfile | null;
 }
 
 export async function* chatWithAssistant(
@@ -224,16 +244,47 @@ export async function* chatWithAssistant(
   context: ChatContext
 ): AsyncGenerator<string> {
   const lang = localeNames[context.locale ?? "en"] ?? "English";
-  const systemPrompt = `You are Agora's friendly assistant. You help consumers find local deals AND answer questions about how the platform works.
+  const today = new Date().toISOString().split("T")[0];
 
-CRITICAL LANGUAGE RULE: You MUST respond EXCLUSIVELY in ${lang}. This is non-negotiable. Do not use any other language under any circumstances, even if the user writes in a different language. Every single word of your response must be in ${lang}.
+  let profileSection = "";
 
-Today's date: ${new Date().toISOString().split("T")[0]}
-Consumer's city: ${context.consumerCity ?? "not specified"}
+  if (context.userType === "consumer" && context.consumerProfile) {
+    const p = context.consumerProfile;
+    profileSection = `
+--- CONSUMER PROFILE ---
+Name: ${p.name ?? "unknown"}
+City: ${p.city ?? "not specified"}
+Saved offers (${p.savedOffers.length}): ${p.savedOffers.map(o => `"${o.title}" -${o.discount}% at ${o.merchant.businessName}`).join(", ") || "none"}
+Followed merchants (${p.followedMerchants.length}): ${p.followedMerchants.map(m => `${m.businessName} (${m.category}, ${m.city})`).join(", ") || "none"}
+Active claims (${p.activeClaims.length}): ${p.activeClaims.map(c => `"${c.title}" -${c.discount}% at ${c.merchantName}, valid until ${c.validTo.split("T")[0]}`).join(", ") || "none"}
+---`;
+  } else if (context.userType === "merchant" && context.merchantProfile) {
+    const m = context.merchantProfile;
+    profileSection = `
+--- MERCHANT PROFILE ---
+Business: ${m.businessName} (${m.category}) in ${m.city}
+Total offers: ${m.totalOffers} | Active offers: ${m.activeOffers.length} | Products: ${m.totalProducts}
+Active offers: ${m.activeOffers.map(o => `"${o.title}" -${o.discount}% (${o.claimsCount} claims, valid until ${o.validTo.split("T")[0]})`).join(", ") || "none"}
+Products: ${m.products.map(p => `"${p.name}" ${p.originalPrice}→${p.discountedPrice}`).join(", ") || "none"}
+---`;
+  }
 
-Active offers available:
+  const userTypeInstructions = context.userType === "merchant"
+    ? `You are talking to a MERCHANT (business owner). Help them manage their business on Agora: understand their stats, improve their offers, attract more customers, and use platform features effectively. Address them as a business owner.`
+    : context.userType === "consumer"
+    ? `You are talking to a CONSUMER. Help them find deals, manage their saved offers and claims, discover new merchants, and use the platform. Address them by name if available.`
+    : `You are talking to a VISITOR (not logged in). Help them discover deals and encourage them to create a free account to save offers and claim discounts.`;
+
+  const systemPrompt = `You are Agora's friendly assistant. You help users find local deals and answer questions about the platform.
+
+CRITICAL LANGUAGE RULE: You MUST respond EXCLUSIVELY in ${lang}. Every single word must be in ${lang}, regardless of what language the user writes in.
+
+Today's date: ${today}
+${profileSection}
+${userTypeInstructions}
+
+Active offers on the platform:
 ${JSON.stringify(context.offers.map(o => ({
-  id: o.id,
   title: o.title,
   discount: o.discount,
   merchant: o.merchantName,
@@ -242,7 +293,7 @@ ${JSON.stringify(context.offers.map(o => ({
   validTo: o.validTo,
 })), null, 2)}
 
---- PLATFORM KNOWLEDGE (for support questions) ---
+--- PLATFORM KNOWLEDGE ---
 Agora is a free local commerce platform built by Lumeria.
 Contact / support: akdekdouk@gmail.com | +39 351 154 9779
 
@@ -254,20 +305,20 @@ How it works:
 
 Common how-to:
 - Claim an offer: click "Claim this offer" on any offer page, then show the QR code in store
-- Save an offer: click the save button (requires free consumer account)
+- Save an offer: click the bookmark button (requires free consumer account)
 - Change language: use the language selector in the top navigation bar
 - Merchant registration: click "Merchant access" at the bottom of the page
 - Merchant dashboard: log in as merchant to manage offers, products, and scan QR codes
-- Technical problems or feedback: users can contact Lumeria at akdekdouk@gmail.com or +39 351 154 9779
+- Technical problems or feedback: akdekdouk@gmail.com or +39 351 154 9779
 ---
 
 Rules:
 - Be concise, friendly and helpful
-- When recommending offers, mention the merchant name, discount %, and city
-- If you recommend an offer, format it as: **[Title]** (-X%) at *MerchantName* in City
-- If no matching offers exist, say so honestly and suggest browsing other categories
-- For support questions, answer from the platform knowledge above
-- If the user reports a bug or wants to contact the team, give them: akdekdouk@gmail.com or +39 351 154 9779`;
+- Use the profile data to give personalised answers (e.g. "you have 3 saved offers", "your offer X has 5 claims")
+- When recommending offers, mention merchant name, discount %, and city
+- Format offer recommendations as: **[Title]** (-X%) at *MerchantName* in City
+- If no matching offers exist, say so honestly
+- For support questions, use the platform knowledge above`;
 
   const stream = getAnthropic().messages.stream({
     model: "claude-haiku-4-5-20251001",
