@@ -81,14 +81,19 @@ export default async function HomePage() {
 
   let savedOfferIds: string[] = [];
   let savedProductIds: string[] = [];
+  let claimedProductIds: string[] = [];
   let consumerInterests: string[] = [];
   if (isConsumerLoggedIn && consumerSession?.user?.consumerId) {
-    const [saved, savedProds, consumer] = await Promise.all([
+    const [saved, savedProds, claimedProds, consumer] = await Promise.all([
       prisma.savedOffer.findMany({
         where: { consumerId: consumerSession.user.consumerId },
         select: { offerId: true },
       }),
       prisma.savedProduct.findMany({
+        where: { consumerId: consumerSession.user.consumerId },
+        select: { productId: true },
+      }),
+      prisma.productClaim.findMany({
         where: { consumerId: consumerSession.user.consumerId },
         select: { productId: true },
       }),
@@ -99,6 +104,7 @@ export default async function HomePage() {
     ]);
     savedOfferIds = saved.map((s) => s.offerId);
     savedProductIds = savedProds.map((s) => s.productId);
+    claimedProductIds = claimedProds.map((s) => s.productId);
     consumerInterests = JSON.parse(consumer?.interests ?? "[]") as string[];
   }
 
@@ -159,6 +165,8 @@ export default async function HomePage() {
                 merchantCity={p.merchant.city}
                 isLoggedIn={isConsumerLoggedIn}
                 isSaved={savedProductIds.includes(p.id)}
+                showClaim={isConsumerLoggedIn}
+                alreadyClaimed={claimedProductIds.includes(p.id)}
               />
             ))}
           </div>

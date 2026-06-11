@@ -9,21 +9,17 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const [savedOffers, savedProducts, followedMerchants] = await Promise.all([
-    prisma.savedOffer.findMany({
-      where: { consumerId },
-      include: {
-        // We'll join offer data via a separate query since no direct relation
-      },
-    }),
+  const [savedOffers, savedProducts, followedMerchants, productClaims] = await Promise.all([
+    prisma.savedOffer.findMany({ where: { consumerId } }),
     prisma.savedProduct.findMany({ where: { consumerId } }),
     prisma.followedMerchant.findMany({ where: { consumerId } }),
+    prisma.productClaim.findMany({ where: { consumerId }, select: { productId: true } }),
   ]);
 
-  // Fetch actual offer/product/merchant data
   const offerIds = savedOffers.map((s) => s.offerId);
   const productIds = savedProducts.map((s) => s.productId);
   const merchantIds = followedMerchants.map((s) => s.merchantId);
+  const claimedProductIds = productClaims.map((c) => c.productId);
 
   const [offers, products, merchants] = await Promise.all([
     offerIds.length > 0
@@ -46,5 +42,5 @@ export async function GET() {
       : [],
   ]);
 
-  return NextResponse.json({ offers, products, merchants });
+  return NextResponse.json({ offers, products, merchants, claimedProductIds });
 }

@@ -43,16 +43,17 @@ model Offer {
 }
 
 model Product {
-  id              String   @id @default(cuid())
+  id              String         @id @default(cuid())
   name            String
   description     String
-  images          String   // JSON array of paths
+  images          String         // JSON array of paths
   originalPrice   Float
   discountedPrice Float
   category        String?
-  createdAt       DateTime @default(now())
-  merchant        User     @relation(fields: [merchantId], references: [id])
+  createdAt       DateTime       @default(now())
+  merchant        User           @relation(fields: [merchantId], references: [id])
   merchantId      String
+  claims          ProductClaim[]
 }
 
 model Consumer {
@@ -71,6 +72,7 @@ model Consumer {
   savedProducts     SavedProduct[]
   followedMerchants FollowedMerchant[]
   claims            Claim[]
+  productClaims     ProductClaim[]
   reviews           Review[]
 }
 
@@ -124,4 +126,16 @@ model FollowedMerchant {
   merchantId String
   followedAt DateTime @default(now())
   @@unique([consumerId, merchantId])
+}
+
+model ProductClaim {
+  id          String   @id @default(cuid())
+  consumer    Consumer @relation(fields: [consumerId], references: [id])
+  consumerId  String
+  product     Product  @relation(fields: [productId], references: [id])
+  productId   String
+  code        String   @unique @default(cuid())
+  status      String   @default("active") // "active" | "used"
+  claimedAt   DateTime @default(now())
+  @@unique([consumerId, productId])
 }

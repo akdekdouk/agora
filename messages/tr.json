@@ -156,7 +156,9 @@
     "unsave": "Kaydı kaldır",
     "createAccountToSave": "Ürünleri kaydetmek için ücretsiz hesap oluşturun",
     "signUpFree": "Ücretsiz kaydol",
-    "signIn": "Giriş yap"
+    "signIn": "Giriş yap",
+    "claimProduct": "Bu ürünü rezerve et",
+    "alreadyClaimed": "Zaten rezerve edildi"
   },
   "merchantCard": {
     "offers": "fırsat",
