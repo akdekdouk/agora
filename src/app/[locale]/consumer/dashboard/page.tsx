@@ -32,7 +32,7 @@ export default function ConsumerDashboardPage() {
   const t = useTranslations("consumer");
   const tCommon = useTranslations("common");
   const tClaim = useTranslations("claim");
-  const [data, setData] = useState<{ offers: Offer[]; products: Product[]; merchants: Merchant[] } | null>(null);
+  const [data, setData] = useState<{ offers: Offer[]; products: Product[]; merchants: Merchant[]; claimedProductIds?: string[] } | null>(null);
   const [claims, setClaims] = useState<Claim[]>([]);
   const [loading, setLoading] = useState(true);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
@@ -170,7 +170,8 @@ export default function ConsumerDashboardPage() {
                   images={product.images} originalPrice={product.originalPrice}
                   discountedPrice={product.discountedPrice} category={product.category}
                   merchantName={product.merchant.businessName} merchantCity={product.merchant.city}
-                  isLoggedIn isSaved />
+                  isLoggedIn isSaved showClaim
+                  alreadyClaimed={data.claimedProductIds?.includes(product.id)} />
               ))}
             </div>
           )}

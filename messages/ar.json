@@ -160,7 +160,9 @@
     "unsave": "إزالة",
     "createAccountToSave": "أنشئ حساباً مجانياً لحفظ المنتجات",
     "signUpFree": "سجّل مجاناً",
-    "signIn": "تسجيل الدخول"
+    "signIn": "تسجيل الدخول",
+    "claimProduct": "احجز هذا المنتج",
+    "alreadyClaimed": "محجوز بالفعل"
   },
   "merchantCard": {
     "offers": "عروض",

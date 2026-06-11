@@ -160,7 +160,9 @@
     "unsave": "Unsave",
     "createAccountToSave": "Create a free account to save products",
     "signUpFree": "Sign up free",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "claimProduct": "Reserve this product",
+    "alreadyClaimed": "Already reserved"
   },
   "merchantCard": {
     "offers": "offers",

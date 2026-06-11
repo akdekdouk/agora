@@ -160,7 +160,9 @@
     "unsave": "Retirer",
     "createAccountToSave": "Créez un compte gratuit pour sauvegarder les produits",
     "signUpFree": "S'inscrire gratuitement",
-    "signIn": "Se connecter"
+    "signIn": "Se connecter",
+    "claimProduct": "Réserver ce produit",
+    "alreadyClaimed": "Déjà réservé"
   },
   "merchantCard": {
     "offers": "offres",

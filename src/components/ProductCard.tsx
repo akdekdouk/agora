@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
 interface Props {
@@ -17,16 +17,21 @@ interface Props {
   onSave?: () => void;
   isSaved?: boolean;
   isLoggedIn?: boolean;
+  alreadyClaimed?: boolean;
+  showClaim?: boolean;
 }
 
-export default function ProductCard({ id, name, description, images, originalPrice, discountedPrice, category, merchantName, merchantCity, onSave, isSaved: initialSaved, isLoggedIn }: Props) {
+export default function ProductCard({ id, name, description, images, originalPrice, discountedPrice, category, merchantName, merchantCity, onSave, isSaved: initialSaved, isLoggedIn, alreadyClaimed: initialClaimed, showClaim }: Props) {
   let imageList: string[] = [];
   try { imageList = JSON.parse(images); } catch { /* empty */ }
   const firstImage = imageList[0];
   const savings = Math.round((1 - discountedPrice / originalPrice) * 100);
   const [showPrompt, setShowPrompt] = useState(false);
   const [isSaved, setIsSaved] = useState(initialSaved ?? false);
+  const [claimed, setClaimed] = useState(initialClaimed ?? false);
+  const [claiming, setClaiming] = useState(false);
   const t = useTranslations("productCard");
+  const router = useRouter();
 
   async function handleSaveClick(e: React.MouseEvent) {
     e.stopPropagation();
@@ -48,6 +53,29 @@ export default function ProductCard({ id, name, description, images, originalPri
         setIsSaved(data.saved);
       }
     } catch { /* ignore */ }
+  }
+
+  async function handleClaim(e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!isLoggedIn || !id) {
+      setShowPrompt(true);
+      setTimeout(() => setShowPrompt(false), 3000);
+      return;
+    }
+    setClaiming(true);
+    const res = await fetch("/api/consumer/claim-product", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId: id }),
+    });
+    const data = await res.json() as { id?: string; error?: string };
+    setClaiming(false);
+    if (res.status === 409) {
+      setClaimed(true);
+    } else if (res.ok && data.id) {
+      setClaimed(true);
+      router.push(`/claim-product/${data.id}`);
+    }
   }
 
   return (
@@ -84,6 +112,22 @@ export default function ProductCard({ id, name, description, images, originalPri
           <span className="text-gray-400 line-through text-sm">€{originalPrice.toFixed(2)}</span>
           <span className="bg-orange-100 text-orange-700 text-xs font-bold px-1.5 py-0.5 rounded">-{savings}%</span>
         </div>
+
+        {showClaim && (
+          claimed ? (
+            <div className="mt-3 w-full text-sm font-semibold py-2 rounded-lg bg-gray-100 text-gray-400 text-center">
+              ✓ {t("alreadyClaimed")}
+            </div>
+          ) : (
+            <button
+              onClick={handleClaim}
+              disabled={claiming}
+              className="mt-3 w-full text-sm font-semibold py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white transition disabled:opacity-60"
+            >
+              {claiming ? "…" : t("claimProduct")}
+            </button>
+          )
+        )}
       </div>
 
       {showPrompt && (
