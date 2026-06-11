@@ -80,12 +80,17 @@ export default async function HomePage() {
   const isConsumerLoggedIn = !!consumerSession?.user?.consumerId;
 
   let savedOfferIds: string[] = [];
+  let savedProductIds: string[] = [];
   let consumerInterests: string[] = [];
   if (isConsumerLoggedIn && consumerSession?.user?.consumerId) {
-    const [saved, consumer] = await Promise.all([
+    const [saved, savedProds, consumer] = await Promise.all([
       prisma.savedOffer.findMany({
         where: { consumerId: consumerSession.user.consumerId },
         select: { offerId: true },
+      }),
+      prisma.savedProduct.findMany({
+        where: { consumerId: consumerSession.user.consumerId },
+        select: { productId: true },
       }),
       prisma.consumer.findUnique({
         where: { id: consumerSession.user.consumerId },
@@ -93,6 +98,7 @@ export default async function HomePage() {
       }),
     ]);
     savedOfferIds = saved.map((s) => s.offerId);
+    savedProductIds = savedProds.map((s) => s.productId);
     consumerInterests = JSON.parse(consumer?.interests ?? "[]") as string[];
   }
 
@@ -151,6 +157,8 @@ export default async function HomePage() {
                 category={p.category}
                 merchantName={p.merchant.businessName}
                 merchantCity={p.merchant.city}
+                isLoggedIn={isConsumerLoggedIn}
+                isSaved={savedProductIds.includes(p.id)}
               />
             ))}
           </div>
