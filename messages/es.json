@@ -41,7 +41,14 @@
     "catShop": "Tiendas",
     "catArtisan": "Artesanos",
     "latestProducts": "Nuevos productos",
-    "viewAllProducts": "Ver todos los productos →"
+    "viewAllProducts": "Ver todos los productos →",
+    "catBeauty": "Belleza",
+    "catHotel": "Hostelería",
+    "catEducation": "Formación",
+    "catHealth": "Salud",
+    "catSport": "Deporte",
+    "catServices": "Servicios",
+    "catOther": "Otro"
   },
   "login": {
     "title": "Inicia sesión en Agora",
@@ -75,7 +82,14 @@
     "artisan": "Artesano",
     "restaurant": "Restaurante",
     "registrationFailed": "Error al registrar",
-    "orContinueWith": "O continuar con"
+    "orContinueWith": "O continuar con",
+    "beauty": "Belleza & Bienestar",
+    "hotel": "Hostelería & Turismo",
+    "education": "Educación & Formación",
+    "health": "Salud & Médico",
+    "sport": "Deporte & Ocio",
+    "services": "Servicios & Auto",
+    "other": "Otro"
   },
   "forgotPassword": {
     "title": "Restablecer contraseña",
@@ -138,7 +152,14 @@
     "confirmDeleteProduct": "¿Eliminar este producto?",
     "deleteProduct": "Eliminar",
     "noProducts": "Aún no hay productos.",
-    "loading": "Cargando…"
+    "loading": "Cargando…",
+    "category_beauty": "Belleza & Bienestar",
+    "category_hotel": "Hostelería & Turismo",
+    "category_education": "Educación & Formación",
+    "category_health": "Salud & Médico",
+    "category_sport": "Deporte & Ocio",
+    "category_services": "Servicios & Auto",
+    "category_other": "Otro"
   },
   "offerCard": {
     "saveOffer": "Guardar esta oferta",
@@ -165,7 +186,14 @@
     "products": "productos",
     "shop": "Tienda",
     "artisan": "Artesano",
-    "restaurant": "Restaurante"
+    "restaurant": "Restaurante",
+    "beauty": "Belleza",
+    "hotel": "Hostelería",
+    "education": "Formación",
+    "health": "Salud",
+    "sport": "Deporte",
+    "services": "Servicios",
+    "other": "Otro"
   },
   "consumer": {
     "loginTitle": "Iniciar sesión como cliente",
