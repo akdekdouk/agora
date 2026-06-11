@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 import { jwtVerify } from "jose";
 import { prisma } from "@/lib/prisma";
 import { createConsumerSession, CONSUMER_COOKIE_NAME } from "@/lib/auth-consumer";

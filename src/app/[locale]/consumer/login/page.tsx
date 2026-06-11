@@ -51,9 +51,14 @@ function LoginForm() {
             {t("createAccount")}
           </div>
         )}
-        {(error || oauthError) && (
+        {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm mb-4">
-            {error || t("invalidCredentials")}
+            {error}
+          </div>
+        )}
+        {oauthError && !error && (
+          <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm mb-4">
+            La connexion via Google a échoué. Vérifiez que votre compte Google est bien autorisé, ou connectez-vous par email.
           </div>
         )}
 
