@@ -22,6 +22,7 @@ async function getLatestOffers() {
       title: true,
       description: true,
       photo: true,
+      bannerKey: true,
       discount: true,
       maxClaims: true,
       validFrom: true,
