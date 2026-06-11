@@ -283,8 +283,9 @@ Today's date: ${today}
 ${profileSection}
 ${userTypeInstructions}
 
-Active offers on the platform:
+Active offers on the platform (use these IDs with show_offers tool):
 ${JSON.stringify(context.offers.map(o => ({
+  id: o.id,
   title: o.title,
   discount: o.discount,
   merchant: o.merchantName,
@@ -314,17 +315,25 @@ Common how-to:
 
 Rules:
 - Be concise, friendly and helpful
-- Use the profile data to give personalised answers (e.g. "you have 3 saved offers", "your offer X has 5 claims")
-- When recommending specific offers to a consumer, ALWAYS call the show_offers tool with up to 3 matching offer IDs — never list them as plain text
-- If no matching offers exist, say so honestly
+- Use the profile data to give personalised answers
+- CRITICAL: When ANY offers exist in the platform data above, you MUST call the show_offers tool — NEVER describe offers in plain text. Pick the 3 best matches even if imperfect. First say 1-2 sentences of context, then call show_offers.
+- Only skip show_offers if the conversation is about something unrelated to offers (support questions, how the platform works, etc.)
+- If no offers at all exist, say so honestly
 - For support questions, use the platform knowledge above`;
 
   const offerMap = new Map(context.offers.map(o => [o.id, o]));
 
+  // Detect if user message is offer/deal related
+  const lastUserMsg = messages[messages.length - 1]?.content?.toString().toLowerCase() ?? "";
+  const isOfferQuery = context.offers.length > 0 && (
+    /offr|deal|promo|réduction|discount|restaurant|shop|artisan|beauty|sport|hotel|services|bon plan|meilleur|trouv|cherch|recommand|suggest|show|voir|présent/i.test(lastUserMsg) ||
+    messages.length <= 2
+  );
+
   const tools: Anthropic.Tool[] = [
     {
       name: "show_offers",
-      description: "Display visual offer cards to the user. Call this whenever you want to recommend specific offers — pass the IDs of the best matching offers (max 3). Always include a short intro message.",
+      description: "Display visual offer cards to the user. ALWAYS call this when recommending offers — pass the IDs of the 3 best matching offers. The user will see beautiful cards, not text.",
       input_schema: {
         type: "object" as const,
         properties: {
@@ -339,13 +348,13 @@ Rules:
     },
   ];
 
-  // First call — may trigger tool use
+  // Force tool use when user is asking about offers
   const response = await getAnthropic().messages.create({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 512,
     system: systemPrompt,
     tools,
-    tool_choice: { type: "auto" },
+    tool_choice: isOfferQuery ? { type: "any" } : { type: "auto" },
     messages,
   });
 
