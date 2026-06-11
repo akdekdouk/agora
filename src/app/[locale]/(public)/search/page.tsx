@@ -77,6 +77,7 @@ function SearchResults() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {results.offers.map((o) => (
               <OfferCard key={o.id} id={o.id} title={o.title} description={o.description}
+                photo={(o as { photo?: string | null }).photo} bannerKey={(o as { bannerKey?: string | null }).bannerKey}
                 discount={o.discount} validFrom={o.validFrom} validTo={o.validTo} merchantName={o.merchantName}
                 isLoggedIn={isConsumerLoggedIn} showClaim={isConsumerLoggedIn} />
             ))}
@@ -90,7 +91,7 @@ function SearchResults() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {results.products.map((p) => (
               <ProductCard key={p.id} id={p.id} name={p.name} description={p.description}
-                images={"[]"} originalPrice={p.originalPrice} discountedPrice={p.discountedPrice}
+                images={(p as { images?: string }).images ?? "[]"} originalPrice={p.originalPrice} discountedPrice={p.discountedPrice}
                 category={p.category} merchantName={p.merchantName} merchantCity={p.merchantCity}
                 isLoggedIn={isConsumerLoggedIn} />
             ))}

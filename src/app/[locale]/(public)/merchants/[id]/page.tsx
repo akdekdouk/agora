@@ -87,6 +87,7 @@ export default async function MerchantProfilePage({ params }: Props) {
                 title={offer.title}
                 description={offer.description}
                 photo={offer.photo}
+                bannerKey={offer.bannerKey}
                 discount={offer.discount}
                 maxClaims={offer.maxClaims}
                 claimsCount={offer._count.claims}
