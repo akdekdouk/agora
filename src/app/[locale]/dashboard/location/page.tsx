@@ -2,9 +2,9 @@ import { getServerSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { Link } from "@/i18n/navigation";
-import dynamic from "next/dynamic";
+import nextDynamic from "next/dynamic";
 
-const LocationPicker = dynamic(() => import("@/components/LocationPicker"), { ssr: false });
+const LocationPicker = nextDynamic(() => import("@/components/LocationPicker"), { ssr: false });
 
 export const dynamic = "force-dynamic";
 
