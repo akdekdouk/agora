@@ -4,15 +4,18 @@ import { searchWithClaude, SearchContext } from "@/lib/claude";
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json() as { query: string };
-    const { query } = body;
+    const body = await request.json() as { query: string; city?: string };
+    const { query, city } = body;
 
     if (!query?.trim()) {
       return NextResponse.json({ error: "Query is required" }, { status: 400 });
     }
 
+    const cityFilter = city ? { city: { contains: city, mode: "insensitive" as const } } : {};
+
     const [merchants, offers, products] = await Promise.all([
       prisma.user.findMany({
+        where: cityFilter,
         select: {
           id: true,
           businessName: true,
@@ -22,18 +25,12 @@ export async function POST(request: NextRequest) {
         },
       }),
       prisma.offer.findMany({
-        include: {
-          merchant: {
-            select: { businessName: true, city: true },
-          },
-        },
+        where: city ? { merchant: { city: { contains: city, mode: "insensitive" } } } : {},
+        include: { merchant: { select: { businessName: true, city: true } } },
       }),
       prisma.product.findMany({
-        include: {
-          merchant: {
-            select: { businessName: true, city: true },
-          },
-        },
+        where: city ? { merchant: { city: { contains: city, mode: "insensitive" } } } : {},
+        include: { merchant: { select: { businessName: true, city: true } } },
       }),
     ]);
 

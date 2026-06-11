@@ -68,14 +68,25 @@ async function getFeaturedMerchants() {
   });
 }
 
+async function getPlatformConfig() {
+  return prisma.platformConfig.upsert({
+    where: { id: "default" },
+    create: { id: "default" },
+    update: {},
+  });
+}
+
 export default async function HomePage() {
-  const [offers, products, merchants, t, consumerSession] = await Promise.all([
+  const [offers, products, merchants, t, consumerSession, platformConfig] = await Promise.all([
     getLatestOffers(),
     getLatestProducts(),
     getFeaturedMerchants(),
     getTranslations("home"),
     getConsumerSession(),
+    getPlatformConfig(),
   ]);
+
+  const activeCategories = JSON.parse(platformConfig.activeCategories) as string[];
 
   const isConsumerLoggedIn = !!consumerSession?.user?.consumerId;
 
@@ -138,6 +149,7 @@ export default async function HomePage() {
           isConsumerLoggedIn={isConsumerLoggedIn}
           savedOfferIds={savedOfferIds}
           defaultCategory={consumerInterests.length === 1 ? consumerInterests[0] : "all"}
+          activeCategories={activeCategories}
         />
       </section>
 

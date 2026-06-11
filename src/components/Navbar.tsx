@@ -25,7 +25,7 @@ const localeLabels: Record<string, string> = {
 };
 
 export default function Navbar() {
-  const { data: session } = useSession();
+  const { data: session, status: sessionStatus } = useSession();
   const [consumerSession, setConsumerSession] = useState<ConsumerSession | null>(null);
   const t = useTranslations("nav");
   const locale = useLocale();
@@ -121,8 +121,8 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Merchant access link - subtle, only when not logged in as merchant */}
-      {!session && !isMerchantPage && (
+      {/* Merchant access link - only when session is resolved and no merchant is logged in */}
+      {sessionStatus !== "loading" && !session && !isMerchantPage && (
         <div className="bg-gray-50 border-t border-gray-100 text-center py-1">
           <Link href="/login" className="text-xs text-gray-400 hover:text-gray-600">
             {t("merchantAccess")}

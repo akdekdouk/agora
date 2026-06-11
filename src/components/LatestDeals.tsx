@@ -29,11 +29,11 @@ interface Props {
   isConsumerLoggedIn: boolean;
   savedOfferIds: string[];
   defaultCategory?: string;
+  activeCategories?: string[];
 }
 
-const CATEGORIES = ["all", "restaurant", "shop", "artisan", "beauty", "hotel", "education", "health", "sport", "services", "other"] as const;
-
-export default function LatestDeals({ offers, isConsumerLoggedIn, savedOfferIds, defaultCategory = "all" }: Props) {
+export default function LatestDeals({ offers, isConsumerLoggedIn, savedOfferIds, defaultCategory = "all", activeCategories }: Props) {
+  const CATEGORIES = ["all", ...(activeCategories ?? ["restaurant", "shop", "artisan", "beauty", "hotel"])];
   const t = useTranslations("home");
   const [activeTab, setActiveTab] = useState<string>(defaultCategory);
   const [saved, setSaved] = useState<Set<string>>(new Set(savedOfferIds));

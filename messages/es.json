@@ -133,7 +133,9 @@
     "searchFailed": "Error en la búsqueda. Inténtalo de nuevo.",
     "merchants": "Comerciantes",
     "offers": "Ofertas",
-    "products": "Productos"
+    "products": "Productos",
+    "cityPlaceholder": "Filtrar por ciudad…",
+    "applyFilter": "Filtrar"
   },
   "dashboard": {
     "welcome": "Bienvenido, {name}",
