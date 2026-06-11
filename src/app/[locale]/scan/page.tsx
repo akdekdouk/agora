@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 
@@ -20,7 +20,76 @@ export default function ScanPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [validated, setValidated] = useState(false);
+  const [scanning, setScanning] = useState(false);
+  const [cameraError, setCameraError] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const rafRef = useRef<number>(0);
+
+  const stopCamera = useCallback(() => {
+    cancelAnimationFrame(rafRef.current);
+    streamRef.current?.getTracks().forEach((t) => t.stop());
+    streamRef.current = null;
+    setScanning(false);
+  }, []);
+
+  useEffect(() => () => stopCamera(), [stopCamera]);
+
+  async function startCamera() {
+    setCameraError("");
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play();
+      }
+      setScanning(true);
+      scanFrame();
+    } catch {
+      setCameraError("Caméra inaccessible. Utilisez la saisie manuelle.");
+    }
+  }
+
+  function scanFrame() {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    if (!video || !canvas || video.readyState < 2) { rafRef.current = requestAnimationFrame(scanFrame); return; }
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.drawImage(video, 0, 0);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    import("jsqr").then(({ default: jsQR }) => {
+      const result = jsQR(imageData.data, imageData.width, imageData.height);
+      if (result?.data) {
+        // Extract code from URL if needed (e.g. /scan?code=xxx)
+        const match = result.data.match(/[?&]code=([^&]+)/);
+        const scannedCode = match ? match[1] : result.data;
+        stopCamera();
+        setCode(scannedCode);
+        void lookupCode(scannedCode);
+      } else {
+        rafRef.current = requestAnimationFrame(scanFrame);
+      }
+    });
+  }
+
+  async function lookupCode(codeValue: string) {
+    if (!codeValue.trim()) return;
+    setLoading(true);
+    setError("");
+    setClaim(null);
+    setValidated(false);
+    const res = await fetch(`/api/scan?code=${encodeURIComponent(codeValue.trim())}`);
+    const data = await res.json() as ClaimInfo & { error?: string };
+    setLoading(false);
+    if (!res.ok) { setError(data.error ?? t("invalidCode")); return; }
+    setClaim(data);
+  }
 
   async function lookup() {
     if (!code.trim()) return;
@@ -66,7 +135,7 @@ export default function ScanPage() {
         <label className="block text-sm font-medium text-gray-700 mb-2">
           {t("enterCode")}
         </label>
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-3">
           <input
             ref={inputRef}
             value={code}
@@ -80,7 +149,44 @@ export default function ScanPage() {
             {t("check")}
           </button>
         </div>
+
+        {!scanning ? (
+          <button
+            onClick={startCamera}
+            className="w-full flex items-center justify-center gap-2 border border-gray-200 hover:border-orange-400 text-gray-600 hover:text-orange-500 px-4 py-2.5 rounded-lg text-sm font-medium transition"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            {t("scanWithCamera")}
+          </button>
+        ) : (
+          <button
+            onClick={stopCamera}
+            className="w-full text-sm text-gray-500 hover:text-red-500 transition"
+          >
+            {t("closeCamera")}
+          </button>
+        )}
+
+        {cameraError && (
+          <p className="text-xs text-red-500 mt-2">{cameraError}</p>
+        )}
       </div>
+
+      {scanning && (
+        <div className="relative rounded-2xl overflow-hidden border border-gray-200 mb-6 bg-black">
+          <video ref={videoRef} className="w-full rounded-2xl" playsInline muted />
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="w-52 h-52 border-2 border-orange-400 rounded-xl opacity-70" />
+          </div>
+          <p className="absolute bottom-3 left-0 right-0 text-center text-white text-xs opacity-80">
+            {t("pointAtQR")}
+          </p>
+        </div>
+      )}
+      <canvas ref={canvasRef} className="hidden" />
 
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 rounded-xl p-4 mb-4">

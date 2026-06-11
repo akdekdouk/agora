@@ -272,7 +272,10 @@
     "validating": "Validating…",
     "footer": "Only offers from your business can be validated here.",
     "invalidCode": "Invalid code",
-    "failedValidate": "Failed to validate"
+    "failedValidate": "Failed to validate",
+    "scanWithCamera": "Scan with camera",
+    "closeCamera": "Close camera",
+    "pointAtQR": "Point at the QR code"
   },
   "review": {
     "leaveReview": "Leave a review",
