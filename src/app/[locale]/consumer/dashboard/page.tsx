@@ -9,7 +9,7 @@ import MerchantCard from "@/components/MerchantCard";
 import { useTranslations } from "next-intl";
 
 interface Offer {
-  id: string; title: string; description: string; photo?: string | null;
+  id: string; title: string; description: string; photo?: string | null; bannerKey?: string | null;
   discount: number; validFrom: string; validTo: string;
   merchant: { businessName: string; city: string };
 }
@@ -146,7 +146,7 @@ export default function ConsumerDashboardPage() {
                 const claimedOfferIds = new Set(claims.map((c) => c.offer.id));
                 return data.offers.map((offer) => (
                   <OfferCard key={offer.id} id={offer.id} title={offer.title} description={offer.description}
-                    photo={offer.photo} discount={offer.discount} validFrom={offer.validFrom}
+                    photo={offer.photo} bannerKey={offer.bannerKey} discount={offer.discount} validFrom={offer.validFrom}
                     validTo={offer.validTo} merchantName={offer.merchant.businessName}
                     isLoggedIn isSaved showClaim alreadyClaimed={claimedOfferIds.has(offer.id)} />
                 ));

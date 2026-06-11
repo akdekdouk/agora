@@ -49,6 +49,8 @@ export async function POST(request: NextRequest) {
         merchantId: o.merchantId,
         merchantName: o.merchant.businessName,
         merchantCity: o.merchant.city,
+        photo: o.photo,
+        bannerKey: o.bannerKey,
       })),
       products: products.map((p) => ({
         id: p.id,
@@ -60,6 +62,7 @@ export async function POST(request: NextRequest) {
         merchantId: p.merchantId,
         merchantName: p.merchant.businessName,
         merchantCity: p.merchant.city,
+        images: p.images,
       })),
     };
 
