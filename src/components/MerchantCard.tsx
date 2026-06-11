@@ -16,6 +16,13 @@ const categoryColor: Record<string, string> = {
   shop: "bg-blue-100 text-blue-700",
   artisan: "bg-purple-100 text-purple-700",
   restaurant: "bg-green-100 text-green-700",
+  beauty: "bg-pink-100 text-pink-700",
+  hotel: "bg-yellow-100 text-yellow-700",
+  education: "bg-indigo-100 text-indigo-700",
+  health: "bg-teal-100 text-teal-700",
+  sport: "bg-orange-100 text-orange-700",
+  services: "bg-gray-100 text-gray-700",
+  other: "bg-gray-100 text-gray-600",
 };
 
 export default function MerchantCard({ merchant }: { merchant: MerchantData }) {
@@ -26,6 +33,13 @@ export default function MerchantCard({ merchant }: { merchant: MerchantData }) {
     shop: t("shop"),
     artisan: t("artisan"),
     restaurant: t("restaurant"),
+    beauty: t("beauty"),
+    hotel: t("hotel"),
+    education: t("education"),
+    health: t("health"),
+    sport: t("sport"),
+    services: t("services"),
+    other: t("other"),
   };
 
   return (

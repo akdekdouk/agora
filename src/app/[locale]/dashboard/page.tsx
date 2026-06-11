@@ -28,10 +28,12 @@ export default async function DashboardPage() {
     <div className="max-w-5xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-gray-900 mb-1">{t("welcome", { name: merchant.businessName })}</h1>
       <p className="text-gray-500 mb-8">{merchant.city} · {
-        merchant.category === "shop" ? t("category_shop") :
-        merchant.category === "artisan" ? t("category_artisan") :
-        merchant.category === "restaurant" ? t("category_restaurant") :
-        merchant.category
+        ({
+          shop: t("category_shop"), artisan: t("category_artisan"), restaurant: t("category_restaurant"),
+          beauty: t("category_beauty"), hotel: t("category_hotel"), education: t("category_education"),
+          health: t("category_health"), sport: t("category_sport"), services: t("category_services"),
+          other: t("category_other"),
+        } as Record<string, string>)[merchant.category] ?? merchant.category
       }</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">

@@ -41,7 +41,14 @@
     "catShop": "Dükkanlar",
     "catArtisan": "Esnaf",
     "latestProducts": "Yeni ürünler",
-    "viewAllProducts": "Tüm ürünleri gör →"
+    "viewAllProducts": "Tüm ürünleri gör →",
+    "catBeauty": "Güzellik",
+    "catHotel": "Otelcilik",
+    "catEducation": "Eğitim",
+    "catHealth": "Sağlık",
+    "catSport": "Spor",
+    "catServices": "Hizmetler",
+    "catOther": "Diğer"
   },
   "login": {
     "title": "Agora'ya giriş yap",
@@ -75,7 +82,14 @@
     "artisan": "Esnaf",
     "restaurant": "Restoran",
     "registrationFailed": "Kayıt başarısız",
-    "orContinueWith": "Veya şununla devam et"
+    "orContinueWith": "Veya şununla devam et",
+    "beauty": "Güzellik & Sağlık",
+    "hotel": "Otelcilik & Turizm",
+    "education": "Eğitim & Öğretim",
+    "health": "Sağlık & Tıp",
+    "sport": "Spor & Eğlence",
+    "services": "Hizmetler & Oto",
+    "other": "Diğer"
   },
   "forgotPassword": {
     "title": "Şifrenizi sıfırlayın",
@@ -138,7 +152,14 @@
     "confirmDeleteProduct": "Bu ürünü sil?",
     "deleteProduct": "Sil",
     "noProducts": "Henüz ürün yok.",
-    "loading": "Yükleniyor…"
+    "loading": "Yükleniyor…",
+    "category_beauty": "Güzellik & Sağlık",
+    "category_hotel": "Otelcilik & Turizm",
+    "category_education": "Eğitim & Öğretim",
+    "category_health": "Sağlık & Tıp",
+    "category_sport": "Spor & Eğlence",
+    "category_services": "Hizmetler & Oto",
+    "category_other": "Diğer"
   },
   "offerCard": {
     "saveOffer": "Bu fırsatı kaydet",
@@ -165,7 +186,14 @@
     "products": "ürün",
     "shop": "Dükkan",
     "artisan": "Esnaf",
-    "restaurant": "Restoran"
+    "restaurant": "Restoran",
+    "beauty": "Güzellik",
+    "hotel": "Otelcilik",
+    "education": "Eğitim",
+    "health": "Sağlık",
+    "sport": "Spor",
+    "services": "Hizmetler",
+    "other": "Diğer"
   },
   "consumer": {
     "loginTitle": "Müşteri olarak giriş yap",

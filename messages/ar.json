@@ -41,7 +41,14 @@
     "catShop": "متاجر",
     "catArtisan": "حرفيون",
     "latestProducts": "منتجات جديدة",
-    "viewAllProducts": "عرض كل المنتجات →"
+    "viewAllProducts": "عرض كل المنتجات →",
+    "catBeauty": "الجمال",
+    "catHotel": "الفندقة",
+    "catEducation": "التعليم",
+    "catHealth": "الصحة",
+    "catSport": "الرياضة",
+    "catServices": "الخدمات",
+    "catOther": "أخرى"
   },
   "login": {
     "title": "تسجيل الدخول إلى أغورا",
@@ -75,7 +82,14 @@
     "artisan": "حرفي",
     "restaurant": "مطعم",
     "registrationFailed": "فشل التسجيل",
-    "orContinueWith": "أو تابع مع"
+    "orContinueWith": "أو تابع مع",
+    "beauty": "الجمال والعناية",
+    "hotel": "الفندقة والسياحة",
+    "education": "التعليم والتدريب",
+    "health": "الصحة والطب",
+    "sport": "الرياضة والترفيه",
+    "services": "الخدمات والسيارات",
+    "other": "أخرى"
   },
   "forgotPassword": {
     "title": "إعادة تعيين كلمة المرور",
@@ -141,7 +155,14 @@
     "confirmDeleteProduct": "هل تريد حذف هذا المنتج؟",
     "deleteProduct": "حذف",
     "noProducts": "لا توجد منتجات بعد.",
-    "loading": "جارٍ التحميل…"
+    "loading": "جارٍ التحميل…",
+    "category_beauty": "الجمال والعناية",
+    "category_hotel": "الفندقة والسياحة",
+    "category_education": "التعليم والتدريب",
+    "category_health": "الصحة والطب",
+    "category_sport": "الرياضة والترفيه",
+    "category_services": "الخدمات والسيارات",
+    "category_other": "أخرى"
   },
   "offerCard": {
     "saveOffer": "حفظ هذا العرض",
@@ -169,7 +190,14 @@
     "products": "منتجات",
     "shop": "متجر",
     "artisan": "حرفي",
-    "restaurant": "مطعم"
+    "restaurant": "مطعم",
+    "beauty": "الجمال",
+    "hotel": "الفندقة",
+    "education": "التعليم",
+    "health": "الصحة",
+    "sport": "الرياضة",
+    "services": "الخدمات",
+    "other": "أخرى"
   },
   "consumer": {
     "loginTitle": "تسجيل الدخول كعميل",

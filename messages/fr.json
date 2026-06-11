@@ -41,7 +41,14 @@
     "catShop": "Boutiques",
     "catArtisan": "Artisans",
     "latestProducts": "Nouveaux produits",
-    "viewAllProducts": "Voir tous les produits →"
+    "viewAllProducts": "Voir tous les produits →",
+    "catBeauty": "Beauté",
+    "catHotel": "Hôtellerie",
+    "catEducation": "Formation",
+    "catHealth": "Santé",
+    "catSport": "Sport",
+    "catServices": "Services",
+    "catOther": "Autre"
   },
   "login": {
     "title": "Se connecter à Agora",
@@ -75,7 +82,14 @@
     "artisan": "Artisan",
     "restaurant": "Restaurant",
     "registrationFailed": "Échec de l'inscription",
-    "orContinueWith": "Ou continuer avec"
+    "orContinueWith": "Ou continuer avec",
+    "beauty": "Beauté & Bien-être",
+    "hotel": "Hôtellerie & Tourisme",
+    "education": "Éducation & Formation",
+    "health": "Santé & Médical",
+    "sport": "Sport & Loisirs",
+    "services": "Services & Auto",
+    "other": "Autre"
   },
   "forgotPassword": {
     "title": "Réinitialiser votre mot de passe",
@@ -141,7 +155,14 @@
     "confirmDeleteProduct": "Supprimer ce produit ?",
     "deleteProduct": "Supprimer",
     "noProducts": "Aucun produit pour l'instant.",
-    "loading": "Chargement…"
+    "loading": "Chargement…",
+    "category_beauty": "Beauté & Bien-être",
+    "category_hotel": "Hôtellerie & Tourisme",
+    "category_education": "Éducation & Formation",
+    "category_health": "Santé & Médical",
+    "category_sport": "Sport & Loisirs",
+    "category_services": "Services & Auto",
+    "category_other": "Autre"
   },
   "offerCard": {
     "saveOffer": "Sauvegarder cette offre",
@@ -169,7 +190,14 @@
     "products": "produits",
     "shop": "Boutique",
     "artisan": "Artisan",
-    "restaurant": "Restaurant"
+    "restaurant": "Restaurant",
+    "beauty": "Beauté",
+    "hotel": "Hôtellerie",
+    "education": "Formation",
+    "health": "Santé",
+    "sport": "Sport",
+    "services": "Services",
+    "other": "Autre"
   },
   "consumer": {
     "loginTitle": "Se connecter en tant que client",

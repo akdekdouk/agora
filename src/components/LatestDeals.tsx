@@ -31,7 +31,7 @@ interface Props {
   defaultCategory?: string;
 }
 
-const CATEGORIES = ["all", "restaurant", "shop", "artisan"] as const;
+const CATEGORIES = ["all", "restaurant", "shop", "artisan", "beauty", "hotel", "education", "health", "sport", "services", "other"] as const;
 
 export default function LatestDeals({ offers, isConsumerLoggedIn, savedOfferIds, defaultCategory = "all" }: Props) {
   const t = useTranslations("home");

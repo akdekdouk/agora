@@ -54,9 +54,16 @@ export default function RegisterPage() {
               <label className="block text-sm font-medium text-gray-700 mb-1">{t("category")} *</label>
               <select required value={form.category} onChange={set("category")}
                 className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400">
+                <option value="restaurant">{t("restaurant")}</option>
                 <option value="shop">{t("shop")}</option>
                 <option value="artisan">{t("artisan")}</option>
-                <option value="restaurant">{t("restaurant")}</option>
+                <option value="beauty">{t("beauty")}</option>
+                <option value="hotel">{t("hotel")}</option>
+                <option value="education">{t("education")}</option>
+                <option value="health">{t("health")}</option>
+                <option value="sport">{t("sport")}</option>
+                <option value="services">{t("services")}</option>
+                <option value="other">{t("other")}</option>
               </select>
             </div>
             <div>
