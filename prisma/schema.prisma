@@ -74,6 +74,7 @@ model Consumer {
   claims            Claim[]
   productClaims     ProductClaim[]
   reviews           Review[]
+  notifications     Notification[]
 }
 
 model Claim {
@@ -126,6 +127,18 @@ model FollowedMerchant {
   merchantId String
   followedAt DateTime @default(now())
   @@unique([consumerId, merchantId])
+}
+
+model Notification {
+  id         String   @id @default(cuid())
+  consumer   Consumer @relation(fields: [consumerId], references: [id])
+  consumerId String
+  type       String   // "NEW_OFFER" | "EXPIRING_SOON" | "STOCK_LOW"
+  title      String
+  body       String
+  link       String?
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
 }
 
 model ProductClaim {

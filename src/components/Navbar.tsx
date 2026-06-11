@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { Link, useRouter, usePathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import NotificationBell from "@/components/NotificationBell";
 
 interface ConsumerSession {
   user?: { name?: string | null; email?: string | null; consumerId?: string };
@@ -66,6 +67,7 @@ export default function Navbar() {
           {/* Consumer session */}
           {consumerSession?.user?.consumerId ? (
             <div className="flex items-center gap-2 border-l border-gray-200 pl-3">
+              <NotificationBell />
               <Link href="/consumer/dashboard" className="flex items-center gap-1.5 hover:opacity-80 transition">
                 <span className="text-xs bg-orange-100 text-orange-600 font-semibold px-2 py-0.5 rounded-full">
                   👤 {firstWord(consumerSession.user.name) || consumerSession.user.email?.split("@")[0]}
