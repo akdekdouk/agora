@@ -51,11 +51,16 @@ export default function ProductCard({ id, name, description, images, originalPri
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden relative">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-visible relative">
       {firstImage ? (
-        <div className="relative h-40 w-full overflow-hidden bg-gray-100">
+        <div className="group relative h-40 w-full overflow-visible bg-gray-100">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={firstImage} alt={name} className="absolute inset-0 w-full h-full object-cover object-top" />
+          {/* Full-image preview on hover */}
+          <div className="pointer-events-none absolute left-0 top-0 z-50 hidden group-hover:flex w-full justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={firstImage} alt={name} className="max-h-72 w-full object-contain bg-white shadow-xl rounded-b-xl border border-gray-200" />
+          </div>
         </div>
       ) : (
         <div className="h-40 bg-gray-100 flex items-center justify-center text-gray-400 text-4xl">🛍️</div>
