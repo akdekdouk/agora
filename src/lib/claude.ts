@@ -315,24 +315,65 @@ Common how-to:
 Rules:
 - Be concise, friendly and helpful
 - Use the profile data to give personalised answers (e.g. "you have 3 saved offers", "your offer X has 5 claims")
-- When recommending offers, mention merchant name, discount %, and city
-- Format offer recommendations as: **[Title]** (-X%) at *MerchantName* in City
+- When recommending specific offers to a consumer, ALWAYS call the show_offers tool with up to 3 matching offer IDs — never list them as plain text
 - If no matching offers exist, say so honestly
 - For support questions, use the platform knowledge above`;
 
-  const stream = getAnthropic().messages.stream({
+  const offerMap = new Map(context.offers.map(o => [o.id, o]));
+
+  const tools: Anthropic.Tool[] = [
+    {
+      name: "show_offers",
+      description: "Display visual offer cards to the user. Call this whenever you want to recommend specific offers — pass the IDs of the best matching offers (max 3). Always include a short intro message.",
+      input_schema: {
+        type: "object" as const,
+        properties: {
+          offer_ids: {
+            type: "array",
+            items: { type: "string" },
+            description: "IDs of offers to display (max 3)",
+          },
+        },
+        required: ["offer_ids"],
+      },
+    },
+  ];
+
+  // First call — may trigger tool use
+  const response = await getAnthropic().messages.create({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 512,
     system: systemPrompt,
+    tools,
+    tool_choice: { type: "auto" },
     messages,
   });
 
-  for await (const event of stream) {
-    if (
-      event.type === "content_block_delta" &&
-      event.delta.type === "text_delta"
-    ) {
-      yield event.delta.text;
+  // Extract text and tool use blocks
+  let textContent = "";
+  let offersToShow: RecommendationOffer[] = [];
+
+  for (const block of response.content) {
+    if (block.type === "text") {
+      textContent += block.text;
+    } else if (block.type === "tool_use" && block.name === "show_offers") {
+      const input = block.input as { offer_ids: string[] };
+      offersToShow = (input.offer_ids ?? [])
+        .slice(0, 3)
+        .map(id => offerMap.get(id))
+        .filter(Boolean) as RecommendationOffer[];
     }
+  }
+
+  // Yield text character by character for streaming feel
+  if (textContent) {
+    for (const char of textContent) {
+      yield char;
+    }
+  }
+
+  // Yield structured offers as a sentinel at the end
+  if (offersToShow.length > 0) {
+    yield `\n__OFFERS__${JSON.stringify(offersToShow)}__END__`;
   }
 }
