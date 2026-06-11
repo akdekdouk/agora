@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import ProductCard from "@/components/ProductCard";
 
 interface Message {
-  role: "user" | "assistant";
+  role: "user" | "assistant" | "system_notice";
   content: string;
 }
 
@@ -70,11 +70,11 @@ export default function NewProductPage() {
   }, [messages]);
 
   async function startConversation() {
-    const greeting: Message = { role: "user", content: t("initialPrompt") };
+    const greeting = { role: "user" as const, content: t("initialPrompt") };
     await sendMessages([greeting]);
   }
 
-  async function sendMessages(msgs: Message[]) {
+  async function sendMessages(msgs: { role: "user" | "assistant"; content: string }[]) {
     setStreaming(true);
     setMessages((prev) => [...prev, ...msgs]);
 
@@ -86,7 +86,7 @@ export default function NewProductPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: [...messages, ...msgs],
+          messages: [...messages, ...msgs].filter((m) => m.role !== "system_notice"),
           locale,
           merchantName,
         }),
@@ -143,8 +143,10 @@ export default function NewProductPage() {
       if (data.path) {
         const url = data.path;
         setFields((prev) => ({ ...prev, imageUrl: url }));
-        // Include the actual URL so Claude knows the photo is ready and stops asking
-        await sendMessages([{ role: "user", content: `${t("photoUploaded")} ${url}` }]);
+        // Show a neutral status chip in the chat (not a user bubble)
+        setMessages((prev) => [...prev, { role: "system_notice", content: t("photoUploaded") }]);
+        // Send the URL to Claude as a system message so it stops asking
+        await sendMessages([{ role: "user", content: `[SYSTÈME] Photo uploadée par le marchand : ${url}` }]);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : t("uploadError"));
@@ -200,7 +202,18 @@ export default function NewProductPage() {
     <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3">
         {messages.map((msg, i) => {
+          if (msg.role === "system_notice") {
+            return (
+              <div key={i} className="flex justify-center">
+                <span className="bg-green-50 text-green-600 border border-green-200 text-xs px-3 py-1 rounded-full">
+                  📎 {msg.content}
+                </span>
+              </div>
+            );
+          }
           if (msg.role === "user") {
+            // Hide [SYSTÈME] messages from the UI (sent internally to Claude)
+            if (msg.content.startsWith("[SYSTÈME]")) return null;
             return (
               <div key={i} className="flex justify-end">
                 <div className="bg-orange-500 text-white text-sm px-4 py-2 rounded-2xl rounded-tr-sm max-w-[80%]">
