@@ -32,7 +32,12 @@ function LoginForm() {
       if (res.ok) {
         router.push("/consumer/dashboard");
       } else {
-        setError(t("invalidCredentials"));
+        const data = await res.json().catch(() => ({}));
+        if (data.error?.includes("Google") || data.error?.includes("Facebook") || data.error?.includes("social")) {
+          setError("Ce compte utilise la connexion Google ou Facebook. Utilisez le bouton correspondant ci-dessus.");
+        } else {
+          setError(t("invalidCredentials"));
+        }
       }
     } catch {
       setError(t("invalidCredentials"));
