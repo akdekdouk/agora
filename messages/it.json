@@ -272,7 +272,10 @@
     "validating": "Validazione…",
     "footer": "Solo le offerte della tua attività possono essere validate qui.",
     "invalidCode": "Codice non valido",
-    "failedValidate": "Validazione fallita"
+    "failedValidate": "Validazione fallita",
+    "scanWithCamera": "Scansiona con fotocamera",
+    "closeCamera": "Chiudi fotocamera",
+    "pointAtQR": "Punta al codice QR"
   },
   "review": {
     "leaveReview": "Lascia una recensione",

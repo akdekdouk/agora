@@ -272,7 +272,10 @@
     "validating": "Validation…",
     "footer": "Seules les offres de votre commerce peuvent être validées ici.",
     "invalidCode": "Code invalide",
-    "failedValidate": "Échec de la validation"
+    "failedValidate": "Échec de la validation",
+    "scanWithCamera": "Scanner avec la caméra",
+    "closeCamera": "Fermer la caméra",
+    "pointAtQR": "Pointez vers le QR code"
   },
   "review": {
     "leaveReview": "Laisser un avis",

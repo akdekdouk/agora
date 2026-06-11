@@ -272,7 +272,10 @@
     "validating": "جارٍ التحقق…",
     "footer": "يمكن التحقق فقط من عروض نشاطك التجاري هنا.",
     "invalidCode": "رمز غير صالح",
-    "failedValidate": "فشل التحقق"
+    "failedValidate": "فشل التحقق",
+    "scanWithCamera": "المسح بالكاميرا",
+    "closeCamera": "إغلاق الكاميرا",
+    "pointAtQR": "وجّه الكاميرا نحو رمز QR"
   },
   "review": {
     "leaveReview": "اترك تقييماً",

@@ -268,7 +268,10 @@
     "validating": "Doğrulanıyor…",
     "footer": "Burada yalnızca işletmenize ait fırsatlar doğrulanabilir.",
     "invalidCode": "Geçersiz kod",
-    "failedValidate": "Doğrulama başarısız"
+    "failedValidate": "Doğrulama başarısız",
+    "scanWithCamera": "Kamerayla tara",
+    "closeCamera": "Kamerayı kapat",
+    "pointAtQR": "QR koda doğrult"
   },
   "review": {
     "leaveReview": "Yorum bırak",
