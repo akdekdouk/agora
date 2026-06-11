@@ -31,6 +31,8 @@ export default function AiChat() {
   const [listening, setListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
   const [micError, setMicError] = useState("");
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const [pos, setPos] = useState({ bottom: 24, right: 24 });
   const dragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0, bottom: 24, right: 24 });
@@ -48,6 +50,13 @@ export default function AiChat() {
       typeof window !== "undefined" &&
       ("SpeechRecognition" in window || "webkitSpeechRecognition" in window)
     );
+  }, []);
+
+  useEffect(() => {
+    const interacted = localStorage.getItem("agora_chat_interacted");
+    if (interacted) { setHasInteracted(true); return; }
+    const timer = setTimeout(() => setShowTooltip(true), 3000);
+    return () => clearTimeout(timer);
   }, []);
 
   function toggleVoice() {
@@ -149,22 +158,55 @@ export default function AiChat() {
   function onPointerUp(e: React.PointerEvent) {
     dragging.current = false;
     (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
-    if (!hasDragged.current) setOpen((v) => !v);
+    if (!hasDragged.current) {
+      setOpen((v) => !v);
+      setShowTooltip(false);
+      if (!hasInteracted) {
+        setHasInteracted(true);
+        localStorage.setItem("agora_chat_interacted", "1");
+      }
+    }
   }
 
   return (
     <>
       {/* Floating button — draggable */}
-      <button
-        onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        className="fixed z-50 w-14 h-14 text-white rounded-full shadow-lg flex items-center justify-center text-2xl hover:opacity-90 select-none touch-none"
-        style={{ backgroundColor: "var(--color-primary)", bottom: pos.bottom, right: pos.right, cursor: dragging.current ? "grabbing" : "grab" }}
-        aria-label="AI Assistant"
-      >
-        {open ? "✕" : "✨"}
-      </button>
+      <div className="fixed z-50 select-none touch-none" style={{ bottom: pos.bottom, right: pos.right }}>
+        {/* Tooltip — shown after 3s on first visit */}
+        {showTooltip && !open && (
+          <div className="absolute bottom-16 right-0 w-52 bg-gray-900 text-white text-xs rounded-2xl px-3 py-2.5 shadow-xl pointer-events-none"
+            style={{ animation: "fadeInUp 0.3s ease" }}>
+            <p className="font-semibold mb-0.5">✨ Votre assistant Agora</p>
+            <p className="text-white/70">Demandez-moi une offre, un commerce, une idée…</p>
+            <div className="absolute bottom-[-6px] right-5 w-3 h-3 bg-gray-900 rotate-45" />
+          </div>
+        )}
+
+        {/* Pulse ring — only before first interaction */}
+        {!hasInteracted && !open && (
+          <span className="absolute inset-0 rounded-full animate-ping opacity-40"
+            style={{ backgroundColor: "var(--color-primary)" }} />
+        )}
+
+        <button
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          className="relative w-16 h-16 text-white rounded-full flex items-center justify-center text-2xl hover:scale-110 transition-transform"
+          style={{
+            background: open
+              ? "var(--color-primary)"
+              : "linear-gradient(135deg, var(--color-primary), var(--color-primary-hover, #ea580c))",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
+            cursor: dragging.current ? "grabbing" : "grab",
+          }}
+          aria-label="AI Assistant"
+        >
+          <span style={{ fontSize: open ? "18px" : "26px", transition: "font-size 0.2s" }}>
+            {open ? "✕" : "✨"}
+          </span>
+        </button>
+      </div>
 
       {/* Chat panel */}
       {open && (
