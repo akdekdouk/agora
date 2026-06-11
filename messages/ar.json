@@ -48,7 +48,10 @@
     "catHealth": "الصحة",
     "catSport": "الرياضة",
     "catServices": "الخدمات",
-    "catOther": "أخرى"
+    "catOther": "أخرى",
+    "customize": "تخصيص",
+    "visibleCategories": "الفئات المرئية",
+    "loginToSavePrefs": "سجّل الدخول لحفظ تفضيلاتك"
   },
   "login": {
     "title": "تسجيل الدخول إلى أغورا",
