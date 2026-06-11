@@ -182,7 +182,7 @@ export default function NewProductPage() {
           category: fields.category ?? null,
           originalPrice: fields.originalPrice,
           discountedPrice: fields.discountedPrice,
-          images: serverImageUrl ? JSON.stringify([serverImageUrl]) : "[]",
+          images: serverImageUrl ? [serverImageUrl] : [],
         }),
       });
       if (!res.ok) {
