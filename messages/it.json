@@ -7,7 +7,8 @@
     "signOut": "Esci",
     "merchantAccess": "Accesso commerciante",
     "signIn": "Accedi",
-    "scanValidate": "Scansiona e Valida"
+    "scanValidate": "Scansiona e Valida",
+    "map": "Mappa"
   },
   "aiChat": {
     "title": "Assistente Agora",
@@ -360,5 +361,9 @@
     "uploadPhoto": "Carica una foto",
     "photoUploaded": "Ho caricato la foto.",
     "uploadError": "Caricamento fallito, riprova."
+  },
+  "map": {
+    "title": "Mappa dei commercianti",
+    "subtitle": "Attività con offerte attive vicino a te"
   }
 }
