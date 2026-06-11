@@ -10,33 +10,10 @@ interface Message {
 
 declare global {
   interface Window {
-    SpeechRecognition: new () => SpeechRecognition;
-    webkitSpeechRecognition: new () => SpeechRecognition;
-  }
-  interface SpeechRecognition extends EventTarget {
-    lang: string;
-    continuous: boolean;
-    interimResults: boolean;
-    onresult: ((e: SpeechRecognitionEvent) => void) | null;
-    onerror: (() => void) | null;
-    onend: (() => void) | null;
-    start(): void;
-    stop(): void;
-  }
-  interface SpeechRecognitionEvent extends Event {
-    results: SpeechRecognitionResultList;
-  }
-  interface SpeechRecognitionResultList {
-    readonly length: number;
-    [index: number]: SpeechRecognitionResult;
-  }
-  interface SpeechRecognitionResult {
-    readonly length: number;
-    [index: number]: SpeechRecognitionAlternative;
-    isFinal: boolean;
-  }
-  interface SpeechRecognitionAlternative {
-    transcript: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    SpeechRecognition: any;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    webkitSpeechRecognition: any;
   }
 }
 
@@ -54,7 +31,8 @@ export default function AiChat() {
   const [listening, setListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -78,7 +56,8 @@ export default function AiChat() {
     recognition.lang = LOCALE_LANG[locale] ?? "fr-FR";
     recognition.continuous = false;
     recognition.interimResults = false;
-    recognition.onresult = (e) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    recognition.onresult = (e: any) => {
       const transcript = e.results[0][0].transcript;
       setInput(transcript);
       setListening(false);
