@@ -112,14 +112,14 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
-      {/* Config link */}
+      {/* Profile link */}
       <div className="mt-6 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">⚙️ Configuration générale</h2>
-          <p className="text-sm text-gray-500 mt-1">Catégories actives, thème, police</p>
+          <h2 className="text-lg font-semibold text-gray-900">👤 Informations personnelles</h2>
+          <p className="text-sm text-gray-500 mt-1">Nom, activité, adresse, téléphone…</p>
         </div>
-        <Link href="/dashboard/config" className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition">
-          Configurer →
+        <Link href="/dashboard/profile" className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-200 transition">
+          Modifier →
         </Link>
       </div>
 
