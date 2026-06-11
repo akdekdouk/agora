@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
@@ -54,8 +53,9 @@ export default function ProductCard({ id, name, description, images, originalPri
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden relative">
       {firstImage ? (
-        <div className="relative h-40 w-full">
-          <Image src={firstImage} alt={name} fill className="object-cover" />
+        <div className="h-40 w-full overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={firstImage} alt={name} className="w-full h-full object-cover" />
         </div>
       ) : (
         <div className="h-40 bg-gray-100 flex items-center justify-center text-gray-400 text-4xl">🛍️</div>
