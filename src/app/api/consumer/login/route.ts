@@ -15,6 +15,10 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
   }
 
+  if (!consumer.password) {
+    return NextResponse.json({ error: "This account uses Google or Facebook sign-in. Please use the social login button." }, { status: 401 });
+  }
+
   const valid = await bcrypt.compare(password, consumer.password);
   if (!valid) {
     return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
