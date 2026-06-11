@@ -31,6 +31,10 @@ export default function AiChat() {
   const [listening, setListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
   const [micError, setMicError] = useState("");
+  const [pos, setPos] = useState({ bottom: 24, right: 24 });
+  const dragging = useRef(false);
+  const dragStart = useRef({ x: 0, y: 0, bottom: 24, right: 24 });
+  const hasDragged = useRef(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recognitionRef = useRef<any>(null);
@@ -125,13 +129,38 @@ export default function AiChat() {
     await sendMessage(input);
   }
 
+  function onPointerDown(e: React.PointerEvent) {
+    dragging.current = true;
+    hasDragged.current = false;
+    dragStart.current = { x: e.clientX, y: e.clientY, bottom: pos.bottom, right: pos.right };
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  }
+
+  function onPointerMove(e: React.PointerEvent) {
+    if (!dragging.current) return;
+    const dx = e.clientX - dragStart.current.x;
+    const dy = e.clientY - dragStart.current.y;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) hasDragged.current = true;
+    const newRight = Math.max(8, Math.min(window.innerWidth - 64, dragStart.current.right - dx));
+    const newBottom = Math.max(8, Math.min(window.innerHeight - 64, dragStart.current.bottom - dy));
+    setPos({ right: newRight, bottom: newBottom });
+  }
+
+  function onPointerUp(e: React.PointerEvent) {
+    dragging.current = false;
+    (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+    if (!hasDragged.current) setOpen((v) => !v);
+  }
+
   return (
     <>
-      {/* Floating button */}
+      {/* Floating button — draggable */}
       <button
-        onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 text-white rounded-full shadow-lg flex items-center justify-center text-2xl transition hover:opacity-90"
-        style={{ backgroundColor: "var(--color-primary)" }}
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        className="fixed z-50 w-14 h-14 text-white rounded-full shadow-lg flex items-center justify-center text-2xl hover:opacity-90 select-none touch-none"
+        style={{ backgroundColor: "var(--color-primary)", bottom: pos.bottom, right: pos.right, cursor: dragging.current ? "grabbing" : "grab" }}
         aria-label="AI Assistant"
       >
         {open ? "✕" : "✨"}
@@ -140,8 +169,8 @@ export default function AiChat() {
       {/* Chat panel */}
       {open && (
         <div
-          className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden"
-          style={{ maxHeight: "70vh" }}
+          className="fixed z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden"
+          style={{ maxHeight: "70vh", bottom: pos.bottom + 64, right: pos.right }}
         >
           {/* Header */}
           <div
