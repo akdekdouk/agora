@@ -130,7 +130,11 @@
     "viewPublicProfile": "Herkese açık profilinizi görün →",
     "bannerSection": "Tanıtım Afişi",
     "bannerNone": "Afiş yok",
-    "bannerSelected": "Seçilen afiş"
+    "bannerSelected": "Seçilen afiş",
+    "confirmDeleteProduct": "Bu ürünü sil?",
+    "deleteProduct": "Sil",
+    "noProducts": "Henüz ürün yok.",
+    "loading": "Yükleniyor…"
   },
   "offerCard": {
     "saveOffer": "Bu fırsatı kaydet",

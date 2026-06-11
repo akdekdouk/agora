@@ -36,14 +36,15 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const ext = file.name.split(".").pop() ?? "jpg";
+    const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
     const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    const uploadsDir = path.join(process.cwd(), "public", "uploads");
+    // Use /tmp/uploads — writable at runtime on any platform including Railway
+    const uploadsDir = path.join("/tmp", "uploads");
 
     await mkdir(uploadsDir, { recursive: true });
     await writeFile(path.join(uploadsDir, filename), buffer);
 
-    const filePath = `/uploads/${filename}`;
+    const filePath = `/api/uploads/${filename}`;
     return NextResponse.json({ path: filePath });
   } catch (error) {
     console.error("Error uploading file:", error);
