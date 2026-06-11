@@ -133,7 +133,11 @@
     "bannerSelected": "Selected banner",
     "category_shop": "Shop",
     "category_artisan": "Artisan",
-    "category_restaurant": "Restaurant"
+    "category_restaurant": "Restaurant",
+    "confirmDeleteProduct": "Delete this product?",
+    "deleteProduct": "Delete",
+    "noProducts": "No products yet.",
+    "loading": "Loading…"
   },
   "offerCard": {
     "saveOffer": "Save this offer",

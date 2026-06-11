@@ -133,7 +133,11 @@
     "bannerSelected": "Bannière sélectionnée",
     "category_shop": "Boutique",
     "category_artisan": "Artisan",
-    "category_restaurant": "Restaurant"
+    "category_restaurant": "Restaurant",
+    "confirmDeleteProduct": "Supprimer ce produit ?",
+    "deleteProduct": "Supprimer",
+    "noProducts": "Aucun produit pour l'instant.",
+    "loading": "Chargement…"
   },
   "offerCard": {
     "saveOffer": "Sauvegarder cette offre",

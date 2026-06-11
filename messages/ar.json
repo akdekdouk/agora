@@ -133,7 +133,11 @@
     "bannerSelected": "اللافتة المختارة",
     "category_shop": "متجر",
     "category_artisan": "حرفي",
-    "category_restaurant": "مطعم"
+    "category_restaurant": "مطعم",
+    "confirmDeleteProduct": "هل تريد حذف هذا المنتج؟",
+    "deleteProduct": "حذف",
+    "noProducts": "لا توجد منتجات بعد.",
+    "loading": "جارٍ التحميل…"
   },
   "offerCard": {
     "saveOffer": "حفظ هذا العرض",

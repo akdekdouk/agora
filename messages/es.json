@@ -130,7 +130,11 @@
     "viewPublicProfile": "Ver tu perfil público →",
     "bannerSection": "Banner promocional",
     "bannerNone": "Sin banner",
-    "bannerSelected": "Banner seleccionado"
+    "bannerSelected": "Banner seleccionado",
+    "confirmDeleteProduct": "¿Eliminar este producto?",
+    "deleteProduct": "Eliminar",
+    "noProducts": "Aún no hay productos.",
+    "loading": "Cargando…"
   },
   "offerCard": {
     "saveOffer": "Guardar esta oferta",
