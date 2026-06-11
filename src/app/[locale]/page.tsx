@@ -127,10 +127,19 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="text-white py-20 px-4" style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-hover, #ea580c))" }}>
+      <section className="text-white py-16 px-4" style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-hover, #ea580c))" }}>
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{t("heroTitle")}</h1>
-          <p className="text-white/80 text-lg">{t("heroSubtitle")}</p>
+          <p className="text-white/80 text-lg mb-8">{t("heroSubtitle")}</p>
+          <Link
+            href="/map"
+            className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 border border-white/40 text-white font-medium px-6 py-3 rounded-xl transition backdrop-blur-sm"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            </svg>
+            {t("exploreMap")}
+          </Link>
         </div>
       </section>
 

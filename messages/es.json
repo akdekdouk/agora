@@ -24,7 +24,8 @@
   },
   "home": {
     "heroTitle": "Descubre Descuentos Locales",
-    "heroSubtitle": "Encuentra las mejores ofertas de tiendas, artesanos y restaurantes cerca de ti",
+    "heroSubtitle": "Encuentra las mejores ofertas de tiendas, artesanos y restaurantes cerca de ti",,
+    "exploreMap": "Explorar el mapa"
     "latestDeals": "Últimas Ofertas",
     "featuredMerchants": "Comerciantes Destacados",
     "viewAll": "Ver todos →",
