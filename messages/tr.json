@@ -39,7 +39,9 @@
     "catAll": "Tümü",
     "catRestaurant": "Restoranlar",
     "catShop": "Dükkanlar",
-    "catArtisan": "Esnaf"
+    "catArtisan": "Esnaf",
+    "latestProducts": "Yeni ürünler",
+    "viewAllProducts": "Tüm ürünleri gör →"
   },
   "login": {
     "title": "Agora'ya giriş yap",
@@ -52,7 +54,8 @@
     "registerLink": "İşletmenizi kaydedin",
     "invalidCredentials": "Geçersiz e-posta veya şifre. Lütfen bilgilerinizi kontrol edin.",
     "accountCreated": "Hesap oluşturuldu! Lütfen e-posta ve şifrenizle giriş yapın.",
-    "passwordUpdated": "Şifre güncellendi! Lütfen yeni şifrenizle giriş yapın."
+    "passwordUpdated": "Şifre güncellendi! Lütfen yeni şifrenizle giriş yapın.",
+    "orContinueWith": "Veya şununla devam et"
   },
   "register": {
     "title": "İşletmenizi kaydedin",
@@ -71,7 +74,8 @@
     "shop": "Dükkan",
     "artisan": "Esnaf",
     "restaurant": "Restoran",
-    "registrationFailed": "Kayıt başarısız"
+    "registrationFailed": "Kayıt başarısız",
+    "orContinueWith": "Veya şununla devam et"
   },
   "forgotPassword": {
     "title": "Şifrenizi sıfırlayın",

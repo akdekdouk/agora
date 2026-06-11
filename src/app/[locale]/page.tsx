@@ -5,6 +5,7 @@ import SearchBar from "@/components/SearchBar";
 import LatestDeals from "@/components/LatestDeals";
 import AiRecommendations from "@/components/AiRecommendations";
 import AiChat from "@/components/AiChat";
+import ProductCard from "@/components/ProductCard";
 import { getTranslations } from "next-intl/server";
 import { getConsumerSession } from "@/lib/auth-consumer";
 
@@ -34,6 +35,23 @@ async function getLatestOffers() {
   });
 }
 
+async function getLatestProducts() {
+  return prisma.product.findMany({
+    orderBy: { createdAt: "desc" },
+    take: 8,
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      images: true,
+      originalPrice: true,
+      discountedPrice: true,
+      category: true,
+      merchant: { select: { businessName: true, city: true } },
+    },
+  });
+}
+
 async function getFeaturedMerchants() {
   return prisma.user.findMany({
     take: 6,
@@ -51,8 +69,9 @@ async function getFeaturedMerchants() {
 }
 
 export default async function HomePage() {
-  const [offers, merchants, t, consumerSession] = await Promise.all([
+  const [offers, products, merchants, t, consumerSession] = await Promise.all([
     getLatestOffers(),
+    getLatestProducts(),
     getFeaturedMerchants(),
     getTranslations("home"),
     getConsumerSession(),
@@ -114,6 +133,34 @@ export default async function HomePage() {
           defaultCategory={consumerInterests.length === 1 ? consumerInterests[0] : "all"}
         />
       </section>
+
+      {/* Latest Products */}
+      {products.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 py-12">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">{t("latestProducts")}</h2>
+            <Link href="/search?type=products" className="text-orange-500 hover:text-orange-600 font-medium">
+              {t("viewAllProducts")}
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {products.map((p) => (
+              <ProductCard
+                key={p.id}
+                id={p.id}
+                name={p.name}
+                description={p.description}
+                images={p.images}
+                originalPrice={p.originalPrice}
+                discountedPrice={p.discountedPrice}
+                category={p.category}
+                merchantName={p.merchant.businessName}
+                merchantCity={p.merchant.city}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Featured Merchants */}
       <section className="bg-gray-50 py-12 px-4">
