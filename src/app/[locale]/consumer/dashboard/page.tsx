@@ -7,6 +7,7 @@ import OfferCard from "@/components/OfferCard";
 import ProductCard from "@/components/ProductCard";
 import MerchantCard from "@/components/MerchantCard";
 import { useTranslations } from "next-intl";
+import { getBannerUrl } from "@/lib/banners";
 
 interface Offer {
   id: string; title: string; description: string; photo?: string | null; bannerKey?: string | null;
@@ -23,7 +24,7 @@ interface Merchant {
 }
 interface Claim {
   id: string; status: string; claimedAt: string; usedAt?: string;
-  offer: { id: string; title: string; discount: number; validTo: string; merchant: { businessName: string } };
+  offer: { id: string; title: string; discount: number; validTo: string; photo?: string | null; bannerKey?: string | null; merchant: { businessName: string } };
 }
 
 export default function ConsumerDashboardPage() {
@@ -92,11 +93,13 @@ export default function ConsumerDashboardPage() {
                 return (
                   <div key={claim.id} className="relative">
                     <Link href={`/claim/${claim.id}`}>
-                      <div className={`bg-white rounded-xl border shadow-sm p-4 hover:shadow-md transition cursor-pointer ${
+                      <div className={`bg-white rounded-xl border shadow-sm overflow-hidden hover:shadow-md transition cursor-pointer ${
                         claim.status === "used" ? "opacity-60 border-gray-100" :
                         expired ? "border-red-100 bg-red-50" :
                         "border-orange-100"
                       }`}>
+                        {(() => { const img = claim.offer.bannerKey ? getBannerUrl(claim.offer.bannerKey) : claim.offer.photo ?? null; return img ? <div className="relative h-32 w-full overflow-hidden bg-gray-100"><img src={img} alt={claim.offer.title} className="absolute inset-0 w-full h-full object-cover object-top" /></div> : null; })()}
+                        <div className="p-4">
                         <div className="flex items-start justify-between gap-2">
                           <h3 className="font-semibold text-gray-900 text-sm">{claim.offer.title}</h3>
                           <span className="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shrink-0">
@@ -116,6 +119,7 @@ export default function ConsumerDashboardPage() {
                             {claim.status === "used" ? tClaim("used") : expired ? tClaim("expired") : tClaim("valid")}
                           </span>
                           <span className="text-xs text-gray-400">{tClaim("showQR")} →</span>
+                        </div>
                         </div>
                       </div>
                     </Link>
