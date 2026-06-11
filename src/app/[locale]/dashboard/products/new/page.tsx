@@ -51,6 +51,7 @@ export default function NewProductPage() {
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [fields, setFields] = useState<ProductFields>({});
+  const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null); // local blob URL for preview
   const [publishing, setPublishing] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
@@ -134,6 +135,15 @@ export default function NewProductPage() {
   async function handleFileUpload(file: File) {
     setUploading(true);
     setError("");
+
+    // Create a local blob URL immediately for the preview — no server needed
+    const blobUrl = URL.createObjectURL(file);
+    setPreviewImageUrl(blobUrl);
+    setFields((prev) => ({ ...prev, imageUrl: blobUrl })); // mark photo as provided
+
+    // Show status chip right away
+    setMessages((prev) => [...prev, { role: "system_notice", content: t("photoUploaded") }]);
+
     const form = new FormData();
     form.append("file", file);
     try {
@@ -141,12 +151,11 @@ export default function NewProductPage() {
       const data = await res.json() as { path?: string; error?: string };
       if (!res.ok) throw new Error(data.error ?? t("uploadError"));
       if (data.path) {
-        const url = data.path;
-        setFields((prev) => ({ ...prev, imageUrl: url }));
-        // Show a neutral status chip in the chat (not a user bubble)
-        setMessages((prev) => [...prev, { role: "system_notice", content: t("photoUploaded") }]);
-        // Send the URL to Claude as a system message so it stops asking
-        await sendMessages([{ role: "user", content: `[SYSTÈME] Photo uploadée par le marchand : ${url}` }]);
+        // Replace blob URL with server URL for database storage
+        setFields((prev) => ({ ...prev, imageUrl: data.path }));
+        setPreviewImageUrl(data.path!);
+        // Inform Claude so it can confirm and move on
+        await sendMessages([{ role: "user", content: `[SYSTÈME] Photo uploadée par le marchand : ${data.path}` }]);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : t("uploadError"));
@@ -286,7 +295,7 @@ export default function NewProductPage() {
         <ProductCard
           name={fields.name!}
           description={fields.description!}
-          images={fields.imageUrl ? JSON.stringify([fields.imageUrl]) : "[]"}
+          images={previewImageUrl ? JSON.stringify([previewImageUrl]) : "[]"}
           originalPrice={fields.originalPrice!}
           discountedPrice={fields.discountedPrice!}
           category={fields.category}
