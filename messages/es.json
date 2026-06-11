@@ -7,7 +7,8 @@
     "signOut": "Cerrar sesión",
     "merchantAccess": "Acceso comerciante",
     "signIn": "Iniciar sesión",
-    "scanValidate": "Escanear y Validar"
+    "scanValidate": "Escanear y Validar",
+    "map": "Mapa"
   },
   "aiChat": {
     "title": "Asistente Agora",
@@ -356,5 +357,9 @@
     "uploadPhoto": "Subir una foto",
     "photoUploaded": "He subido la foto.",
     "uploadError": "Error al subir, por favor inténtalo de nuevo."
+  },
+  "map": {
+    "title": "Mapa de comercios",
+    "subtitle": "Negocios con ofertas activas cerca de ti"
   }
 }

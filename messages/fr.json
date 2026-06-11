@@ -7,7 +7,8 @@
     "signOut": "Se déconnecter",
     "merchantAccess": "Accès marchand",
     "signIn": "Se connecter",
-    "scanValidate": "Scanner & Valider"
+    "scanValidate": "Scanner & Valider",
+    "map": "Carte"
   },
   "aiChat": {
     "title": "Assistant Agora",
@@ -360,5 +361,9 @@
     "uploadPhoto": "Télécharger une photo",
     "photoUploaded": "J'ai téléchargé la photo.",
     "uploadError": "Échec du téléchargement, veuillez réessayer."
+  },
+  "map": {
+    "title": "Carte des commerces",
+    "subtitle": "Commerces avec offres actives près de vous"
   }
 }

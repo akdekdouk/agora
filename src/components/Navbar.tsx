@@ -110,6 +110,9 @@ export default function Navbar() {
           <Link href="/merchants" className="text-gray-600 font-medium hidden sm:block text-sm hover:opacity-80 transition">
             {t("merchants")}
           </Link>
+          <Link href="/map" className="text-gray-600 font-medium hidden sm:block text-sm hover:opacity-80 transition">
+            {t("map")}
+          </Link>
 
           {/* Consumer session */}
           {consumerSession?.user?.consumerId ? (

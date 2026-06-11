@@ -13,9 +13,12 @@ model User {
   password     String?
   businessName String
   description  String?
-  category     String    // "shop" | "artisan" | "restaurant"
+  category     String    // "shop" | "artisan" | "restaurant" | ...
   city         String
   address      String?
+  exactAddress String?   // full address as typed/reverse-geocoded
+  lat          Float?    // GPS latitude
+  lng          Float?    // GPS longitude
   phone        String?
   logo         String?
   createdAt    DateTime  @default(now())

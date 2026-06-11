@@ -7,7 +7,8 @@
     "signOut": "Çıkış yap",
     "merchantAccess": "Esnaf girişi",
     "signIn": "Giriş yap",
-    "scanValidate": "Tara & Doğrula"
+    "scanValidate": "Tara & Doğrula",
+    "map": "Harita"
   },
   "aiChat": {
     "title": "Agora Asistanı",
@@ -356,5 +357,9 @@
     "uploadPhoto": "Fotoğraf yükle",
     "photoUploaded": "Fotoğrafı yükledim.",
     "uploadError": "Yükleme başarısız, lütfen tekrar deneyin."
+  },
+  "map": {
+    "title": "İşyerleri Haritası",
+    "subtitle": "Yakınındaki aktif teklifli işyerleri"
   }
 }

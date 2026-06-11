@@ -7,7 +7,8 @@
     "signOut": "Sign out",
     "merchantAccess": "Merchant access",
     "signIn": "Sign in",
-    "scanValidate": "Scan & Validate"
+    "scanValidate": "Scan & Validate",
+    "map": "Map"
   },
   "aiChat": {
     "title": "Agora Assistant",
@@ -360,5 +361,9 @@
     "uploadPhoto": "Upload a photo",
     "photoUploaded": "I've uploaded the photo.",
     "uploadError": "Upload failed, please try again."
+  },
+  "map": {
+    "title": "Merchants Map",
+    "subtitle": "Businesses with active offers near you"
   }
 }

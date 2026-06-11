@@ -98,6 +98,20 @@ export default async function DashboardPage() {
         </Link>
       </div>
 
+      {/* Location link */}
+      <div className="mt-6 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-semibold text-gray-900">📍 Mon emplacement sur la carte</h2>
+          <p className="text-sm text-gray-500 mt-1">
+            {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+            Définissez votre position exacte pour apparaître sur la carte publique
+          </p>
+        </div>
+        <Link href="/dashboard/location" className="bg-blue-50 text-blue-700 px-4 py-2 rounded-lg font-medium hover:bg-blue-100 transition">
+          Configurer →
+        </Link>
+      </div>
+
       {/* Config link */}
       <div className="mt-6 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex items-center justify-between">
         <div>
