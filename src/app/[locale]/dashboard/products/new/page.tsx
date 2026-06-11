@@ -36,8 +36,8 @@ function stripFieldsJson(text: string): string {
   return text.replace(/\n?FIELDS_JSON:\{[^}]*\}/g, "").trim();
 }
 
-function isComplete(f: ProductFields): boolean {
-  return !!(f.name && f.description && f.originalPrice && f.discountedPrice && f.imageUrl);
+function isComplete(f: ProductFields, serverImg: string | null): boolean {
+  return !!(f.name && f.description && f.originalPrice && f.discountedPrice && serverImg);
 }
 
 export default function NewProductPage() {
@@ -52,6 +52,7 @@ export default function NewProductPage() {
   const [streaming, setStreaming] = useState(false);
   const [fields, setFields] = useState<ProductFields>({});
   const [previewImageUrl, setPreviewImageUrl] = useState<string | null>(null); // local blob URL for preview
+  const [serverImageUrl, setServerImageUrl] = useState<string | null>(null); // confirmed server URL for DB
   const [publishing, setPublishing] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
@@ -136,12 +137,13 @@ export default function NewProductPage() {
     setUploading(true);
     setError("");
 
-    // Create a local blob URL immediately for the preview — no server needed
+    // Show local blob preview immediately — no server wait
     const blobUrl = URL.createObjectURL(file);
     setPreviewImageUrl(blobUrl);
-    setFields((prev) => ({ ...prev, imageUrl: blobUrl })); // mark photo as provided
+    // Mark photo as "pending" so checklist turns green but publish stays blocked
+    setFields((prev) => ({ ...prev, imageUrl: "__uploading__" }));
 
-    // Show status chip right away
+    // Show status chip
     setMessages((prev) => [...prev, { role: "system_notice", content: t("photoUploaded") }]);
 
     const form = new FormData();
@@ -151,13 +153,15 @@ export default function NewProductPage() {
       const data = await res.json() as { path?: string; error?: string };
       if (!res.ok) throw new Error(data.error ?? t("uploadError"));
       if (data.path) {
-        // Replace blob URL with server URL for database storage
+        // Store confirmed server URL — required for publish
+        setServerImageUrl(data.path);
         setFields((prev) => ({ ...prev, imageUrl: data.path }));
-        setPreviewImageUrl(data.path!);
-        // Inform Claude so it can confirm and move on
         await sendMessages([{ role: "user", content: `[SYSTÈME] Photo uploadée par le marchand : ${data.path}` }]);
       }
     } catch (err) {
+      // Reset on failure
+      setPreviewImageUrl(null);
+      setFields((prev) => ({ ...prev, imageUrl: undefined }));
       setError(err instanceof Error ? err.message : t("uploadError"));
     } finally {
       setUploading(false);
@@ -165,7 +169,7 @@ export default function NewProductPage() {
   }
 
   async function handlePublish() {
-    if (!isComplete(fields)) return;
+    if (!isComplete(fields, serverImageUrl)) return;
     setPublishing(true);
     setError("");
     try {
@@ -178,7 +182,7 @@ export default function NewProductPage() {
           category: fields.category ?? null,
           originalPrice: fields.originalPrice,
           discountedPrice: fields.discountedPrice,
-          images: fields.imageUrl ? JSON.stringify([fields.imageUrl]) : "[]",
+          images: serverImageUrl ? JSON.stringify([serverImageUrl]) : "[]",
         }),
       });
       if (!res.ok) {
@@ -194,7 +198,7 @@ export default function NewProductPage() {
     }
   }
 
-  const ready = isComplete(fields);
+  const ready = isComplete(fields, serverImageUrl);
 
   // ── Checklist used in both panels ──────────────────────────────────────────
   const checklistItems = [

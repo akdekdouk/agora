@@ -53,9 +53,9 @@ export default function ProductCard({ id, name, description, images, originalPri
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden relative">
       {firstImage ? (
-        <div className="h-40 w-full overflow-hidden">
+        <div className="h-40 w-full overflow-hidden bg-gray-100">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={firstImage} alt={name} className="w-full h-full object-cover" />
+          <img src={firstImage} alt={name} className="w-full h-full object-cover block" />
         </div>
       ) : (
         <div className="h-40 bg-gray-100 flex items-center justify-center text-gray-400 text-4xl">🛍️</div>
