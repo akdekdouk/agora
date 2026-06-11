@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
 import { getServerSession } from "@/lib/auth";
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -25,32 +30,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
-      return NextResponse.json(
-        { error: "File too large. Max 5MB." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "File too large. Max 5MB." }, { status: 400 });
     }
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    const ext = file.name.split(".").pop()?.toLowerCase() ?? "jpg";
-    const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-    // Use /tmp/uploads — writable at runtime on any platform including Railway
-    const uploadsDir = path.join("/tmp", "uploads");
+    // Upload to Cloudinary — permanent cloud storage, survives restarts/redeploys
+    const result = await new Promise<{ secure_url: string }>((resolve, reject) => {
+      cloudinary.uploader.upload_stream(
+        { folder: "agora/products", resource_type: "image" },
+        (error, result) => {
+          if (error || !result) reject(error ?? new Error("Upload failed"));
+          else resolve(result as { secure_url: string });
+        }
+      ).end(buffer);
+    });
 
-    await mkdir(uploadsDir, { recursive: true });
-    await writeFile(path.join(uploadsDir, filename), buffer);
-
-    const filePath = `/api/uploads/${filename}`;
-    return NextResponse.json({ path: filePath });
+    return NextResponse.json({ path: result.secure_url });
   } catch (error) {
     console.error("Error uploading file:", error);
-    return NextResponse.json(
-      { error: "Failed to upload file" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to upload file" }, { status: 500 });
   }
 }
