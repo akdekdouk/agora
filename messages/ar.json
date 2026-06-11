@@ -39,7 +39,9 @@
     "catAll": "الكل",
     "catRestaurant": "مطاعم",
     "catShop": "متاجر",
-    "catArtisan": "حرفيون"
+    "catArtisan": "حرفيون",
+    "latestProducts": "منتجات جديدة",
+    "viewAllProducts": "عرض كل المنتجات →"
   },
   "login": {
     "title": "تسجيل الدخول إلى أغورا",
@@ -52,7 +54,8 @@
     "registerLink": "سجّل نشاطك التجاري",
     "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة. يرجى التحقق من بياناتك.",
     "accountCreated": "تم إنشاء الحساب! سجّل الدخول بالبريد الإلكتروني وكلمة المرور.",
-    "passwordUpdated": "تم تحديث كلمة المرور! سجّل الدخول بالكلمة الجديدة."
+    "passwordUpdated": "تم تحديث كلمة المرور! سجّل الدخول بالكلمة الجديدة.",
+    "orContinueWith": "أو تابع مع"
   },
   "register": {
     "title": "سجّل نشاطك التجاري",
@@ -71,7 +74,8 @@
     "shop": "متجر",
     "artisan": "حرفي",
     "restaurant": "مطعم",
-    "registrationFailed": "فشل التسجيل"
+    "registrationFailed": "فشل التسجيل",
+    "orContinueWith": "أو تابع مع"
   },
   "forgotPassword": {
     "title": "إعادة تعيين كلمة المرور",

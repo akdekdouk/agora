@@ -39,7 +39,9 @@
     "catAll": "Tutti",
     "catRestaurant": "Ristoranti",
     "catShop": "Negozi",
-    "catArtisan": "Artigiani"
+    "catArtisan": "Artigiani",
+    "latestProducts": "Nuovi prodotti",
+    "viewAllProducts": "Vedi tutti i prodotti →"
   },
   "login": {
     "title": "Accedi ad Agora",
@@ -52,7 +54,8 @@
     "registerLink": "Registra la tua attività",
     "invalidCredentials": "Email o password non validi. Controlla le tue credenziali.",
     "accountCreated": "Account creato! Accedi con email e password.",
-    "passwordUpdated": "Password aggiornata! Accedi con la nuova password."
+    "passwordUpdated": "Password aggiornata! Accedi con la nuova password.",
+    "orContinueWith": "O continua con"
   },
   "register": {
     "title": "Registra la tua attività",
@@ -71,7 +74,8 @@
     "shop": "Negozio",
     "artisan": "Artigiano",
     "restaurant": "Ristorante",
-    "registrationFailed": "Registrazione fallita"
+    "registrationFailed": "Registrazione fallita",
+    "orContinueWith": "O continua con"
   },
   "forgotPassword": {
     "title": "Reimposta la password",

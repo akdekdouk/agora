@@ -39,7 +39,9 @@
     "catAll": "Tout",
     "catRestaurant": "Restaurants",
     "catShop": "Boutiques",
-    "catArtisan": "Artisans"
+    "catArtisan": "Artisans",
+    "latestProducts": "Nouveaux produits",
+    "viewAllProducts": "Voir tous les produits →"
   },
   "login": {
     "title": "Se connecter à Agora",
@@ -52,7 +54,8 @@
     "registerLink": "Inscrivez votre entreprise",
     "invalidCredentials": "Email ou mot de passe invalide. Veuillez vérifier vos identifiants.",
     "accountCreated": "Compte créé ! Connectez-vous avec votre email et mot de passe.",
-    "passwordUpdated": "Mot de passe mis à jour ! Connectez-vous avec votre nouveau mot de passe."
+    "passwordUpdated": "Mot de passe mis à jour ! Connectez-vous avec votre nouveau mot de passe.",
+    "orContinueWith": "Ou continuer avec"
   },
   "register": {
     "title": "Inscrivez votre entreprise",
@@ -71,7 +74,8 @@
     "shop": "Boutique",
     "artisan": "Artisan",
     "restaurant": "Restaurant",
-    "registrationFailed": "Échec de l'inscription"
+    "registrationFailed": "Échec de l'inscription",
+    "orContinueWith": "Ou continuer avec"
   },
   "forgotPassword": {
     "title": "Réinitialiser votre mot de passe",
