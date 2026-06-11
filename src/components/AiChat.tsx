@@ -8,6 +8,42 @@ interface Message {
   content: string;
 }
 
+declare global {
+  interface Window {
+    SpeechRecognition: new () => SpeechRecognition;
+    webkitSpeechRecognition: new () => SpeechRecognition;
+  }
+  interface SpeechRecognition extends EventTarget {
+    lang: string;
+    continuous: boolean;
+    interimResults: boolean;
+    onresult: ((e: SpeechRecognitionEvent) => void) | null;
+    onerror: (() => void) | null;
+    onend: (() => void) | null;
+    start(): void;
+    stop(): void;
+  }
+  interface SpeechRecognitionEvent extends Event {
+    results: SpeechRecognitionResultList;
+  }
+  interface SpeechRecognitionResultList {
+    readonly length: number;
+    [index: number]: SpeechRecognitionResult;
+  }
+  interface SpeechRecognitionResult {
+    readonly length: number;
+    [index: number]: SpeechRecognitionAlternative;
+    isFinal: boolean;
+  }
+  interface SpeechRecognitionAlternative {
+    transcript: string;
+  }
+}
+
+const LOCALE_LANG: Record<string, string> = {
+  fr: "fr-FR", en: "en-US", es: "es-ES", it: "it-IT", ar: "ar-SA", tr: "tr-TR",
+};
+
 export default function AiChat() {
   const t = useTranslations("aiChat");
   const locale = useLocale();
@@ -15,11 +51,45 @@ export default function AiChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [listening, setListening] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    setSpeechSupported(
+      typeof window !== "undefined" &&
+      ("SpeechRecognition" in window || "webkitSpeechRecognition" in window)
+    );
+  }, []);
+
+  function toggleVoice() {
+    if (listening) {
+      recognitionRef.current?.stop();
+      setListening(false);
+      return;
+    }
+    const SR = window.SpeechRecognition ?? window.webkitSpeechRecognition;
+    const recognition = new SR();
+    recognition.lang = LOCALE_LANG[locale] ?? "fr-FR";
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.onresult = (e) => {
+      const transcript = e.results[0][0].transcript;
+      setInput(transcript);
+      setListening(false);
+      setTimeout(() => sendMessage(transcript), 300);
+    };
+    recognition.onerror = () => setListening(false);
+    recognition.onend = () => setListening(false);
+    recognitionRef.current = recognition;
+    recognition.start();
+    setListening(true);
+  }
 
   async function sendMessage(text: string) {
     if (!text.trim() || loading) return;
@@ -61,7 +131,8 @@ export default function AiChat() {
       {/* Floating button */}
       <button
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-orange-500 hover:bg-orange-600 text-white rounded-full shadow-lg flex items-center justify-center text-2xl transition"
+        className="fixed bottom-6 right-6 z-50 w-14 h-14 text-white rounded-full shadow-lg flex items-center justify-center text-2xl transition hover:opacity-90"
+        style={{ backgroundColor: "var(--color-primary)" }}
         aria-label="AI Assistant"
       >
         {open ? "✕" : "✨"}
@@ -69,14 +140,19 @@ export default function AiChat() {
 
       {/* Chat panel */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden"
-          style={{ maxHeight: "70vh" }}>
+        <div
+          className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-100 flex flex-col overflow-hidden"
+          style={{ maxHeight: "70vh" }}
+        >
           {/* Header */}
-          <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-4 py-3 flex items-center gap-2">
+          <div
+            className="px-4 py-3 flex items-center gap-2"
+            style={{ background: "linear-gradient(to right, var(--color-primary), var(--color-primary-hover, #ea580c))" }}
+          >
             <span className="text-xl">✨</span>
             <div>
               <p className="text-white font-semibold text-sm">{t("title")}</p>
-              <p className="text-orange-100 text-xs">{t("subtitle")}</p>
+              <p className="text-white/70 text-xs">{t("subtitle")}</p>
             </div>
           </div>
 
@@ -90,7 +166,8 @@ export default function AiChat() {
                     <button
                       key={i}
                       onClick={() => sendMessage(s)}
-                      className="block w-full text-left text-xs bg-orange-50 hover:bg-orange-100 text-orange-700 px-3 py-2 rounded-lg transition"
+                      className="block w-full text-left text-xs px-3 py-2 rounded-lg transition"
+                      style={{ backgroundColor: "var(--color-primary-light)", color: "var(--color-primary-text)" }}
                     >
                       {s}
                     </button>
@@ -100,11 +177,12 @@ export default function AiChat() {
             )}
             {messages.map((msg, i) => (
               <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div className={`max-w-[80%] px-3 py-2 rounded-xl text-sm whitespace-pre-wrap ${
-                  msg.role === "user"
-                    ? "bg-orange-500 text-white"
-                    : "bg-gray-100 text-gray-800"
-                }`}>
+                <div
+                  className={`max-w-[80%] px-3 py-2 rounded-xl text-sm whitespace-pre-wrap ${
+                    msg.role === "user" ? "text-white" : "bg-gray-100 text-gray-800"
+                  }`}
+                  style={msg.role === "user" ? { backgroundColor: "var(--color-primary)" } : undefined}
+                >
                   {msg.content || (loading && i === messages.length - 1 ? "…" : "")}
                 </div>
               </div>
@@ -113,18 +191,37 @@ export default function AiChat() {
           </div>
 
           {/* Input */}
-          <form onSubmit={handleSend} className="border-t border-gray-100 p-3 flex gap-2">
+          <form onSubmit={handleSend} className="border-t border-gray-100 p-3 flex gap-2 items-center">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={t("placeholder")}
+              placeholder={listening ? "🎤 Parlez…" : t("placeholder")}
               disabled={loading}
-              className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:opacity-60"
+              className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 disabled:opacity-60"
+              style={{ "--tw-ring-color": "var(--color-primary)" } as React.CSSProperties}
             />
+            {speechSupported && (
+              <button
+                type="button"
+                onClick={toggleVoice}
+                disabled={loading}
+                title={listening ? "Arrêter" : "Dicter"}
+                className={`p-2 rounded-lg transition ${
+                  listening
+                    ? "text-red-500 bg-red-50 animate-pulse"
+                    : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+                }`}
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1-9c0-.55.45-1 1-1s1 .45 1 1v6c0 .55-.45 1-1 1s-1-.45-1-1V5zm6 6c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                </svg>
+              </button>
+            )}
             <button
               type="submit"
               disabled={loading || !input.trim()}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-sm font-medium transition disabled:opacity-50"
+              className="text-white px-3 py-2 rounded-lg text-sm font-medium transition disabled:opacity-50"
+              style={{ backgroundColor: "var(--color-primary)" }}
             >
               →
             </button>
