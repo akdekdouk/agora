@@ -1,7 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
 import MerchantCard from "@/components/MerchantCard";
-import SearchBar from "@/components/SearchBar";
 import LatestDeals from "@/components/LatestDeals";
 import AiChat from "@/components/AiChat";
 import ProductCard from "@/components/ProductCard";
@@ -128,11 +127,10 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="bg-gradient-to-br from-orange-500 to-orange-600 text-white py-20 px-4">
+      <section className="text-white py-20 px-4" style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-hover, #ea580c))" }}>
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{t("heroTitle")}</h1>
-          <p className="text-orange-100 text-lg mb-8">{t("heroSubtitle")}</p>
-          <SearchBar />
+          <p className="text-white/80 text-lg">{t("heroSubtitle")}</p>
         </div>
       </section>
 
@@ -140,7 +138,7 @@ export default async function HomePage() {
       <section className="max-w-6xl mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">{t("latestDeals")}</h2>
-          <Link href="/search" className="text-orange-500 hover:text-orange-600 font-medium">
+          <Link href="/merchants" className="font-medium hover:opacity-80" style={{ color: "var(--color-primary)" }}>
             {t("viewAllOffers")}
           </Link>
         </div>
@@ -158,7 +156,7 @@ export default async function HomePage() {
         <section className="max-w-6xl mx-auto px-4 py-12">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-2xl font-bold text-gray-900">{t("latestProducts")}</h2>
-            <Link href="/search?type=products" className="text-orange-500 hover:text-orange-600 font-medium">
+            <Link href="/merchants" className="font-medium hover:opacity-80" style={{ color: "var(--color-primary)" }}>
               {t("viewAllProducts")}
             </Link>
           </div>
