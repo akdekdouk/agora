@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "@/lib/auth";
 import { sendNewOfferNotification } from "@/lib/email";
+import { notifyFollowers } from "@/lib/notifications";
 
 export async function GET() {
   try {
@@ -76,9 +77,18 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Send email notifications to followers (fire-and-forget)
+    // In-app + email notifications to followers (fire-and-forget)
     void (async () => {
       try {
+        // In-app notifications
+        void notifyFollowers({
+          merchantId: session.user.id,
+          type: "NEW_OFFER",
+          title: `Nouvelle offre -${discount}%`,
+          body: title,
+          link: `/merchants/${session.user.id}`,
+        });
+
         const merchant = await prisma.user.findUnique({
           where: { id: session.user.id },
           select: { businessName: true },
