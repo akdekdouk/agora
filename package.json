@@ -28,7 +28,6 @@
     "next-intl": "^4.13.0",
     "postcss": "^8.5.3",
     "qrcode": "^1.5.4",
-    "react-leaflet": "^5.0.0",
     "recharts": "^3.8.1",
     "resend": "^6.12.4",
     "tailwindcss": "^3.4.17"
