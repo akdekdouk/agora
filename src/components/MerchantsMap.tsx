@@ -54,6 +54,7 @@ export default function MerchantsMap() {
   const [userPos, setUserPos] = useState<{ lat: number; lng: number } | null>(null);
   const [locating, setLocating] = useState(false);
   const [selectedMerchant, setSelectedMerchant] = useState<MerchantPin | null>(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetch("/api/map")
@@ -193,8 +194,17 @@ export default function MerchantsMap() {
     );
   }
 
+  const q = search.toLowerCase().trim();
+  const filteredMerchants = q
+    ? merchants.filter((m) =>
+        m.businessName.toLowerCase().includes(q) ||
+        m.city.toLowerCase().includes(q) ||
+        m.category.toLowerCase().includes(q)
+      )
+    : merchants;
+
   const nearbyMerchants = userPos
-    ? merchants.filter((m) => {
+    ? filteredMerchants.filter((m) => {
         const R = 6371;
         const dLat = ((m.lat - userPos.lat) * Math.PI) / 180;
         const dLng = ((m.lng - userPos.lng) * Math.PI) / 180;
@@ -202,12 +212,32 @@ export default function MerchantsMap() {
         const dist = R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         return dist <= radius;
       })
-    : merchants;
+    : filteredMerchants;
 
   return (
     <div className="relative w-full h-full">
+      {/* Search bar */}
+      <div className="absolute top-3 left-1/2 -translate-x-1/2 z-[1000] w-[min(320px,calc(100vw-160px))]">
+        <div className="relative">
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+          </svg>
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Rechercher un commerce, une ville…"
+            className="w-full pl-9 pr-3 py-2 bg-white shadow-md border border-gray-200 rounded-xl text-sm text-gray-700 focus:outline-none focus:ring-2"
+            style={{ "--tw-ring-color": "var(--color-primary)" } as React.CSSProperties}
+          />
+          {search && (
+            <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs">✕</button>
+          )}
+        </div>
+      </div>
+
       {/* Controls */}
-      <div className="absolute top-3 left-3 z-[1000] flex flex-col gap-2">
+      <div className="absolute top-14 left-3 z-[1000] flex flex-col gap-2">
         <button
           onClick={locateMe}
           disabled={locating}
@@ -239,7 +269,7 @@ export default function MerchantsMap() {
       </div>
 
       {/* Merchant count */}
-      <div className="absolute top-3 right-3 z-[1000] bg-white shadow-md border border-gray-200 rounded-xl px-3 py-2">
+      <div className="absolute top-14 right-3 z-[1000] bg-white shadow-md border border-gray-200 rounded-xl px-3 py-2">
         <p className="text-xs font-semibold" style={{ color: "var(--color-primary)" }}>
           {nearbyMerchants.length} commerce{nearbyMerchants.length !== 1 ? "s" : ""}
         </p>

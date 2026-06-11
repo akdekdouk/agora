@@ -24,7 +24,8 @@
   },
   "home": {
     "heroTitle": "Yerel İndirimleri Keşfet",
-    "heroSubtitle": "Yakınındaki dükkan, esnaf ve restoranlardan en iyi fırsatları bul",
+    "heroSubtitle": "Yakınındaki dükkan, esnaf ve restoranlardan en iyi fırsatları bul",,
+    "exploreMap": "Haritayı keşfet"
     "latestDeals": "Son Fırsatlar",
     "featuredMerchants": "Öne Çıkan Esnaf",
     "viewAll": "Tümünü gör →",

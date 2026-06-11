@@ -24,7 +24,8 @@
   },
   "home": {
     "heroTitle": "Scopri gli sconti locali",
-    "heroSubtitle": "Trova le migliori offerte da negozi, artigiani e ristoranti vicino a te",
+    "heroSubtitle": "Trova le migliori offerte da negozi, artigiani e ristoranti vicino a te",,
+    "exploreMap": "Esplora la mappa"
     "latestDeals": "Ultime promozioni",
     "featuredMerchants": "Commercianti in evidenza",
     "viewAll": "Vedi tutti →",
