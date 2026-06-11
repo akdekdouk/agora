@@ -133,7 +133,9 @@
     "searchFailed": "فشل البحث. يرجى المحاولة مجدداً.",
     "merchants": "التجار",
     "offers": "العروض",
-    "products": "المنتجات"
+    "products": "المنتجات",
+    "cityPlaceholder": "تصفية حسب المدينة…",
+    "applyFilter": "تصفية"
   },
   "dashboard": {
     "welcome": "مرحباً، {name}",

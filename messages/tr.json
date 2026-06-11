@@ -133,7 +133,9 @@
     "searchFailed": "Arama başarısız. Lütfen tekrar deneyin.",
     "merchants": "Esnaf",
     "offers": "Fırsatlar",
-    "products": "Ürünler"
+    "products": "Ürünler",
+    "cityPlaceholder": "Şehre göre filtrele…",
+    "applyFilter": "Filtrele"
   },
   "dashboard": {
     "welcome": "Hoş geldiniz, {name}",

@@ -133,7 +133,9 @@
     "searchFailed": "Ricerca fallita. Riprova.",
     "merchants": "Commercianti",
     "offers": "Offerte",
-    "products": "Prodotti"
+    "products": "Prodotti",
+    "cityPlaceholder": "Filtra per città…",
+    "applyFilter": "Filtra"
   },
   "dashboard": {
     "welcome": "Benvenuto, {name}",

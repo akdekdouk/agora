@@ -133,7 +133,9 @@
     "searchFailed": "Search failed. Please try again.",
     "merchants": "Merchants",
     "offers": "Offers",
-    "products": "Products"
+    "products": "Products",
+    "cityPlaceholder": "Filter by city…",
+    "applyFilter": "Filter"
   },
   "dashboard": {
     "welcome": "Welcome, {name}",

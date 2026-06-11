@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import SearchBar from "@/components/SearchBar";
 import MerchantCard from "@/components/MerchantCard";
 import OfferCard from "@/components/OfferCard";
@@ -12,6 +13,7 @@ import { useTranslations } from "next-intl";
 function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") ?? "";
+  const city = searchParams.get("city") ?? "";
   const [results, setResults] = useState<SearchResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -32,7 +34,7 @@ function SearchResults() {
     fetch("/api/search", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ query, city: city.trim() || undefined }),
     })
       .then((r) => r.json())
       .then((data: SearchResult) => setResults(data))
@@ -107,12 +109,44 @@ function SearchResults() {
 function SearchPageInner() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") ?? "";
+  const city = searchParams.get("city") ?? "";
   const t = useTranslations("search");
+  const router = useRouter();
+  const [cityInput, setCityInput] = useState(city);
+
+  function applyCity(e: React.FormEvent) {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (query) params.set("q", query);
+    if (cityInput.trim()) params.set("city", cityInput.trim());
+    router.push(`/search?${params.toString()}`);
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <h1 className="text-3xl font-bold text-gray-900 mb-6">{t("title")}</h1>
-      <div className="mb-8"><SearchBar initialQuery={query} /></div>
+      <div className="mb-4"><SearchBar initialQuery={query} /></div>
+      <form onSubmit={applyCity} className="flex gap-2 mb-8">
+        <div className="relative flex-1 max-w-xs">
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <input
+            value={cityInput}
+            onChange={(e) => setCityInput(e.target.value)}
+            placeholder={t("cityPlaceholder")}
+            className="w-full pl-9 pr-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+          />
+        </div>
+        <button type="submit" className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition">
+          {t("applyFilter")}
+        </button>
+        {city && (
+          <button type="button" onClick={() => { setCityInput(""); router.push(`/search?q=${encodeURIComponent(query)}`); }}
+            className="text-xs text-gray-400 hover:text-red-500 transition px-2">✕</button>
+        )}
+      </form>
       <SearchResults />
     </div>
   );
