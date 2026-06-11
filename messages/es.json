@@ -48,7 +48,10 @@
     "catHealth": "Salud",
     "catSport": "Deporte",
     "catServices": "Servicios",
-    "catOther": "Otro"
+    "catOther": "Otro",
+    "customize": "Personalizar",
+    "visibleCategories": "Categorías visibles",
+    "loginToSavePrefs": "Inicia sesión para guardar tus preferencias"
   },
   "login": {
     "title": "Inicia sesión en Agora",

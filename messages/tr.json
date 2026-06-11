@@ -48,7 +48,10 @@
     "catHealth": "Sağlık",
     "catSport": "Spor",
     "catServices": "Hizmetler",
-    "catOther": "Diğer"
+    "catOther": "Diğer",
+    "customize": "Özelleştir",
+    "visibleCategories": "Görünür kategoriler",
+    "loginToSavePrefs": "Tercihlerinizi kaydetmek için giriş yapın"
   },
   "login": {
     "title": "Agora'ya giriş yap",

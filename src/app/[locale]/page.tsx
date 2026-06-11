@@ -136,18 +136,14 @@ export default async function HomePage() {
 
       {/* Latest Deals by category */}
       <section className="max-w-6xl mx-auto px-4 py-12">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">{t("latestDeals")}</h2>
-          <Link href="/merchants" className="font-medium hover:opacity-80" style={{ color: "var(--color-primary)" }}>
-            {t("viewAllOffers")}
-          </Link>
-        </div>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">{t("latestDeals")}</h2>
         <LatestDeals
           offers={serializedOffers}
           isConsumerLoggedIn={isConsumerLoggedIn}
           savedOfferIds={savedOfferIds}
-          defaultCategory={consumerInterests.length === 1 ? consumerInterests[0] : "all"}
+          defaultCategory="all"
           activeCategories={activeCategories}
+          consumerInterests={consumerInterests}
         />
       </section>
 
