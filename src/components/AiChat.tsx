@@ -2,11 +2,44 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { Link } from "@/i18n/navigation";
+
+interface OfferCard {
+  id: string;
+  title: string;
+  discount: number;
+  merchantId: string;
+  merchantName: string;
+  merchantCategory: string;
+  merchantCity: string;
+  photo?: string | null;
+}
 
 interface Message {
   role: "user" | "assistant";
   content: string;
+  offers?: OfferCard[];
 }
+
+const OFFERS_SENTINEL = "__OFFERS__";
+const OFFERS_END = "__END__";
+
+function parseMessage(raw: string): { text: string; offers: OfferCard[] } {
+  const idx = raw.indexOf(OFFERS_SENTINEL);
+  if (idx === -1) return { text: raw, offers: [] };
+  const text = raw.slice(0, idx).trim();
+  const jsonStr = raw.slice(idx + OFFERS_SENTINEL.length, raw.indexOf(OFFERS_END, idx));
+  try {
+    return { text, offers: JSON.parse(jsonStr) as OfferCard[] };
+  } catch {
+    return { text, offers: [] };
+  }
+}
+
+const CATEGORY_EMOJI: Record<string, string> = {
+  restaurant: "🍽️", shop: "🛍️", artisan: "🛠️", beauty: "💆", hotel: "🏨",
+  education: "📚", health: "🏥", sport: "⚽", services: "🔧", other: "🏪",
+};
 
 declare global {
   interface Window {
@@ -124,7 +157,8 @@ export default function AiChat() {
         const { done, value } = await reader.read();
         if (done) break;
         accumulated += decoder.decode(value, { stream: true });
-        setMessages([...newMessages, { role: "assistant", content: accumulated }]);
+        const { text, offers } = parseMessage(accumulated);
+        setMessages([...newMessages, { role: "assistant", content: text, offers }]);
       }
     } catch {
       setMessages([...newMessages, { role: "assistant", content: t("error") }]);
@@ -246,15 +280,68 @@ export default function AiChat() {
               </div>
             )}
             {messages.map((msg, i) => (
-              <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                <div
-                  className={`max-w-[80%] px-3 py-2 rounded-xl text-sm whitespace-pre-wrap ${
-                    msg.role === "user" ? "text-white" : "bg-gray-100 text-gray-800"
-                  }`}
-                  style={msg.role === "user" ? { backgroundColor: "var(--color-primary)" } : undefined}
-                >
-                  {msg.content || (loading && i === messages.length - 1 ? "…" : "")}
-                </div>
+              <div key={i} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
+                {/* Text bubble */}
+                {(msg.content || (loading && i === messages.length - 1)) && (
+                  <div
+                    className={`max-w-[85%] px-3 py-2 rounded-xl text-sm whitespace-pre-wrap ${
+                      msg.role === "user" ? "text-white" : "bg-gray-100 text-gray-800"
+                    }`}
+                    style={msg.role === "user" ? { backgroundColor: "var(--color-primary)" } : undefined}
+                  >
+                    {msg.content || (loading && i === messages.length - 1 ? "…" : "")}
+                  </div>
+                )}
+
+                {/* Offer cards */}
+                {msg.offers && msg.offers.length > 0 && (
+                  <div className="mt-2 w-full space-y-2">
+                    {msg.offers.map((offer) => (
+                      <div key={offer.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+                        {offer.photo && (
+                          <img src={offer.photo} alt={offer.title} className="w-full h-20 object-cover" />
+                        )}
+                        <div className="p-2.5">
+                          <div className="flex items-start justify-between gap-2">
+                            <p className="text-xs font-semibold text-gray-800 leading-tight flex-1">{offer.title}</p>
+                            <span className="text-xs font-bold text-white px-2 py-0.5 rounded-full shrink-0"
+                              style={{ backgroundColor: "var(--color-primary)" }}>
+                              -{offer.discount}%
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-gray-500 mt-1">
+                            {CATEGORY_EMOJI[offer.merchantCategory] ?? "🏪"} {offer.merchantName} · {offer.merchantCity}
+                          </p>
+                          <div className="flex gap-1.5 mt-2">
+                            <Link
+                              href={`/merchants/${offer.merchantId}`}
+                              className="flex-1 text-center text-[11px] font-medium py-1 rounded-lg text-white"
+                              style={{ backgroundColor: "var(--color-primary)" }}
+                              onClick={() => setOpen(false)}
+                            >
+                              Voir l'offre →
+                            </Link>
+                            <a
+                              href={`/map?highlight=${offer.merchantId}`}
+                              className="flex-1 text-center text-[11px] font-medium py-1 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200"
+                              onClick={() => setOpen(false)}
+                            >
+                              📍 Sur la carte
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    {msg.offers.length === 3 && (
+                      <button
+                        onClick={() => sendMessage("Ces offres ne me conviennent pas, peux-tu affiner avec d'autres critères ?")}
+                        className="w-full text-xs text-center py-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50"
+                      >
+                        Pas satisfait ? Affiner la recherche →
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
             <div ref={bottomRef} />

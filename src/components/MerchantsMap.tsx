@@ -56,6 +56,11 @@ export default function MerchantsMap() {
   const [selectedMerchant, setSelectedMerchant] = useState<MerchantPin | null>(null);
   const [search, setSearch] = useState("");
 
+  // Read ?highlight=id1,id2,id3 from URL
+  const highlightIds = typeof window !== "undefined"
+    ? new Set((new URLSearchParams(window.location.search).get("highlight") ?? "").split(",").filter(Boolean))
+    : new Set<string>();
+
   useEffect(() => {
     fetch("/api/map")
       .then((r) => r.json())
@@ -100,9 +105,12 @@ export default function MerchantsMap() {
     if (!mapInstanceRef.current || merchants.length === 0) return;
     import("leaflet").then((L) => {
       merchants.forEach((m) => addMarker(L, mapInstanceRef.current, m));
-      // Fit bounds
-      const bounds = merchants.map((m): [number, number] => [m.lat, m.lng]);
-      if (bounds.length > 0) mapInstanceRef.current.fitBounds(bounds, { padding: [40, 40] });
+      // Fit to highlighted merchants if any, else all
+      const toFit = highlightIds.size > 0
+        ? merchants.filter(m => highlightIds.has(m.id))
+        : merchants;
+      const bounds = toFit.map((m): [number, number] => [m.lat, m.lng]);
+      if (bounds.length > 0) mapInstanceRef.current.fitBounds(bounds, { padding: [60, 60], maxZoom: 14 });
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [merchants]);
@@ -111,19 +119,23 @@ export default function MerchantsMap() {
   function addMarker(L: any, map: any, m: MerchantPin) {
     const color = CATEGORY_COLORS[m.category] ?? "#f97316";
     const primary = getComputedStyle(document.documentElement).getPropertyValue("--color-primary").trim() || "#f97316";
+    const isHighlighted = highlightIds.size > 0 && highlightIds.has(m.id);
+    const pinBg = isHighlighted ? "#f59e0b" : primary;
+    const pinSize = isHighlighted ? 48 : 36;
 
     const icon = L.divIcon({
       className: "",
       html: `<div style="
-        width:36px;height:36px;border-radius:50% 50% 50% 0;
-        background:${primary};border:3px solid white;
-        box-shadow:0 2px 8px rgba(0,0,0,0.3);
+        width:${pinSize}px;height:${pinSize}px;border-radius:50% 50% 50% 0;
+        background:${pinBg};border:${isHighlighted ? 4 : 3}px solid white;
+        box-shadow:0 ${isHighlighted ? 4 : 2}px ${isHighlighted ? 16 : 8}px rgba(0,0,0,${isHighlighted ? 0.5 : 0.3});
         transform:rotate(-45deg);
         display:flex;align-items:center;justify-content:center;
-      "><div style="transform:rotate(45deg);color:white;font-size:14px;">🏪</div></div>`,
-      iconSize: [36, 36],
-      iconAnchor: [18, 36],
-      popupAnchor: [0, -38],
+        ${isHighlighted ? "animation:pulse 1.5s ease-in-out infinite;" : ""}
+      "><div style="transform:rotate(45deg);color:white;font-size:${isHighlighted ? 18 : 14}px;">🏪</div></div>`,
+      iconSize: [pinSize, pinSize],
+      iconAnchor: [pinSize / 2, pinSize],
+      popupAnchor: [0, -pinSize - 4],
     });
 
     const offersList = m.offers.slice(0, 3).map(o =>
@@ -156,6 +168,7 @@ export default function MerchantsMap() {
 
     const marker = L.marker([m.lat, m.lng], { icon }).addTo(map).bindPopup(popup);
     marker.on("click", () => setSelectedMerchant(m));
+    if (isHighlighted) setTimeout(() => marker.openPopup(), 800);
   }
 
   function locateMe() {
