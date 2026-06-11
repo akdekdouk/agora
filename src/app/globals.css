@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-primary: #f97316;
+  --color-primary-hover: #ea580c;
+  --color-primary-light: #fff7ed;
+  --color-primary-text: #c2410c;
+  --color-primary-muted: #fed7aa;
+}
+
+[data-theme="blue"] {
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-primary-light: #eff6ff;
+  --color-primary-text: #1d4ed8;
+  --color-primary-muted: #bfdbfe;
+}
+
+[data-theme="green"] {
+  --color-primary: #22c55e;
+  --color-primary-hover: #16a34a;
+  --color-primary-light: #f0fdf4;
+  --color-primary-text: #15803d;
+  --color-primary-muted: #bbf7d0;
+}
+
+[data-theme="purple"] {
+  --color-primary: #a855f7;
+  --color-primary-hover: #9333ea;
+  --color-primary-light: #faf5ff;
+  --color-primary-text: #7e22ce;
+  --color-primary-muted: #e9d5ff;
+}
+
+[data-theme="rose"] {
+  --color-primary: #f43f5e;
+  --color-primary-hover: #e11d48;
+  --color-primary-light: #fff1f2;
+  --color-primary-text: #be123c;
+  --color-primary-muted: #fecdd3;
+}
+
+/* Font themes */
+[data-font="classic"] body { font-family: Georgia, 'Times New Roman', serif; }
+[data-font="bold"] body { font-family: 'Arial Black', Impact, sans-serif; letter-spacing: -0.01em; }

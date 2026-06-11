@@ -54,13 +54,13 @@ export default function Navbar() {
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="text-2xl font-bold text-orange-500">Agora</Link>
+        <Link href="/" className="text-2xl font-bold" style={{ color: "var(--color-primary)" }}>Agora</Link>
 
         <div className="flex items-center gap-3">
-          <Link href="/merchants" className="text-gray-600 hover:text-orange-500 font-medium hidden sm:block text-sm">
+          <Link href="/merchants" className="text-gray-600 font-medium hidden sm:block text-sm hover:opacity-80 transition">
             {t("merchants")}
           </Link>
-          <Link href="/search" className="text-gray-600 hover:text-orange-500 font-medium hidden sm:block text-sm">
+          <Link href="/search" className="text-gray-600 font-medium hidden sm:block text-sm hover:opacity-80 transition">
             {t("search")}
           </Link>
 
@@ -69,7 +69,7 @@ export default function Navbar() {
             <div className="flex items-center gap-2 border-l border-gray-200 pl-3">
               <NotificationBell />
               <Link href="/consumer/dashboard" className="flex items-center gap-1.5 hover:opacity-80 transition">
-                <span className="text-xs bg-orange-100 text-orange-600 font-semibold px-2 py-0.5 rounded-full">
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ backgroundColor: "var(--color-primary-light)", color: "var(--color-primary-text)" }}>
                   👤 {firstWord(consumerSession.user.name) || consumerSession.user.email?.split("@")[0]}
                 </span>
               </Link>
@@ -83,7 +83,8 @@ export default function Navbar() {
           ) : (
             <Link
               href="/consumer/login"
-              className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 font-medium text-sm"
+              className="text-white px-4 py-2 rounded-lg font-medium text-sm transition hover:opacity-90"
+              style={{ backgroundColor: "var(--color-primary)" }}
             >
               {t("signIn")}
             </Link>

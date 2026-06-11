@@ -162,10 +162,14 @@ export default function ConfigPage() {
         </div>
       </section>
 
+      <p className="text-xs text-gray-400 text-center mb-4">
+        Le thème et la police s'appliquent instantanément sur toute l'application après enregistrement.
+      </p>
       <button
         onClick={save}
         disabled={saving}
-        className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition disabled:opacity-60"
+        className="w-full text-white font-semibold py-3 rounded-xl transition disabled:opacity-60"
+        style={{ backgroundColor: "var(--color-primary)" }}
       >
         {saving ? "Enregistrement…" : saved ? "✓ Enregistré !" : "Enregistrer la configuration"}
       </button>
