@@ -30,6 +30,7 @@ export default function AiChat() {
   const [loading, setLoading] = useState(false);
   const [listening, setListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
+  const [micError, setMicError] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const recognitionRef = useRef<any>(null);
@@ -46,12 +47,17 @@ export default function AiChat() {
   }, []);
 
   function toggleVoice() {
+    setMicError("");
     if (listening) {
       recognitionRef.current?.stop();
       setListening(false);
       return;
     }
     const SR = window.SpeechRecognition ?? window.webkitSpeechRecognition;
+    if (!SR) {
+      setMicError("Microphone non supporté sur ce navigateur.");
+      return;
+    }
     const recognition = new SR();
     recognition.lang = LOCALE_LANG[locale] ?? "fr-FR";
     recognition.continuous = false;
@@ -63,11 +69,25 @@ export default function AiChat() {
       setListening(false);
       setTimeout(() => sendMessage(transcript), 300);
     };
-    recognition.onerror = () => setListening(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    recognition.onerror = (e: any) => {
+      setListening(false);
+      if (e.error === "not-allowed") {
+        setMicError("Permission microphone refusée. Autorisez l'accès dans les réglages du navigateur.");
+      } else if (e.error === "no-speech") {
+        setMicError("Aucune voix détectée. Réessayez.");
+      } else {
+        setMicError("Erreur microphone : " + e.error);
+      }
+    };
     recognition.onend = () => setListening(false);
     recognitionRef.current = recognition;
-    recognition.start();
-    setListening(true);
+    try {
+      recognition.start();
+      setListening(true);
+    } catch {
+      setMicError("Impossible de démarrer le microphone.");
+    }
   }
 
   async function sendMessage(text: string) {
@@ -168,6 +188,14 @@ export default function AiChat() {
             ))}
             <div ref={bottomRef} />
           </div>
+
+          {/* Mic error */}
+          {micError && (
+            <div className="px-3 py-2 bg-red-50 border-t border-red-100 text-xs text-red-600 flex items-center justify-between">
+              <span>{micError}</span>
+              <button onClick={() => setMicError("")} className="ml-2 text-red-400 hover:text-red-600">✕</button>
+            </div>
+          )}
 
           {/* Input */}
           <form onSubmit={handleSend} className="border-t border-gray-100 p-3 flex gap-2 items-center">
