@@ -18,7 +18,22 @@ export default function NewOfferPage() {
   const [description, setDescription] = useState("");
   const [selectedBanner, setSelectedBanner] = useState<string | null>(null);
   const [activeSeason, setActiveSeason] = useState<Banner["season"]>("default");
+  const [category, setCategory] = useState("");
   const t = useTranslations("dashboard");
+
+  const OFFER_CATEGORIES = [
+    { value: "", label: "— Même catégorie que mon commerce —" },
+    { value: "restaurant", label: "🍽️ Restaurant & Café" },
+    { value: "shop", label: "🛍️ Boutique & Commerce" },
+    { value: "artisan", label: "🔨 Artisan & Créateur" },
+    { value: "beauty", label: "💅 Beauté & Bien-être" },
+    { value: "hotel", label: "🏨 Hôtellerie & Tourisme" },
+    { value: "education", label: "📚 Éducation & Formation" },
+    { value: "health", label: "🏥 Santé & Médical" },
+    { value: "sport", label: "🏋️ Sport & Loisirs" },
+    { value: "services", label: "🔧 Services & Auto" },
+    { value: "other", label: "📦 Autre" },
+  ];
 
   const filteredBanners = BANNERS.filter((b) => b.season === activeSeason);
 
@@ -49,6 +64,7 @@ export default function NewOfferPage() {
       discount: Number(discount),
       maxClaims: maxClaimsRaw ? Number(maxClaimsRaw) : null,
       bannerKey: selectedBanner ?? null,
+      category: category || null,
       validFrom: form.get("validFrom"),
       validTo: form.get("validTo"),
     };
@@ -84,6 +100,19 @@ export default function NewOfferPage() {
               placeholder="e.g. Summer Sale — 30% off everything"
             />
           </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Type d'offre</label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400 text-sm"
+            >
+              {OFFER_CATEGORIES.map((c) => (
+                <option key={c.value} value={c.value}>{c.label}</option>
+              ))}
+            </select>
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Discount % *</label>
             <input
