@@ -385,6 +385,11 @@ YOUR ROLE — act like a skilled sales advisor:
     }
   }
 
+  // Failsafe: never return empty — if model produced nothing, give a nudge
+  if (!textContent && offersToShow.length === 0) {
+    textContent = "Je suis là pour vous aider 😊 Dites-moi dans quelle ville vous cherchez, ou quel type de commerce vous intéresse ?";
+  }
+
   // Yield text character by character for streaming feel
   if (textContent) {
     for (const char of textContent) {

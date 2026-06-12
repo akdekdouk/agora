@@ -49,6 +49,8 @@ export default function MerchantsMap() {
   const mapRef = useRef<HTMLDivElement>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mapInstanceRef = useRef<any>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const markersRef = useRef<Map<string, any>>(new Map());
   const [merchants, setMerchants] = useState<MerchantPin[]>([]);
   const [radius, setRadius] = useState(10);
   const [userPos, setUserPos] = useState<{ lat: number; lng: number } | null>(null);
@@ -115,6 +117,26 @@ export default function MerchantsMap() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [merchants]);
 
+  // Show/hide markers based on search query
+  useEffect(() => {
+    if (!mapInstanceRef.current || merchants.length === 0) return;
+    const q = search.toLowerCase().trim();
+    markersRef.current.forEach((marker, id) => {
+      const m = merchants.find(x => x.id === id);
+      if (!m) return;
+      const matches = !q ||
+        m.businessName.toLowerCase().includes(q) ||
+        m.city.toLowerCase().includes(q) ||
+        m.category.toLowerCase().includes(q);
+      if (matches) {
+        if (!mapInstanceRef.current.hasLayer(marker)) marker.addTo(mapInstanceRef.current);
+      } else {
+        if (mapInstanceRef.current.hasLayer(marker)) marker.remove();
+      }
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function addMarker(L: any, map: any, m: MerchantPin) {
     const color = CATEGORY_COLORS[m.category] ?? "#f97316";
@@ -168,6 +190,7 @@ export default function MerchantsMap() {
 
     const marker = L.marker([m.lat, m.lng], { icon }).addTo(map).bindPopup(popup);
     marker.on("click", () => setSelectedMerchant(m));
+    markersRef.current.set(m.id, marker);
     if (isHighlighted) setTimeout(() => marker.openPopup(), 800);
   }
 
