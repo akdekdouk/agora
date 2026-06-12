@@ -37,6 +37,95 @@ function parseMessage(raw: string): { text: string; offers: OfferCard[] } {
   }
 }
 
+// Renders assistant text with basic markdown: **bold**, bullet lists, numbered lists, line breaks
+function MarkdownText({ text }: { text: string }) {
+  const lines = text.split("\n");
+  const elements: React.ReactNode[] = [];
+  let i = 0;
+
+  function renderInline(line: string): React.ReactNode {
+    // Handle **bold**
+    const parts = line.split(/(\*\*[^*]+\*\*)/g);
+    return parts.map((p, idx) =>
+      p.startsWith("**") && p.endsWith("**")
+        ? <strong key={idx} className="font-semibold">{p.slice(2, -2)}</strong>
+        : <span key={idx}>{p}</span>
+    );
+  }
+
+  while (i < lines.length) {
+    const line = lines[i];
+    // Blank line → spacing
+    if (line.trim() === "") {
+      elements.push(<div key={i} className="h-1.5" />);
+      i++;
+      continue;
+    }
+    // H3 ###
+    if (/^###\s+/.test(line)) {
+      elements.push(
+        <p key={i} className="font-bold text-sm mt-2 mb-0.5">{renderInline(line.replace(/^###\s+/, ""))}</p>
+      );
+      i++;
+      continue;
+    }
+    // H2 ##
+    if (/^##\s+/.test(line)) {
+      elements.push(
+        <p key={i} className="font-bold text-sm mt-2 mb-0.5">{renderInline(line.replace(/^##\s+/, ""))}</p>
+      );
+      i++;
+      continue;
+    }
+    // Bullet list: - or * or •
+    if (/^[-*•]\s+/.test(line.trim())) {
+      const items: string[] = [];
+      while (i < lines.length && /^[-*•]\s+/.test(lines[i].trim())) {
+        items.push(lines[i].trim().replace(/^[-*•]\s+/, ""));
+        i++;
+      }
+      elements.push(
+        <ul key={i} className="mt-1 mb-1 space-y-0.5 pl-1">
+          {items.map((item, j) => (
+            <li key={j} className="flex gap-1.5 items-start">
+              <span className="mt-0.5 shrink-0" style={{ color: "var(--color-primary)" }}>•</span>
+              <span>{renderInline(item)}</span>
+            </li>
+          ))}
+        </ul>
+      );
+      continue;
+    }
+    // Numbered list: 1. 2. etc.
+    if (/^\d+\.\s+/.test(line.trim())) {
+      const items: string[] = [];
+      let num = 1;
+      while (i < lines.length && /^\d+\.\s+/.test(lines[i].trim())) {
+        items.push(lines[i].trim().replace(/^\d+\.\s+/, ""));
+        i++;
+        num++;
+      }
+      elements.push(
+        <ol key={i} className="mt-1 mb-1 space-y-0.5 pl-1">
+          {items.map((item, j) => (
+            <li key={j} className="flex gap-1.5 items-start">
+              <span className="shrink-0 font-semibold text-xs mt-0.5" style={{ color: "var(--color-primary)" }}>{j + 1}.</span>
+              <span>{renderInline(item)}</span>
+            </li>
+          ))}
+        </ol>
+      );
+      void num;
+      continue;
+    }
+    // Normal paragraph
+    elements.push(<p key={i} className="leading-relaxed">{renderInline(line)}</p>);
+    i++;
+  }
+
+  return <div className="space-y-0.5 text-sm">{elements}</div>;
+}
+
 const CATEGORY_EMOJI: Record<string, string> = {
   restaurant: "🍽️", shop: "🛍️", artisan: "🛠️", beauty: "💆", hotel: "🏨",
   education: "📚", health: "🏥", sport: "⚽", services: "🔧", other: "🏪",
@@ -301,12 +390,17 @@ export default function AiChat() {
                 {/* Text bubble */}
                 {(msg.content || (loading && i === messages.length - 1)) && (
                   <div
-                    className={`max-w-[85%] px-4 py-3 rounded-xl text-base leading-relaxed whitespace-pre-wrap ${
-                      msg.role === "user" ? "text-white" : "bg-gray-100 text-gray-800"
+                    className={`max-w-[85%] px-4 py-3 rounded-xl ${
+                      msg.role === "user" ? "text-white text-sm leading-relaxed" : "bg-gray-100 text-gray-800"
                     }`}
                     style={msg.role === "user" ? { backgroundColor: "var(--color-primary)" } : undefined}
                   >
-                    {msg.content || (loading && i === messages.length - 1 ? "…" : "")}
+                    {msg.role === "user"
+                      ? msg.content
+                      : msg.content
+                        ? <MarkdownText text={msg.content} />
+                        : (loading && i === messages.length - 1 ? <span className="text-sm text-gray-400">…</span> : null)
+                    }
                   </div>
                 )}
 
