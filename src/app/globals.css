@@ -47,6 +47,46 @@
 [data-font="bold"] body { font-family: 'Arial Black', Impact, sans-serif; letter-spacing: -0.01em; }
 
 
+/* ── Background patterns ──────────────────────────────────────────────────── */
+
+/* Vannerie — wicker/rattan weave */
+[data-bg="vannerie"] body {
+  background-color: #f5f0e8;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Crect width='24' height='24' fill='%23f5f0e8'/%3E%3Cpath d='M0 6 C4 2 8 2 12 6 C16 10 20 10 24 6' stroke='%23c9a97c' stroke-width='1.8' fill='none' opacity='0.6'/%3E%3Cpath d='M0 18 C4 14 8 14 12 18 C16 22 20 22 24 18' stroke='%23c9a97c' stroke-width='1.8' fill='none' opacity='0.6'/%3E%3Cpath d='M6 0 C2 4 2 8 6 12 C10 16 10 20 6 24' stroke='%23b8924a' stroke-width='1.2' fill='none' opacity='0.45'/%3E%3Cpath d='M18 0 C14 4 14 8 18 12 C22 16 22 20 18 24' stroke='%23b8924a' stroke-width='1.2' fill='none' opacity='0.45'/%3E%3C/svg%3E");
+}
+
+/* Marché — market awning diagonal stripes */
+[data-bg="marche"] body {
+  background-color: #fafaf8;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 12px,
+    rgba(0,0,0,0.028) 12px,
+    rgba(0,0,0,0.028) 24px
+  );
+}
+
+/* Losanges — diamond lattice */
+[data-bg="losanges"] body {
+  background-color: #f8f7f5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Cpath d='M16 2 L30 16 L16 30 L2 16 Z' stroke='%23c0b89a' stroke-width='1' fill='none' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* Lin — linen crosshatch */
+[data-bg="lin"] body {
+  background-color: #f7f4ef;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(160,140,110,0.12) 0px, rgba(160,140,110,0.12) 1px, transparent 1px, transparent 18px),
+    repeating-linear-gradient(90deg, rgba(160,140,110,0.12) 0px, rgba(160,140,110,0.12) 1px, transparent 1px, transparent 18px);
+}
+
+/* Carrelage — Mediterranean shop tiles */
+[data-bg="carrelage"] body {
+  background-color: #f6f6f4;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Crect width='40' height='40' fill='%23f6f6f4'/%3E%3Crect x='1' y='1' width='17' height='17' rx='1' fill='none' stroke='%23c8c2b4' stroke-width='0.7' opacity='0.6'/%3E%3Crect x='22' y='1' width='17' height='17' rx='1' fill='none' stroke='%23c8c2b4' stroke-width='0.7' opacity='0.6'/%3E%3Crect x='1' y='22' width='17' height='17' rx='1' fill='none' stroke='%23c8c2b4' stroke-width='0.7' opacity='0.6'/%3E%3Crect x='22' y='22' width='17' height='17' rx='1' fill='none' stroke='%23c8c2b4' stroke-width='0.7' opacity='0.6'/%3E%3C/svg%3E");
+}
+
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
