@@ -19,6 +19,14 @@
       "💆 Beauty & wellness deals",
       "🛍️ Best discounts now"
     ],
+    "merchantTitle": "Business Advisor",
+    "merchantSubtitle": "Your assistant to grow your business",
+    "merchantGreeting": "Hello! I am your Agora business advisor 💼 I can analyze your offers, suggest new ideas, or help you maximize your results. Where would you like to start?",
+    "merchantSuggestions": [
+      "📊 Analyze my current offers",
+      "💡 Suggest new offers",
+      "📅 Offers expiring soon"
+    ],
     "placeholder": "Search for deals…",
     "error": "Sorry, something went wrong. Please try again.",
     "greeting": "Hello! I am your Agora advisor 😊 Tell me what you are looking for — a restaurant, a shop, a special discount — and I will find you the best deals of the moment!"

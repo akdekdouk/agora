@@ -20,6 +20,14 @@
       "💆 Offres beauté & bien-être",
       "🛍️ Meilleures réductions du moment"
     ],
+    "merchantTitle": "Conseiller Business",
+    "merchantSubtitle": "Votre assistant pour développer votre activité",
+    "merchantGreeting": "Bonjour ! Je suis votre conseiller business Agora 💼 Je peux analyser vos offres, vous suggérer de nouvelles idées, ou vous aider à maximiser vos résultats. Par où voulez-vous commencer ?",
+    "merchantSuggestions": [
+      "📊 Analyser mes offres actuelles",
+      "💡 Suggérer de nouvelles offres",
+      "📅 Offres qui expirent bientôt"
+    ],
     "placeholder": "Écrivez votre demande…",
     "error": "Désolé, une erreur est survenue. Réessayez."
   },

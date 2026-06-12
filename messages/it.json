@@ -19,6 +19,14 @@
       "💆 Offerte bellezza",
       "🛍️ Migliori sconti ora"
     ],
+    "merchantTitle": "Consulente Business",
+    "merchantSubtitle": "Il tuo assistente per far crescere la tua attività",
+    "merchantGreeting": "Ciao! Sono il tuo consulente business Agora 💼 Posso analizzare le tue offerte, suggerire nuove idee o aiutarti a massimizzare i risultati. Da dove vuoi iniziare?",
+    "merchantSuggestions": [
+      "📊 Analizzare le mie offerte attuali",
+      "💡 Suggerire nuove offerte",
+      "📅 Offerte in scadenza"
+    ],
     "placeholder": "Cerca offerte…",
     "error": "Spiacente, si è verificato un errore. Riprova.",
     "greeting": "Ciao! Sono il tuo consulente Agora 😊 Dimmi cosa cerchi — un ristorante, un negozio, uno sconto particolare — e ti trovo le migliori offerte del momento!"

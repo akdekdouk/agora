@@ -269,11 +269,66 @@ Products: ${m.products.map(p => `"${p.name}" ${p.originalPrice}→${p.discounted
 ---`;
   }
 
-  const userTypeInstructions = context.userType === "merchant"
-    ? `You are talking to a MERCHANT (business owner). Help them manage their business on Agora: understand their stats, improve their offers, attract more customers, and use platform features effectively. Address them as a business owner.`
-    : context.userType === "consumer"
-    ? `You are talking to a CONSUMER. Help them find deals, manage their saved offers and claims, discover new merchants, and use the platform. Address them by name if available.`
-    : `You are talking to a VISITOR (not logged in). Help them discover deals and encourage them to create a free account to save offers and claim discounts.`;
+  // ── MERCHANT MODE ──────────────────────────────────────────────────────────
+  if (context.userType === "merchant") {
+    const m = context.merchantProfile;
+    const expiringOffers = m?.activeOffers
+      .filter(o => {
+        const daysLeft = Math.ceil((new Date(o.validTo).getTime() - new Date(today).getTime()) / 86400000);
+        return daysLeft >= 0 && daysLeft <= 7;
+      }) ?? [];
+
+    const lowClaimOffers = m?.activeOffers.filter(o => o.claimsCount < 3) ?? [];
+
+    const merchantSystemPrompt = `You are an expert business advisor for Agora, a local deals platform. You are speaking directly with the owner of the business described below.
+
+LANGUAGE: Always respond in ${lang}. Every word must be in ${lang}.
+
+Today: ${today}
+${profileSection}
+
+EXPIRING SOON (≤7 days): ${expiringOffers.map(o => `"${o.title}" expires ${o.validTo.split("T")[0]}`).join(", ") || "none"}
+LOW ENGAGEMENT (<3 claims): ${lowClaimOffers.map(o => `"${o.title}" (${o.claimsCount} claims)`).join(", ") || "none"}
+
+YOUR ROLE — act as a strategic business advisor:
+
+1. ANALYZE their current offers: highlight top performers, warn about expiring offers, flag low-engagement offers.
+
+2. SUGGEST new offers: based on their category (${m?.category ?? "unknown"}), propose specific offer ideas with realistic discounts (15–50%) and catchy titles.
+
+3. RECOMMEND extending or renewing offers that are expiring soon but performing well (high claims).
+
+4. Give ACTIONABLE advice: specific steps they can take right now to increase claims — better titles, higher discounts, seasonal timing, etc.
+
+5. Be CONCISE and STRUCTURED: use short bullet points or numbered lists when helpful. Be direct and data-driven.
+
+6. NEVER show offer cards or use visual tools — communicate entirely through text.
+
+7. ALWAYS end with a follow-up question or action item to keep the conversation productive.
+
+IMPORTANT: You are their trusted advisor. Be proactive — don't wait to be asked, highlight issues and opportunities they may not have noticed.`;
+
+    const merchantResponse = await getAnthropic().messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 1024,
+      system: merchantSystemPrompt,
+      messages,
+    });
+
+    let merchantText = "";
+    for (const block of merchantResponse.content) {
+      if (block.type === "text") merchantText += block.text;
+    }
+
+    if (!merchantText) {
+      merchantText = "Je suis là pour vous aider à développer votre activité 💼 Que souhaitez-vous analyser — vos offres actuelles, de nouvelles idées, ou votre stratégie ?";
+    }
+
+    for (const char of merchantText) yield char;
+    return;
+  }
+
+  // ── CONSUMER / GUEST MODE ──────────────────────────────────────────────────
 
   const systemPrompt = `You are a warm and effective commercial advisor for Agora, a local deals platform. You help people find and claim discounts from local merchants.
 
@@ -281,7 +336,9 @@ LANGUAGE: Always respond in ${lang}. Every word must be in ${lang}.
 
 Today: ${today}
 ${profileSection}
-${userTypeInstructions}
+${context.userType === "consumer"
+  ? "You are talking to a CONSUMER. Help them find deals, manage their saved offers and claims, discover new merchants, and use the platform. Address them by name if available."
+  : "You are talking to a VISITOR (not logged in). Help them discover deals and encourage them to create a free account to save offers and claim discounts."}
 
 Available offers you can show (pass IDs to show_offers):
 ${JSON.stringify(context.offers.map(o => ({
