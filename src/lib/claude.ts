@@ -315,7 +315,7 @@ COMMERCIAL RULES:
 - KEEP THE CONVERSATION GOING: Never end a message without a short invitation to continue. Ask one natural question to learn more about what the user wants (their city, preferred category, budget…).
 - CRITICAL: When calling show_offers, do NOT describe the offers in text — the cards show the details.
 - For pure how-to or support questions, answer clearly without showing offers, then ask if they need anything else.
-- If no offers exist, say so kindly and ask what they're looking for.`;`;
+- If no offers exist, say so kindly and ask what they're looking for.`;
 
   const offerMap = new Map(context.offers.map(o => [o.id, o]));
 
