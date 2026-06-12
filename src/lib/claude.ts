@@ -304,28 +304,43 @@ YOUR ROLE — act like a skilled sales advisor:
 1. GREETINGS ("bonjour", "salut", "ça va", "hello", short pleasantries):
    Respond warmly in 1 sentence, then ask ONE specific question to learn their criteria (city? category? budget?). Do NOT show offers yet.
 
-2. CRITERIA DETECTED (any mention of category, city, type of product/service, or desire for deals):
-   IMMEDIATELY call show_offers with the 3 best matching offers. Add ONE short follow-up to refine further. Never describe offers in text — the cards show everything.
+2. CRITERIA DETECTED — any of: city name, category, type of product, desire for deal, short answer to your own question (e.g. user replies "La Rochelle" to your city question):
+   IMMEDIATELY call show_offers with the 3 BEST matching offers (maximum 3, never more). Add ONE short warm sentence after. Never describe offers in text — the cards are shown visually.
 
-3. CASUAL CHAT (not about offers):
-   Respond briefly (1-2 sentences), acknowledge what they said, then naturally steer back: "D'ailleurs, vous cherchez quelque chose en particulier ?"
+3. CASUAL CHAT or UNCLEAR response:
+   Respond warmly in 1-2 sentences, then ask ONE simple question. Example: if they said a city but no category → "Super ! Et vous cherchez quel type de commerce — restaurant, beauté, boutique ?"
 
-4. KEEP CONVERSATION ALIVE: Always end with a question or invitation. Never leave the user with a dead end.
+4. KEEP CONVERSATION ALIVE: ALWAYS end with a question. Never a dead end. Even a vague answer like "je ne sais pas" → respond warmly and give them 2-3 easy category options to choose from.
 
-5. CRITICAL: When calling show_offers, do NOT list the offers in text. The cards are shown visually.
+5. CRITICAL: When calling show_offers, NEVER list or describe the offers in text. The visual cards handle that.
 
-6. If the user says the offers don't match: ask a refining question (different city? different category?) then call show_offers again with better matches.`;
+6. If offers don't satisfy: ask one refining question (different city? different category?) then call show_offers again.
+
+7. NEVER BLOCK: If the user's message is ambiguous or minimal, always find a way to continue the conversation warmly.`;
 
   const offerMap = new Map(context.offers.map(o => [o.id, o]));
 
   const lastUserMsg = messages[messages.length - 1]?.content?.toString().toLowerCase() ?? "";
 
-  // Pure greetings/pleasantries — let the model respond conversationally
-  const isPleasantry = /^(bonjour|salut|bonsoir|hello|hi|ciao|hola|merhaba|ça va|ca va|salam|comment (allez|vas|tu vas)|vous allez|tu vas|bien merci|merci|bonne journée|bonne soirée)[^a-z]{0,10}$/i.test(lastUserMsg.trim());
+  // Pure first-message greetings only — once conversation is going, never block
+  const isFirstMessage = messages.length === 1;
+  const isPleasantry = isFirstMessage &&
+    /^(bonjour|salut|bonsoir|hello|hi|ciao|hola|merhaba|ça va|ca va|salam|comment (allez|vas|tu vas)|vous allez|bien merci|merci|bonne journée|bonne soirée)[^a-z]{0,10}$/i.test(lastUserMsg.trim());
 
-  // Force offer tool only when user has given real search criteria
+  // Scan full conversation for any useful context (city, category, desire)
+  const allUserText = messages
+    .filter(m => m.role === "user")
+    .map(m => m.content?.toString().toLowerCase() ?? "")
+    .join(" ");
+
+  const hasRealContext =
+    /offr|deal|promo|réduction|reduction|remise|discount|restaurant|shop|boutique|artisan|beauté|beauty|sport|hotel|service|bon plan|trouv|cherch|recommand|voudrais|cherche|besoin|envie|voir les|je veux|je cherche|je suis (à|a|en)|je vis (à|a|en)|paris|lyon|marseille|toulouse|nice|nantes|bordeaux|lille|strasbourg|rennes|rochelle|toulon|grenoble|montpellier|rouen|reims|dijon|angers|metz|brest|le havre|tours|saint/i.test(allUserText);
+
+  // Mid-conversation (3+ user messages) → always show offers, user has given enough info
+  const deepInConversation = messages.filter(m => m.role === "user").length >= 3;
+
   const isOfferQuery = !isPleasantry && context.offers.length > 0 &&
-    /offr|deal|promo|réduction|reduction|remise|discount|restaurant|shop|boutique|artisan|beauté|beauty|sport|hotel|service|bon plan|meilleur|trouv|cherch|recommand|montre|présent|quoi|available|dispo|voudrais|voudrait|aimerai|cherche|besoin|envie|montrez|ville|catégorie|categorie|aujourd|semaine|mois|pas cher|économ|econom|voir les|je veux|je cherche|j'ai besoin|show me|find me/i.test(lastUserMsg);
+    (deepInConversation || hasRealContext);
 
   const tools: Anthropic.Tool[] = [
     {
@@ -345,10 +360,9 @@ YOUR ROLE — act like a skilled sales advisor:
     },
   ];
 
-  // Force tool use when user is asking about offers
   const response = await getAnthropic().messages.create({
     model: "claude-haiku-4-5-20251001",
-    max_tokens: 512,
+    max_tokens: 768,
     system: systemPrompt,
     tools,
     tool_choice: isOfferQuery ? { type: "any" } : { type: "auto" },
