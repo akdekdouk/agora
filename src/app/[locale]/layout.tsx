@@ -3,6 +3,7 @@ import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
+import AiChat from "@/components/AiChat";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -46,6 +47,7 @@ export default async function LocaleLayout({
             <Navbar />
             <main>{children}</main>
             <Footer />
+            <AiChat />
           </Providers>
         </NextIntlClientProvider>
       </body>

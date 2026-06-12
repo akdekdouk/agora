@@ -2,7 +2,6 @@ import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
 import MerchantsByCategory from "@/components/MerchantsByCategory";
 import HomeSearch from "@/components/HomeSearch";
-import AiChat from "@/components/AiChat";
 import ProductCard from "@/components/ProductCard";
 import { getTranslations } from "next-intl/server";
 import { getConsumerSession } from "@/lib/auth-consumer";
@@ -193,9 +192,6 @@ export default async function HomePage() {
           )}
         </div>
       </section>
-
-      {/* AI Chat floating button — visible to all */}
-      <AiChat />
 
       <section className="bg-orange-50 py-12 px-4">
         <div className="max-w-3xl mx-auto text-center">
