@@ -154,10 +154,13 @@ export default function AiChat() {
     setLoading(true);
     setMessages([...newMessages, { role: "assistant", content: "" }]);
     try {
+      // Strip the local greeting (index 0, role: "assistant") before sending to the API.
+      // Anthropic requires conversations to start with a user message.
+      const apiMessages = newMessages[0]?.role === "assistant" ? newMessages.slice(1) : newMessages;
       const res = await fetch("/api/ai/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages, locale }),
+        body: JSON.stringify({ messages: apiMessages, locale }),
       });
       if (!res.body) throw new Error("No stream");
       const reader = res.body.getReader();
