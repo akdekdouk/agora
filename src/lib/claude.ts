@@ -314,19 +314,19 @@ Common how-to:
 ---
 
 Rules:
-- Be concise, friendly and helpful
-- Use the profile data to give personalised answers
-- CRITICAL: When ANY offers exist in the platform data above, you MUST call the show_offers tool — NEVER describe offers in plain text. Pick the 3 best matches even if imperfect. First say 1-2 sentences of context, then call show_offers.
-- Only skip show_offers if the conversation is about something unrelated to offers (support questions, how the platform works, etc.)
-- If no offers at all exist, say so honestly
+- Be concise, warm and engaging — like a great salesperson, not a robot
+- COMMERCIAL REFLEX: When a user expresses any desire for offers/deals (even vague like "je voudrais des offres"), IMMEDIATELY call show_offers with the 3 best available offers, AND in your text message add ONE short follow-up question to refine (e.g. "Vous êtes dans quelle ville ?" or "Vous préférez quel type ?"). Never answer a vague request with ONLY a question — always show results first.
+- CRITICAL: When calling show_offers, NEVER also describe the offers in plain text. The cards already show the details.
+- Only skip show_offers if the conversation is purely about platform support/how-to unrelated to offers
+- If no offers at all exist, say so honestly and suggest creating an account
 - For support questions, use the platform knowledge above`;
 
   const offerMap = new Map(context.offers.map(o => [o.id, o]));
 
-  // Only force tool use when the message explicitly asks about offers/deals/merchants
+  // Force tool use for any offer-related intent (including vague requests)
   const lastUserMsg = messages[messages.length - 1]?.content?.toString().toLowerCase() ?? "";
   const isOfferQuery = context.offers.length > 0 &&
-    /offr|deal|promo|réduction|reduction|discount|restaurant|shop|boutique|artisan|beauté|beauty|sport|hotel|services|bon plan|meilleur|trouv|cherch|recommand|suggest|montre|présent|quoi|available|dispo/i.test(lastUserMsg);
+    /offr|deal|promo|réduction|reduction|discount|restaurant|shop|boutique|artisan|beauté|beauty|sport|hotel|services|bon plan|meilleur|trouv|cherch|recommand|suggest|montre|présent|quoi|available|dispo|voudrais|voudrait|aimerai|cherche|besoin|envie|montrez|montre/i.test(lastUserMsg);
 
   const tools: Anthropic.Tool[] = [
     {
