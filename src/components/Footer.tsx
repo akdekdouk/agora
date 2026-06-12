@@ -32,9 +32,13 @@ export default function Footer() {
         <p>
           © {new Date().getFullYear()} <span className="font-medium text-gray-500">Lumeria</span>
           {" · "}
-          <a href="mailto:akdekdouk@gmail.com" className="hover:text-orange-500 transition">akdekdouk@gmail.com</a>
+          <a href="mailto:admin@lumeria-consulting.com" className="hover:text-orange-500 transition">admin@lumeria-consulting.com</a>
           {" · "}
-          <a href="tel:+393511549779" className="hover:text-orange-500 transition">+39 351 154 9779</a>
+          <a href="tel:+33774874751" className="hover:text-orange-500 transition">+33 7 74 87 47 51</a>
+          {" · "}
+          <a href="tel:+393511549779" className="hover:text-orange-500 transition">+39 351 154 97 79</a>
+          {" · "}
+          <span>11 Louis Guillet, 17000 La Rochelle, France</span>
         </p>
 
         <button

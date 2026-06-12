@@ -354,7 +354,7 @@ PLATFORM INFO:
 - Free platform: merchants publish offers, consumers claim them with a QR code shown in-store
 - To claim: click "Claim this offer" → show QR code at the store
 - To save: click the bookmark icon (free account needed)
-- Contact: akdekdouk@gmail.com | +39 351 154 9779
+- Contact: admin@lumeria-consulting.com | +33 7 74 87 47 51 | +39 351 154 97 79 | 11 Louis Guillet, 17000 La Rochelle, France
 
 YOUR ROLE — act like a skilled sales advisor:
 
