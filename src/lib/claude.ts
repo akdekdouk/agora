@@ -360,12 +360,13 @@ YOUR ROLE — act like a skilled sales advisor:
     },
   ];
 
+  // Always use auto — the system prompt guides tool use; forced "any" causes API hangs
   const response = await getAnthropic().messages.create({
     model: "claude-haiku-4-5-20251001",
     max_tokens: 768,
     system: systemPrompt,
     tools,
-    tool_choice: isOfferQuery ? { type: "any" } : { type: "auto" },
+    tool_choice: { type: "auto" },
     messages,
   });
 
@@ -385,7 +386,34 @@ YOUR ROLE — act like a skilled sales advisor:
     }
   }
 
-  // Failsafe: never return empty — if model produced nothing, give a nudge
+  // Server-side fallback: if context suggests offers are needed but LLM didn't call tool,
+  // do a direct search so the user never gets stuck with no results
+  if (isOfferQuery && offersToShow.length === 0 && context.offers.length > 0) {
+    const cityMatch = allUserText.match(/rochelle|paris|lyon|marseille|toulouse|nice|nantes|bordeaux|lille|strasbourg|rennes|toulon|grenoble|montpellier|rouen|reims|dijon|angers|metz|brest|tours/i)?.[0]?.toLowerCase();
+    const catMatch = allUserText.match(/restaurant|beauté|beauty|boutique|shop|artisan|hotel|sport|service|santé|education/i)?.[0]?.toLowerCase();
+
+    offersToShow = context.offers
+      .filter(o => {
+        const city = o.merchantCity.toLowerCase();
+        const cat = o.merchantCategory.toLowerCase();
+        if (cityMatch && city.includes(cityMatch)) return true;
+        if (catMatch && cat.includes(catMatch)) return true;
+        return false;
+      })
+      .slice(0, 3);
+
+    // If still nothing, show top 3 from any city
+    if (offersToShow.length === 0) {
+      offersToShow = context.offers.slice(0, 3);
+    }
+
+    // Generate a short bridging text if LLM gave nothing
+    if (!textContent) {
+      textContent = "Voici les meilleures offres disponibles ! Vous cherchez un type de commerce en particulier ?";
+    }
+  }
+
+  // Hard failsafe: never return completely empty
   if (!textContent && offersToShow.length === 0) {
     textContent = "Je suis là pour vous aider 😊 Dites-moi dans quelle ville vous cherchez, ou quel type de commerce vous intéresse ?";
   }
