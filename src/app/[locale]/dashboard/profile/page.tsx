@@ -14,6 +14,7 @@ const CATEGORIES = [
   { value: "health", label: "Santé / Médical" },
   { value: "sport", label: "Sport / Fitness" },
   { value: "services", label: "Services" },
+  { value: "garage_sale", label: "Vide-Grenier & Brocante" },
   { value: "other", label: "Autre" },
 ];
 

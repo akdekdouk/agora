@@ -8,7 +8,14 @@
     "merchantAccess": "Merchant access",
     "signIn": "Sign in",
     "scanValidate": "Scan & Validate",
-    "map": "Map"
+    "map": "Map",
+    "nav_settings": "Settings",
+    "nav_language": "Language",
+    "nav_colorTheme": "Color theme",
+    "nav_background": "Background",
+    "nav_font": "Font",
+    "nav_advancedConfig": "Advanced settings →",
+    "category_garage_sale": "🏷️ Garage Sale & Flea Market"
   },
   "aiChat": {
     "title": "Agora Assistant",
@@ -103,7 +110,8 @@
     "health": "Health & Medical",
     "sport": "Sport & Leisure",
     "services": "Services & Auto",
-    "other": "Other"
+    "other": "Other",
+    "garage_sale": "Garage Sale & Flea Market"
   },
   "forgotPassword": {
     "title": "Reset your password",

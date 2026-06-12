@@ -63,6 +63,7 @@ export default function RegisterPage() {
                 <option value="health">{t("health")}</option>
                 <option value="sport">{t("sport")}</option>
                 <option value="services">{t("services")}</option>
+                <option value="garage_sale">{t("garage_sale")}</option>
                 <option value="other">{t("other")}</option>
               </select>
             </div>

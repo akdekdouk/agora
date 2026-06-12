@@ -8,7 +8,14 @@
     "merchantAccess": "Accès marchand",
     "signIn": "Se connecter",
     "scanValidate": "Scanner & Valider",
-    "map": "Carte"
+    "map": "Carte",
+    "nav_settings": "Paramètres",
+    "nav_language": "Langue",
+    "nav_colorTheme": "Thème de couleur",
+    "nav_background": "Fond d'écran",
+    "nav_font": "Police",
+    "nav_advancedConfig": "Configuration avancée →",
+    "category_garage_sale": "🏷️ Vide-Grenier & Brocante"
   },
   "aiChat": {
     "title": "Assistant Agora",
@@ -103,7 +110,8 @@
     "health": "Santé & Médical",
     "sport": "Sport & Loisirs",
     "services": "Services & Auto",
-    "other": "Autre"
+    "other": "Autre",
+    "garage_sale": "Vide-Grenier & Brocante"
   },
   "forgotPassword": {
     "title": "Réinitialiser votre mot de passe",

@@ -198,11 +198,11 @@ export default function Navbar() {
 
             {settingsOpen && (
               <div className="absolute right-0 top-10 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 p-4 max-h-[80vh] overflow-y-auto">
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Paramètres</p>
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">{t("nav_settings")}</p>
 
                 {/* Language */}
                 <div className="mb-4">
-                  <p className="text-xs text-gray-500 mb-1.5">🌐 Langue</p>
+                  <p className="text-xs text-gray-500 mb-1.5">🌐 {t("nav_language")}</p>
                   <select
                     value={locale}
                     onChange={(e) => { switchLocale(e.target.value); setSettingsOpen(false); }}
@@ -217,7 +217,7 @@ export default function Navbar() {
 
                 {/* Theme — 2 rows of 5 */}
                 <div className="mb-4">
-                  <p className="text-xs text-gray-500 mb-1.5">🎨 Thème de couleur</p>
+                  <p className="text-xs text-gray-500 mb-1.5">🎨 {t("nav_colorTheme")}</p>
                   <div className="grid grid-cols-5 gap-2">
                     {THEMES.map((th) => (
                       <button
@@ -233,7 +233,7 @@ export default function Navbar() {
 
                 {/* Background pattern */}
                 <div className="mb-4">
-                  <p className="text-xs text-gray-500 mb-1.5">🖼️ Fond d&apos;écran</p>
+                  <p className="text-xs text-gray-500 mb-1.5">🖼️ {t("nav_background")}</p>
                   <div className="grid grid-cols-3 gap-1.5">
                     {BACKGROUNDS.map((bg) => (
                       <button
@@ -252,7 +252,7 @@ export default function Navbar() {
 
                 {/* Font */}
                 <div>
-                  <p className="text-xs text-gray-500 mb-1.5">✏️ Police</p>
+                  <p className="text-xs text-gray-500 mb-1.5">✏️ {t("nav_font")}</p>
                   <div className="flex gap-2">
                     {FONTS.map((f) => (
                       <button
@@ -272,7 +272,7 @@ export default function Navbar() {
                   <div className="border-t border-gray-100 mt-4 pt-3">
                     <Link href="/dashboard/config" onClick={() => setSettingsOpen(false)}
                       className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
-                      ⚙️ Configuration avancée →
+                      ⚙️ {t("nav_advancedConfig")}
                     </Link>
                   </div>
                 )}
