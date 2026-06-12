@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { prisma } from "@/lib/prisma";
-import MerchantCard from "@/components/MerchantCard";
+import MerchantsByCategory from "@/components/MerchantsByCategory";
 import HomeSearch from "@/components/HomeSearch";
 import AiChat from "@/components/AiChat";
 import ProductCard from "@/components/ProductCard";
@@ -53,7 +53,7 @@ async function getLatestProducts() {
 
 async function getFeaturedMerchants() {
   return prisma.user.findMany({
-    take: 6,
+    take: 40,
     orderBy: { createdAt: "desc" },
     select: {
       id: true,
@@ -171,12 +171,12 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* Featured Merchants */}
+      {/* Merchants by category */}
       <section className="bg-gray-50 py-12 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-bold text-gray-900">{t("featuredMerchants")}</h2>
-            <Link href="/merchants" className="text-orange-500 hover:text-orange-600 font-medium">
+            <Link href="/merchants" className="font-medium hover:opacity-80" style={{ color: "var(--color-primary)" }}>
               {t("viewAll")}
             </Link>
           </div>
@@ -184,16 +184,12 @@ export default async function HomePage() {
           {merchants.length === 0 ? (
             <div className="text-center py-12 text-gray-500">
               <p className="text-lg">{t("noMerchantsYet")}</p>
-              <Link href="/register" className="text-orange-500 hover:underline mt-2 inline-block">
+              <Link href="/register" className="hover:underline mt-2 inline-block" style={{ color: "var(--color-primary)" }}>
                 {t("registerBusiness")}
               </Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {merchants.map((m) => (
-                <MerchantCard key={m.id} merchant={m} />
-              ))}
-            </div>
+            <MerchantsByCategory merchants={merchants} />
           )}
         </div>
       </section>

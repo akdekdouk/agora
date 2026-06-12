@@ -59,6 +59,7 @@ export default function AiChat() {
   const locale = useLocale();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [greeted, setGreeted] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [listening, setListening] = useState(false);
@@ -77,6 +78,34 @@ export default function AiChat() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    if (open && !greeted && messages.length === 0) {
+      setGreeted(true);
+      setLoading(true);
+      setMessages([{ role: "assistant", content: "" }]);
+      fetch("/api/ai/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: [], locale, greeting: true }),
+      }).then(async (res) => {
+        if (!res.body) { setLoading(false); return; }
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let accumulated = "";
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          accumulated += decoder.decode(value, { stream: true });
+          const { text, offers } = parseMessage(accumulated);
+          setMessages([{ role: "assistant", content: text, offers }]);
+        }
+      }).catch(() => {
+        setMessages([{ role: "assistant", content: t("welcome") }]);
+      }).finally(() => setLoading(false));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
 
   useEffect(() => {
     setSpeechSupported(
@@ -275,15 +304,15 @@ export default function AiChat() {
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
-            {messages.length === 0 && (
+            {messages.length === 0 && !loading && (
               <div className="text-center py-6">
-                <p className="text-gray-400 text-sm mb-3">{t("welcome")}</p>
+                <p className="text-gray-400 text-base mb-4">{t("welcome")}</p>
                 <div className="space-y-2">
                   {(t.raw("suggestions") as string[]).map((s, i) => (
                     <button
                       key={i}
                       onClick={() => sendMessage(s)}
-                      className="block w-full text-left text-xs px-3 py-2 rounded-lg transition"
+                      className="block w-full text-left text-sm px-4 py-3 rounded-xl font-medium transition"
                       style={{ backgroundColor: "var(--color-primary-light)", color: "var(--color-primary-text)" }}
                     >
                       {s}
@@ -297,12 +326,27 @@ export default function AiChat() {
                 {/* Text bubble */}
                 {(msg.content || (loading && i === messages.length - 1)) && (
                   <div
-                    className={`max-w-[85%] px-3 py-2 rounded-xl text-sm whitespace-pre-wrap ${
+                    className={`max-w-[85%] px-4 py-3 rounded-xl text-base leading-relaxed whitespace-pre-wrap ${
                       msg.role === "user" ? "text-white" : "bg-gray-100 text-gray-800"
                     }`}
                     style={msg.role === "user" ? { backgroundColor: "var(--color-primary)" } : undefined}
                   >
                     {msg.content || (loading && i === messages.length - 1 ? "…" : "")}
+                  </div>
+                )}
+                {/* Quick reply suggestions after first assistant message */}
+                {msg.role === "assistant" && i === 0 && msg.content && messages.length === 1 && (
+                  <div className="mt-2 w-full space-y-1.5">
+                    {(t.raw("suggestions") as string[]).map((s, si) => (
+                      <button
+                        key={si}
+                        onClick={() => sendMessage(s)}
+                        className="block w-full text-left text-sm px-3 py-2 rounded-xl border transition font-medium"
+                        style={{ borderColor: "var(--color-primary)", color: "var(--color-primary)", background: "white" }}
+                      >
+                        {s}
+                      </button>
+                    ))}
                   </div>
                 )}
 
@@ -375,7 +419,7 @@ export default function AiChat() {
               onChange={(e) => setInput(e.target.value)}
               placeholder={listening ? "🎤 Parlez…" : t("placeholder")}
               disabled={loading}
-              className="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 disabled:opacity-60"
+              className="flex-1 text-base border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 disabled:opacity-60"
               style={{ "--tw-ring-color": "var(--color-primary)" } as React.CSSProperties}
             />
             {speechSupported && (

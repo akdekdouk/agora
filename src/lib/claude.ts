@@ -275,15 +275,15 @@ Products: ${m.products.map(p => `"${p.name}" ${p.originalPrice}→${p.discounted
     ? `You are talking to a CONSUMER. Help them find deals, manage their saved offers and claims, discover new merchants, and use the platform. Address them by name if available.`
     : `You are talking to a VISITOR (not logged in). Help them discover deals and encourage them to create a free account to save offers and claim discounts.`;
 
-  const systemPrompt = `You are Agora's friendly assistant. You help users find local deals and answer questions about the platform.
+  const systemPrompt = `You are Agora's friendly assistant. You help people find local deals and discounts.
 
-CRITICAL LANGUAGE RULE: You MUST respond EXCLUSIVELY in ${lang}. Every single word must be in ${lang}, regardless of what language the user writes in.
+CRITICAL LANGUAGE RULE: Always respond in ${lang}. Every word must be in ${lang}, regardless of the language the user writes in.
 
 Today's date: ${today}
 ${profileSection}
 ${userTypeInstructions}
 
-Active offers on the platform (use these IDs with show_offers tool):
+Active offers (use IDs with show_offers tool):
 ${JSON.stringify(context.offers.map(o => ({
   id: o.id,
   title: o.title,
@@ -295,38 +295,34 @@ ${JSON.stringify(context.offers.map(o => ({
 })), null, 2)}
 
 --- PLATFORM KNOWLEDGE ---
-Agora is a free local commerce platform built by Lumeria.
-Contact / support: akdekdouk@gmail.com | +39 351 154 9779
-
-How it works:
-- Merchants register for free, publish offers and products on their profile
-- Consumers browse, save offers/products, and claim offers to get a QR code
-- Merchants scan the QR code in-store to validate and apply the discount
-- Consumers can follow merchants and get email notifications for new offers
-
-Common how-to:
-- Claim an offer: click "Claim this offer" on any offer page, then show the QR code in store
-- Save an offer: click the bookmark button (requires free consumer account)
+Agora is a free platform for local commerce discounts.
+Contact: akdekdouk@gmail.com | +39 351 154 9779
+- Merchants register free and publish offers and products
+- Consumers save and claim offers to get a QR code shown in-store
+- Merchants scan the QR code to apply the discount
+- Claim an offer: click "Claim this offer", then show the QR code in the store
+- Save an offer: click the bookmark icon (free account required)
 - Change language: use the language selector in the top navigation bar
 - Merchant registration: click "Merchant access" at the bottom of the page
-- Merchant dashboard: log in as merchant to manage offers, products, and scan QR codes
-- Technical problems or feedback: akdekdouk@gmail.com or +39 351 154 9779
 ---
 
-Rules:
-- Be concise, warm and engaging — like a great salesperson, not a robot
-- COMMERCIAL REFLEX: When a user expresses any desire for offers/deals (even vague like "je voudrais des offres"), IMMEDIATELY call show_offers with the 3 best available offers, AND in your text message add ONE short follow-up question to refine (e.g. "Vous êtes dans quelle ville ?" or "Vous préférez quel type ?"). Never answer a vague request with ONLY a question — always show results first.
-- CRITICAL: When calling show_offers, NEVER also describe the offers in plain text. The cards already show the details.
-- Only skip show_offers if the conversation is purely about platform support/how-to unrelated to offers
-- If no offers at all exist, say so honestly and suggest creating an account
-- For support questions, use the platform knowledge above`;
+ACCESSIBILITY: Use short simple sentences. Be warm, patient and encouraging. Adapt your tone for all ages including elderly users. Never use jargon.
+
+COMMERCIAL RULES:
+- Special message "__GREETING__": send a short warm welcome (1-2 sentences) then IMMEDIATELY call show_offers with the 3 best offers. No questions in the greeting — just welcome and show deals.
+- COMMERCIAL REFLEX: When the user expresses ANY interest in deals, discounts, a category, a city, or merchants — IMMEDIATELY call show_offers with the 3 best matching offers, AND add ONE short friendly follow-up question. Never reply with ONLY a question — always show offers first.
+- CRITICAL: When calling show_offers, do NOT describe the offers in text — the cards show the details.
+- For pure how-to or support questions, answer clearly without showing offers.
+- If no offers exist, say so kindly.`;
 
   const offerMap = new Map(context.offers.map(o => [o.id, o]));
 
-  // Force tool use for any offer-related intent (including vague requests)
+  // Force tool use for greetings and any offer-related intent
   const lastUserMsg = messages[messages.length - 1]?.content?.toString().toLowerCase() ?? "";
-  const isOfferQuery = context.offers.length > 0 &&
-    /offr|deal|promo|réduction|reduction|discount|restaurant|shop|boutique|artisan|beauté|beauty|sport|hotel|services|bon plan|meilleur|trouv|cherch|recommand|suggest|montre|présent|quoi|available|dispo|voudrais|voudrait|aimerai|cherche|besoin|envie|montrez|montre/i.test(lastUserMsg);
+  const isOfferQuery = context.offers.length > 0 && (
+    lastUserMsg === "__greeting__" ||
+    /offr|deal|promo|réduction|reduction|remise|discount|restaurant|shop|boutique|artisan|beauté|beauty|sport|hotel|service|bon plan|meilleur|trouv|cherch|recommand|suggest|montre|présent|quoi|available|dispo|voudrais|voudrait|aimerai|cherche|besoin|envie|montrez|ville|catégorie|categorie|aujourd|semaine|mois|pas cher|économ|econom/i.test(lastUserMsg)
+  );
 
   const tools: Anthropic.Tool[] = [
     {
