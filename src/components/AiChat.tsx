@@ -334,21 +334,6 @@ export default function AiChat() {
                     {msg.content || (loading && i === messages.length - 1 ? "…" : "")}
                   </div>
                 )}
-                {/* Quick reply suggestions after first assistant message */}
-                {msg.role === "assistant" && i === 0 && msg.content && messages.length === 1 && (
-                  <div className="mt-2 w-full space-y-1.5">
-                    {(t.raw("suggestions") as string[]).map((s, si) => (
-                      <button
-                        key={si}
-                        onClick={() => sendMessage(s)}
-                        className="block w-full text-left text-sm px-3 py-2 rounded-xl border transition font-medium"
-                        style={{ borderColor: "var(--color-primary)", color: "var(--color-primary)", background: "white" }}
-                      >
-                        {s}
-                      </button>
-                    ))}
-                  </div>
-                )}
 
                 {/* Offer cards */}
                 {msg.offers && msg.offers.length > 0 && (

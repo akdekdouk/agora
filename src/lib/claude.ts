@@ -309,17 +309,22 @@ Contact: akdekdouk@gmail.com | +39 351 154 9779
 ACCESSIBILITY: Use short simple sentences. Be warm, patient and encouraging. Adapt your tone for all ages including elderly users. Never use jargon.
 
 COMMERCIAL RULES:
-- Special message "__GREETING__": send a short warm welcome (1-2 sentences) then IMMEDIATELY call show_offers with the 3 best offers. No questions in the greeting — just welcome and show deals.
+- Special message "__GREETING__": send a short warm welcome (1-2 sentences max) then IMMEDIATELY call show_offers with the 3 best offers. No questions in the greeting — just welcome and show deals.
+- GREETINGS & PLEASANTRIES ("bonjour", "salut", "comment allez-vous", "ça va", "vous allez bien", etc.): respond warmly in 1-2 sentences, then naturally invite the user to tell you what they're looking for. Do NOT call show_offers for pure greetings.
 - COMMERCIAL REFLEX: When the user expresses ANY interest in deals, discounts, a category, a city, or merchants — IMMEDIATELY call show_offers with the 3 best matching offers, AND add ONE short friendly follow-up question. Never reply with ONLY a question — always show offers first.
+- KEEP THE CONVERSATION GOING: Never end a message without a short invitation to continue. Ask one natural question to learn more about what the user wants (their city, preferred category, budget…).
 - CRITICAL: When calling show_offers, do NOT describe the offers in text — the cards show the details.
-- For pure how-to or support questions, answer clearly without showing offers.
-- If no offers exist, say so kindly.`;
+- For pure how-to or support questions, answer clearly without showing offers, then ask if they need anything else.
+- If no offers exist, say so kindly and ask what they're looking for.`;`;
 
   const offerMap = new Map(context.offers.map(o => [o.id, o]));
 
-  // Force tool use for greetings and any offer-related intent
   const lastUserMsg = messages[messages.length - 1]?.content?.toString().toLowerCase() ?? "";
-  const isOfferQuery = context.offers.length > 0 && (
+
+  // Pure greetings/pleasantries — do NOT force offer tool
+  const isPleasantry = /^(bonjour|salut|bonsoir|hello|hi|ciao|hola|merhaba|ça va|ca va|comment (allez|vas)|vous allez|tu vas|bien merci|merci|ok|oui|non|d'accord|super|parfait|génial|cool|ah bon|je vois|je comprend)[^a-z]*$/i.test(lastUserMsg.trim());
+
+  const isOfferQuery = !isPleasantry && context.offers.length > 0 && (
     lastUserMsg === "__greeting__" ||
     /offr|deal|promo|réduction|reduction|remise|discount|restaurant|shop|boutique|artisan|beauté|beauty|sport|hotel|service|bon plan|meilleur|trouv|cherch|recommand|suggest|montre|présent|quoi|available|dispo|voudrais|voudrait|aimerai|cherche|besoin|envie|montrez|ville|catégorie|categorie|aujourd|semaine|mois|pas cher|économ|econom/i.test(lastUserMsg)
   );
