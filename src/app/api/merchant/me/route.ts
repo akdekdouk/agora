@@ -10,7 +10,7 @@ export async function GET() {
 
   const merchant = await prisma.user.findUnique({
     where: { id: session.user.id },
-    select: { email: true, businessName: true, description: true, category: true, city: true, address: true, phone: true },
+    select: { email: true, businessName: true, description: true, category: true, city: true, address: true, phone: true, logo: true },
   });
 
   if (!merchant) return NextResponse.json({ error: "Not found" }, { status: 404 });

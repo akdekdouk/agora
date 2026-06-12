@@ -8,7 +8,10 @@ export async function PUT(req: NextRequest) {
   const session = await getServerSession();
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { businessName, description, category, city, address, phone } = await req.json();
+  const { businessName, description, category, city, address, phone, logo } = await req.json() as {
+    businessName?: string; description?: string; category?: string;
+    city?: string; address?: string; phone?: string; logo?: string;
+  };
 
   if (!businessName?.trim() || !category?.trim() || !city?.trim()) {
     return NextResponse.json({ error: "Champs obligatoires manquants" }, { status: 400 });
@@ -23,8 +26,9 @@ export async function PUT(req: NextRequest) {
       city: city.trim(),
       address: address?.trim() || null,
       phone: phone?.trim() || null,
+      ...(logo !== undefined && { logo: logo || null }),
     },
-    select: { businessName: true, description: true, category: true, city: true, address: true, phone: true },
+    select: { businessName: true, description: true, category: true, city: true, address: true, phone: true, logo: true },
   });
 
   return NextResponse.json(updated);
