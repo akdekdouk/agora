@@ -162,6 +162,6 @@ model PlatformConfig {
   activeCategories String   @default("[\"restaurant\",\"shop\",\"artisan\",\"beauty\",\"hotel\"]") // JSON array, max 5
   theme            String   @default("orange") // "orange" | "blue" | "green" | "purple" | "rose"
   fontStyle        String   @default("modern") // "modern" | "classic" | "bold"
-  backgroundPattern String  @default("none")  // "none" | "vannerie" | "marche" | "losanges" | "lin" | "carrelage"
+  backgroundPattern String  @default("vannerie")  // "none" | "vannerie" | "marche" | "losanges" | "lin" | "carrelage"
   updatedAt        DateTime @updatedAt
 }

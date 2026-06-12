@@ -42,6 +42,46 @@
   --color-primary-muted: #fecdd3;
 }
 
+[data-theme="teal"] {
+  --color-primary: #14b8a6;
+  --color-primary-hover: #0d9488;
+  --color-primary-light: #f0fdfa;
+  --color-primary-text: #0f766e;
+  --color-primary-muted: #99f6e4;
+}
+
+[data-theme="amber"] {
+  --color-primary: #f59e0b;
+  --color-primary-hover: #d97706;
+  --color-primary-light: #fffbeb;
+  --color-primary-text: #b45309;
+  --color-primary-muted: #fde68a;
+}
+
+[data-theme="indigo"] {
+  --color-primary: #6366f1;
+  --color-primary-hover: #4f46e5;
+  --color-primary-light: #eef2ff;
+  --color-primary-text: #4338ca;
+  --color-primary-muted: #c7d2fe;
+}
+
+[data-theme="slate"] {
+  --color-primary: #475569;
+  --color-primary-hover: #334155;
+  --color-primary-light: #f8fafc;
+  --color-primary-text: #1e293b;
+  --color-primary-muted: #cbd5e1;
+}
+
+[data-theme="terracotta"] {
+  --color-primary: #c2410c;
+  --color-primary-hover: #9a3412;
+  --color-primary-light: #fff7ed;
+  --color-primary-text: #7c2d12;
+  --color-primary-muted: #fed7aa;
+}
+
 /* Font themes */
 [data-font="classic"] body { font-family: Georgia, 'Times New Roman', serif; }
 [data-font="bold"] body { font-family: 'Arial Black', Impact, sans-serif; letter-spacing: -0.01em; }

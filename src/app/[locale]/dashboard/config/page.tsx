@@ -22,6 +22,11 @@ const THEMES = [
   { value: "green", label: "Vert", primary: "#22c55e", light: "#f0fdf4" },
   { value: "purple", label: "Violet", primary: "#a855f7", light: "#faf5ff" },
   { value: "rose", label: "Rose", primary: "#f43f5e", light: "#fff1f2" },
+  { value: "teal", label: "Teal", primary: "#14b8a6", light: "#f0fdfa" },
+  { value: "amber", label: "Ambre", primary: "#f59e0b", light: "#fffbeb" },
+  { value: "indigo", label: "Indigo", primary: "#6366f1", light: "#eef2ff" },
+  { value: "slate", label: "Ardoise", primary: "#475569", light: "#f8fafc" },
+  { value: "terracotta", label: "Terracotta", primary: "#c2410c", light: "#fff7ed" },
 ];
 
 const FONTS = [

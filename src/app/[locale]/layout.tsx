@@ -21,10 +21,10 @@ async function getPlatformTheme() {
     return {
       theme: config?.theme ?? "orange",
       fontStyle: config?.fontStyle ?? "modern",
-      backgroundPattern: config?.backgroundPattern ?? "none",
+      backgroundPattern: config?.backgroundPattern ?? "vannerie",
     };
   } catch {
-    return { theme: "orange", fontStyle: "modern", backgroundPattern: "none" };
+    return { theme: "orange", fontStyle: "modern", backgroundPattern: "vannerie" };
   }
 }
 
