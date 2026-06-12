@@ -323,12 +323,10 @@ Rules:
 
   const offerMap = new Map(context.offers.map(o => [o.id, o]));
 
-  // Detect if user message is offer/deal related
+  // Only force tool use when the message explicitly asks about offers/deals/merchants
   const lastUserMsg = messages[messages.length - 1]?.content?.toString().toLowerCase() ?? "";
-  const isOfferQuery = context.offers.length > 0 && (
-    /offr|deal|promo|réduction|discount|restaurant|shop|artisan|beauty|sport|hotel|services|bon plan|meilleur|trouv|cherch|recommand|suggest|show|voir|présent/i.test(lastUserMsg) ||
-    messages.length <= 2
-  );
+  const isOfferQuery = context.offers.length > 0 &&
+    /offr|deal|promo|réduction|reduction|discount|restaurant|shop|boutique|artisan|beauté|beauty|sport|hotel|services|bon plan|meilleur|trouv|cherch|recommand|suggest|montre|présent|quoi|available|dispo/i.test(lastUserMsg);
 
   const tools: Anthropic.Tool[] = [
     {
