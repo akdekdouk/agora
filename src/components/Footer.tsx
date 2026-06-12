@@ -38,7 +38,7 @@ export default function Footer() {
           {" · "}
           <a href="tel:+393511549779" className="hover:text-orange-500 transition">+39 351 154 97 79</a>
           {" · "}
-          <span>11 Louis Guillet, 17000 La Rochelle, France</span>
+          <a href="https://www.lumeria-consulting.com" target="_blank" rel="noopener noreferrer" className="hover:text-orange-500 transition">lumeria-consulting.com</a>
         </p>
 
         <button
