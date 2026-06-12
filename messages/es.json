@@ -12,15 +12,16 @@
   },
   "aiChat": {
     "title": "Asistente Agora",
-    "subtitle": "Encuentra las mejores ofertas cerca de ti",
+    "subtitle": "Tu asesor de ofertas",
     "welcome": "¡Pregúntame cualquier cosa sobre ofertas locales!",
     "suggestions": [
-      "Mejores ofertas de restaurantes hoy",
-      "Descuentos de más del 30% cerca de mí",
-      "¿Cómo reclamo una oferta?"
+      "🍽️ Ver ofertas de restaurantes",
+      "💆 Ofertas de belleza",
+      "🛍️ Mejores descuentos ahora"
     ],
     "placeholder": "Buscar ofertas…",
-    "error": "Lo sentimos, algo salió mal. Inténtalo de nuevo."
+    "error": "Lo sentimos, algo salió mal. Inténtalo de nuevo.",
+    "greeting": "¡Hola! Soy tu asesor Agora 😊 Dime qué buscas — un restaurante, una tienda, un descuento especial — ¡y te encuentro las mejores ofertas del momento!"
   },
   "home": {
     "heroTitle": "Descubre Descuentos Locales",

@@ -5,8 +5,8 @@ import { getServerSession } from "@/lib/auth";
 import { chatWithAssistant, ChatMessage, RecommendationOffer } from "@/lib/claude";
 
 export async function POST(req: NextRequest) {
-  const { messages, locale, greeting } = await req.json() as { messages: ChatMessage[]; locale?: string; greeting?: boolean };
-  if (!greeting && !messages?.length) {
+  const { messages, locale } = await req.json() as { messages: ChatMessage[]; locale?: string };
+  if (!messages?.length) {
     return new Response("messages required", { status: 400 });
   }
 
@@ -157,10 +157,7 @@ export async function POST(req: NextRequest) {
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        const chatMessages = greeting
-          ? [{ role: "user" as const, content: "__GREETING__" }]
-          : messages;
-        for await (const chunk of chatWithAssistant(chatMessages, {
+        for await (const chunk of chatWithAssistant(messages, {
           offers: mappedOffers,
           locale,
           userType: merchantId ? "merchant" : consumerId ? "consumer" : "guest",

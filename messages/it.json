@@ -12,15 +12,16 @@
   },
   "aiChat": {
     "title": "Assistente Agora",
-    "subtitle": "Trova le migliori offerte vicino a te",
+    "subtitle": "Il tuo consulente offerte",
     "welcome": "Chiedimi qualsiasi cosa sulle promozioni locali!",
     "suggestions": [
-      "Migliori offerte ristoranti oggi",
-      "Sconti oltre il 30% vicino a me",
-      "Come riscatto un'offerta?"
+      "🍽️ Offerte ristoranti",
+      "💆 Offerte bellezza",
+      "🛍️ Migliori sconti ora"
     ],
     "placeholder": "Cerca offerte…",
-    "error": "Spiacente, si è verificato un errore. Riprova."
+    "error": "Spiacente, si è verificato un errore. Riprova.",
+    "greeting": "Ciao! Sono il tuo consulente Agora 😊 Dimmi cosa cerchi — un ristorante, un negozio, uno sconto particolare — e ti trovo le migliori offerte del momento!"
   },
   "home": {
     "heroTitle": "Scopri gli sconti locali",

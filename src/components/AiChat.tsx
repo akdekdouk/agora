@@ -79,30 +79,11 @@ export default function AiChat() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Show a local greeting instantly on first open — no API call
   useEffect(() => {
-    if (open && !greeted && messages.length === 0) {
+    if (open && !greeted) {
       setGreeted(true);
-      setLoading(true);
-      setMessages([{ role: "assistant", content: "" }]);
-      fetch("/api/ai/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [], locale, greeting: true }),
-      }).then(async (res) => {
-        if (!res.body) { setLoading(false); return; }
-        const reader = res.body.getReader();
-        const decoder = new TextDecoder();
-        let accumulated = "";
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          accumulated += decoder.decode(value, { stream: true });
-          const { text, offers } = parseMessage(accumulated);
-          setMessages([{ role: "assistant", content: text, offers }]);
-        }
-      }).catch(() => {
-        setMessages([{ role: "assistant", content: t("welcome") }]);
-      }).finally(() => setLoading(false));
+      setMessages([{ role: "assistant", content: t("greeting") }]);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
@@ -304,23 +285,6 @@ export default function AiChat() {
 
           {/* Messages */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
-            {messages.length === 0 && !loading && (
-              <div className="text-center py-6">
-                <p className="text-gray-400 text-base mb-4">{t("welcome")}</p>
-                <div className="space-y-2">
-                  {(t.raw("suggestions") as string[]).map((s, i) => (
-                    <button
-                      key={i}
-                      onClick={() => sendMessage(s)}
-                      className="block w-full text-left text-sm px-4 py-3 rounded-xl font-medium transition"
-                      style={{ backgroundColor: "var(--color-primary-light)", color: "var(--color-primary-text)" }}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
             {messages.map((msg, i) => (
               <div key={i} className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}>
                 {/* Text bubble */}
@@ -332,6 +296,22 @@ export default function AiChat() {
                     style={msg.role === "user" ? { backgroundColor: "var(--color-primary)" } : undefined}
                   >
                     {msg.content || (loading && i === messages.length - 1 ? "…" : "")}
+                  </div>
+                )}
+
+                {/* Suggestion chips below the first greeting message */}
+                {msg.role === "assistant" && i === 0 && messages.length === 1 && !loading && (
+                  <div className="mt-2 w-full space-y-1.5">
+                    {(t.raw("suggestions") as string[]).map((s, si) => (
+                      <button
+                        key={si}
+                        onClick={() => sendMessage(s)}
+                        className="block w-full text-left text-sm px-3 py-2.5 rounded-xl border font-medium transition hover:opacity-80"
+                        style={{ borderColor: "var(--color-primary)", color: "var(--color-primary)", background: "white" }}
+                      >
+                        {s}
+                      </button>
+                    ))}
                   </div>
                 )}
 
