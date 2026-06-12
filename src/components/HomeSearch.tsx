@@ -92,7 +92,7 @@ function offerMatchesKeyword(o: Offer, keyword: string): boolean {
   return false;
 }
 
-
+export default function HomeSearch({
   offers, isConsumerLoggedIn, savedOfferIds, activeCategories, consumerInterests,
   heroTitle, heroSubtitle, exploreMapLabel, latestDealsLabel,
 }: Props) {
