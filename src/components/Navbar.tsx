@@ -30,6 +30,11 @@ const THEMES = [
   { value: "green", color: "#22c55e" },
   { value: "purple", color: "#a855f7" },
   { value: "rose", color: "#f43f5e" },
+  { value: "teal", color: "#14b8a6" },
+  { value: "amber", color: "#f59e0b" },
+  { value: "indigo", color: "#6366f1" },
+  { value: "slate", color: "#475569" },
+  { value: "terracotta", color: "#c2410c" },
 ];
 
 const FONTS = [
@@ -38,12 +43,22 @@ const FONTS = [
   { value: "bold", label: "Bold" },
 ];
 
+const BACKGROUNDS = [
+  { value: "none", emoji: "◻️", label: "Neutre" },
+  { value: "vannerie", emoji: "🧺", label: "Vannerie" },
+  { value: "marche", emoji: "🏪", label: "Marché" },
+  { value: "losanges", emoji: "♦️", label: "Losanges" },
+  { value: "lin", emoji: "🪢", label: "Lin" },
+  { value: "carrelage", emoji: "🟫", label: "Carrelage" },
+];
+
 export default function Navbar() {
   const { data: session, status: sessionStatus } = useSession();
   const [consumerSession, setConsumerSession] = useState<ConsumerSession | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [currentTheme, setCurrentTheme] = useState("orange");
   const [currentFont, setCurrentFont] = useState("modern");
+  const [currentBg, setCurrentBg] = useState("vannerie");
   const settingsRef = useRef<HTMLDivElement>(null);
   const t = useTranslations("nav");
   const locale = useLocale();
@@ -59,6 +74,7 @@ export default function Navbar() {
     const html = document.documentElement;
     setCurrentTheme(html.getAttribute("data-theme") ?? "orange");
     setCurrentFont(html.getAttribute("data-font") ?? "modern");
+    setCurrentBg(html.getAttribute("data-bg") ?? "vannerie");
   }, []);
 
   useEffect(() => {
@@ -86,6 +102,16 @@ export default function Navbar() {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ theme }),
+    }).catch(() => {});
+  }
+
+  async function applyBackground(bg: string) {
+    setCurrentBg(bg);
+    document.documentElement.setAttribute("data-bg", bg);
+    await fetch("/api/config", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ backgroundPattern: bg }),
     }).catch(() => {});
   }
 
@@ -171,7 +197,7 @@ export default function Navbar() {
             </button>
 
             {settingsOpen && (
-              <div className="absolute right-0 top-10 w-72 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 p-4">
+              <div className="absolute right-0 top-10 w-80 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 p-4 max-h-[80vh] overflow-y-auto">
                 <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Paramètres</p>
 
                 {/* Language */}
@@ -189,18 +215,37 @@ export default function Navbar() {
                   </select>
                 </div>
 
-                {/* Theme */}
+                {/* Theme — 2 rows of 5 */}
                 <div className="mb-4">
-                  <p className="text-xs text-gray-500 mb-1.5">🎨 Thème</p>
-                  <div className="flex gap-2">
+                  <p className="text-xs text-gray-500 mb-1.5">🎨 Thème de couleur</p>
+                  <div className="grid grid-cols-5 gap-2">
                     {THEMES.map((th) => (
                       <button
                         key={th.value}
                         onClick={() => applyTheme(th.value)}
-                        className={`w-8 h-8 rounded-full border-2 transition ${currentTheme === th.value ? "border-gray-800 scale-110" : "border-transparent hover:scale-105"}`}
+                        className={`w-9 h-9 rounded-full border-2 transition mx-auto block ${currentTheme === th.value ? "border-gray-800 scale-110" : "border-transparent hover:scale-105"}`}
                         style={{ backgroundColor: th.color }}
                         title={th.value}
                       />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Background pattern */}
+                <div className="mb-4">
+                  <p className="text-xs text-gray-500 mb-1.5">🖼️ Fond d&apos;écran</p>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    {BACKGROUNDS.map((bg) => (
+                      <button
+                        key={bg.value}
+                        onClick={() => applyBackground(bg.value)}
+                        className={`flex items-center gap-1.5 px-2 py-1.5 rounded-lg border text-xs font-medium transition ${
+                          currentBg === bg.value ? "border-gray-800 bg-gray-50" : "border-gray-200 hover:border-gray-300"
+                        }`}
+                      >
+                        <span>{bg.emoji}</span>
+                        <span className="text-gray-600 truncate">{bg.label}</span>
+                      </button>
                     ))}
                   </div>
                 </div>
