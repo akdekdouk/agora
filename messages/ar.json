@@ -8,7 +8,14 @@
     "merchantAccess": "دخول التاجر",
     "signIn": "تسجيل الدخول",
     "scanValidate": "مسح والتحقق",
-    "map": "الخريطة"
+    "map": "الخريطة",
+    "nav_settings": "الإعدادات",
+    "nav_language": "اللغة",
+    "nav_colorTheme": "نظام الألوان",
+    "nav_background": "الخلفية",
+    "nav_font": "الخط",
+    "nav_advancedConfig": "الإعدادات المتقدمة ←",
+    "category_garage_sale": "🏷️ بيع المرآب والبازار"
   },
   "aiChat": {
     "title": "مساعد أغورا",
@@ -103,7 +110,8 @@
     "health": "الصحة والطب",
     "sport": "الرياضة والترفيه",
     "services": "الخدمات والسيارات",
-    "other": "أخرى"
+    "other": "أخرى",
+    "garage_sale": "بيع المرآب والبازار"
   },
   "forgotPassword": {
     "title": "إعادة تعيين كلمة المرور",

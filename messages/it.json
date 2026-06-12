@@ -8,7 +8,14 @@
     "merchantAccess": "Accesso commerciante",
     "signIn": "Accedi",
     "scanValidate": "Scansiona e Valida",
-    "map": "Mappa"
+    "map": "Mappa",
+    "nav_settings": "Impostazioni",
+    "nav_language": "Lingua",
+    "nav_colorTheme": "Tema colore",
+    "nav_background": "Sfondo",
+    "nav_font": "Carattere",
+    "nav_advancedConfig": "Impostazioni avanzate →",
+    "category_garage_sale": "🏷️ Vendita Garage & Mercatino"
   },
   "aiChat": {
     "title": "Assistente Agora",
@@ -103,7 +110,8 @@
     "health": "Salute & Medico",
     "sport": "Sport & Svago",
     "services": "Servizi & Auto",
-    "other": "Altro"
+    "other": "Altro",
+    "garage_sale": "Vendita Garage & Mercatino"
   },
   "forgotPassword": {
     "title": "Reimposta la password",

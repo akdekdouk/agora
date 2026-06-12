@@ -13,6 +13,7 @@ const ALL_CATEGORIES = [
   { value: "health", label: "🏥 Santé & Médical" },
   { value: "sport", label: "🏋️ Sport & Loisirs" },
   { value: "services", label: "🔧 Services & Auto" },
+  { value: "garage_sale", label: "🏷️ Vide-Grenier & Brocante" },
   { value: "other", label: "📦 Autre" },
 ];
 

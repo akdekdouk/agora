@@ -8,7 +8,14 @@
     "merchantAccess": "Acceso comerciante",
     "signIn": "Iniciar sesión",
     "scanValidate": "Escanear y Validar",
-    "map": "Mapa"
+    "map": "Mapa",
+    "nav_settings": "Ajustes",
+    "nav_language": "Idioma",
+    "nav_colorTheme": "Tema de color",
+    "nav_background": "Fondo",
+    "nav_font": "Fuente",
+    "nav_advancedConfig": "Configuración avanzada →",
+    "category_garage_sale": "🏷️ Venta de Garaje & Rastro"
   },
   "aiChat": {
     "title": "Asistente Agora",
@@ -103,7 +110,8 @@
     "health": "Salud & Médico",
     "sport": "Deporte & Ocio",
     "services": "Servicios & Auto",
-    "other": "Otro"
+    "other": "Otro",
+    "garage_sale": "Venta de Garaje & Rastro"
   },
   "forgotPassword": {
     "title": "Restablecer contraseña",

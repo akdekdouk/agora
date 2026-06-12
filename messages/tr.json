@@ -8,7 +8,14 @@
     "merchantAccess": "Esnaf girişi",
     "signIn": "Giriş yap",
     "scanValidate": "Tara & Doğrula",
-    "map": "Harita"
+    "map": "Harita",
+    "nav_settings": "Ayarlar",
+    "nav_language": "Dil",
+    "nav_colorTheme": "Renk teması",
+    "nav_background": "Arka plan",
+    "nav_font": "Yazı tipi",
+    "nav_advancedConfig": "Gelişmiş ayarlar →",
+    "category_garage_sale": "🏷️ Garaj Satışı & Pazar"
   },
   "aiChat": {
     "title": "Agora Asistanı",
@@ -103,7 +110,8 @@
     "health": "Sağlık & Tıp",
     "sport": "Spor & Eğlence",
     "services": "Hizmetler & Oto",
-    "other": "Diğer"
+    "other": "Diğer",
+    "garage_sale": "Garaj Satışı & Pazar"
   },
   "forgotPassword": {
     "title": "Şifrenizi sıfırlayın",
