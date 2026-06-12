@@ -216,9 +216,15 @@ export default function AiChat() {
           </div>
         )}
 
-        {/* Pulse ring — only before first interaction */}
+        {/* Permanent slow pulse — always visible when closed */}
+        {!open && (
+          <span className="absolute inset-0 rounded-full opacity-30"
+            style={{ backgroundColor: "var(--color-primary)", animation: "ping 2.5s cubic-bezier(0,0,0.2,1) infinite" }} />
+        )}
+
+        {/* Fast pulse ring — only before first interaction */}
         {!hasInteracted && !open && (
-          <span className="absolute inset-0 rounded-full animate-ping opacity-40"
+          <span className="absolute inset-0 rounded-full animate-ping opacity-50"
             style={{ backgroundColor: "var(--color-primary)" }} />
         )}
 
@@ -226,19 +232,26 @@ export default function AiChat() {
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
-          className="relative w-16 h-16 text-white rounded-full flex items-center justify-center text-2xl hover:scale-110 transition-transform"
+          className="relative w-16 h-16 text-white rounded-full flex items-center justify-center hover:scale-110 transition-transform"
           style={{
             background: open
               ? "var(--color-primary)"
-              : "linear-gradient(135deg, var(--color-primary), var(--color-primary-hover, #ea580c))",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
+              : "linear-gradient(135deg, #ff9a3c, var(--color-primary), #d4460f)",
+            boxShadow: open ? "0 4px 12px rgba(0,0,0,0.2)" : "0 8px 32px rgba(249,115,22,0.5)",
             cursor: dragging.current ? "grabbing" : "grab",
           }}
           aria-label="AI Assistant"
         >
-          <span style={{ fontSize: open ? "18px" : "26px", transition: "font-size 0.2s" }}>
+          <span style={{ fontSize: open ? "18px" : "28px", transition: "font-size 0.2s", filter: open ? "none" : "drop-shadow(0 2px 4px rgba(0,0,0,0.3))" }}>
             {open ? "✕" : "✨"}
           </span>
+          {/* "IA" label */}
+          {!open && (
+            <span className="absolute -top-1 -right-1 text-[9px] font-bold bg-white rounded-full w-5 h-5 flex items-center justify-center shadow"
+              style={{ color: "var(--color-primary)" }}>
+              IA
+            </span>
+          )}
         </button>
       </div>
 
