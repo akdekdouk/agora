@@ -382,6 +382,6 @@ COMMERCIAL RULES:
 
   // Yield structured offers as a sentinel at the end
   if (offersToShow.length > 0) {
-    yield `\n__OFFERS__${JSON.stringify(offersToShow)}__END__`;
+    yield "\n__OFFERS__" + JSON.stringify(offersToShow) + "__END__";
   }
 }
