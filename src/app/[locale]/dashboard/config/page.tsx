@@ -110,13 +110,18 @@ export default function ConfigPage() {
     fetch("/api/config")
       .then((r) => r.json())
       .then((data: Config) => {
+        if (!data || data.activeCategories === undefined) return;
         setConfig(data);
-        setActiveCategories(JSON.parse(data.activeCategories) as string[]);
-        setTheme(data.theme);
-        setFontStyle(data.fontStyle);
+        try { setActiveCategories(JSON.parse(data.activeCategories) as string[]); } catch { setActiveCategories([]); }
+        setTheme(data.theme ?? "orange");
+        setFontStyle(data.fontStyle ?? "modern");
         setBackgroundPattern(data.backgroundPattern ?? "none");
       })
-      .catch(() => {});
+      .catch(() => {
+        // Fallback: show config form with defaults even if fetch failed
+        setConfig({ activeCategories: '["restaurant","shop","artisan","beauty","hotel"]', theme: "orange", fontStyle: "modern", backgroundPattern: "none" });
+        setActiveCategories(["restaurant", "shop", "artisan", "beauty", "hotel"]);
+      });
   }, []);
 
   function toggleCategory(value: string) {
