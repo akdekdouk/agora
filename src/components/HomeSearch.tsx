@@ -31,23 +31,80 @@ interface Props {
   latestDealsLabel: string;
 }
 
-export default function HomeSearch({
+// Stop words to ignore when extracting keywords from a natural language query
+const STOP_WORDS = new Set([
+  "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles",
+  "cherche", "chercher", "veux", "voudrais", "aimerais", "souhaite",
+  "les", "des", "une", "un", "de", "du", "la", "le", "en", "au", "aux",
+  "offre", "offres", "promo", "promos", "promotion", "promotions",
+  "deal", "deals", "réduction", "reduction", "remise", "remises",
+  "avoir", "voir", "trouver", "montrer", "afficher",
+  "dans", "sur", "pour", "avec", "sans", "par", "et", "ou", "mais",
+  "que", "qui", "quoi", "dont", "où", "quel", "quelle", "quels", "quelles",
+  "me", "mon", "ma", "mes", "ton", "ta", "tes", "son", "sa", "ses",
+  "ce", "cet", "cette", "ces", "y", "a", "est", "sont", "pas",
+]);
+
+// Category aliases so "beaute" matches category "beauty"
+const CATEGORY_ALIASES: Record<string, string[]> = {
+  beauty: ["beaute", "beauté", "bien-être", "bienetre", "soin", "soins", "spa", "esthetique", "esthétique", "coiffure", "coiffeur"],
+  restaurant: ["resto", "restau", "manger", "cuisine", "nourriture", "repas", "table"],
+  shop: ["boutique", "magasin", "commerce", "achat"],
+  artisan: ["artisan", "artisanat", "fait-main", "createur", "créateur"],
+  hotel: ["hotel", "hôtel", "hebergement", "hébergement", "logement"],
+  sport: ["sport", "fitness", "gym", "salle", "musculation"],
+  health: ["sante", "santé", "médecin", "medecin", "pharmacie", "clinique"],
+  education: ["cours", "formation", "ecole", "école", "apprentissage"],
+  services: ["service", "services", "reparation", "réparation", "entretien"],
+};
+
+function normalize(str: string): string {
+  return str.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/[''`]/g, "");
+}
+
+function extractKeywords(query: string): string[] {
+  return normalize(query)
+    .split(/[\s,;.!?()]+/)
+    .map(w => w.trim())
+    .filter(w => w.length >= 2 && !STOP_WORDS.has(w));
+}
+
+function offerMatchesKeyword(o: Offer, keyword: string): boolean {
+  const fields = [
+    normalize(o.title),
+    normalize(o.description),
+    normalize(o.merchant.businessName),
+    normalize(o.merchant.city),
+    normalize(o.merchant.category),
+    o.category ? normalize(o.category) : "",
+  ];
+
+  // Direct match in any field
+  if (fields.some(f => f.includes(keyword))) return true;
+
+  // Category alias match
+  for (const [cat, aliases] of Object.entries(CATEGORY_ALIASES)) {
+    if (aliases.includes(keyword) || keyword === cat) {
+      if (fields.some(f => f.includes(cat) || aliases.some(a => f.includes(a)))) return true;
+    }
+  }
+
+  return false;
+}
+
+
   offers, isConsumerLoggedIn, savedOfferIds, activeCategories, consumerInterests,
   heroTitle, heroSubtitle, exploreMapLabel, latestDealsLabel,
 }: Props) {
   const [search, setSearch] = useState("");
 
   const filteredOffers = search.trim()
-    ? offers.filter((o) => {
-        const q = search.toLowerCase();
-        return (
-          o.title.toLowerCase().includes(q) ||
-          o.description.toLowerCase().includes(q) ||
-          o.merchant.businessName.toLowerCase().includes(q) ||
-          o.merchant.city.toLowerCase().includes(q) ||
-          o.merchant.category.toLowerCase().includes(q)
-        );
-      })
+    ? (() => {
+        const keywords = extractKeywords(search);
+        if (keywords.length === 0) return offers;
+        // An offer matches if ANY keyword matches
+        return offers.filter(o => keywords.some(kw => offerMatchesKeyword(o, kw)));
+      })()
     : offers;
 
   return (
