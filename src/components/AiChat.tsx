@@ -154,9 +154,14 @@ export default function AiChat() {
     setLoading(true);
     setMessages([...newMessages, { role: "assistant", content: "" }]);
     try {
-      // Strip the local greeting (index 0, role: "assistant") before sending to the API.
-      // Anthropic requires conversations to start with a user message.
-      const apiMessages = newMessages[0]?.role === "assistant" ? newMessages.slice(1) : newMessages;
+      // Build clean API messages:
+      // 1. Skip local greeting (index 0 if assistant)
+      // 2. Remove empty assistant placeholders from previous failed requests
+      // 3. Strip the 'offers' field — only role+content go to the API
+      const raw = newMessages[0]?.role === "assistant" ? newMessages.slice(1) : newMessages;
+      const apiMessages = raw
+        .filter(m => m.role === "user" || (m.content ?? "").trim() !== "")
+        .map(m => ({ role: m.role, content: m.content ?? "" }));
       const res = await fetch("/api/ai/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
