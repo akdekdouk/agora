@@ -12,14 +12,15 @@
   },
   "aiChat": {
     "title": "Assistant Agora",
-    "subtitle": "Trouvez les meilleures offres près de vous",
-    "welcome": "Posez-moi n'importe quelle question sur les promotions locales !",
+    "subtitle": "Votre conseiller bonnes affaires",
+    "greeting": "Bonjour ! Je suis votre conseiller Agora 😊 Dites-moi ce que vous cherchez — un restaurant, une boutique, une réduction particulière — et je vous trouve les meilleures offres du moment !",
+    "welcome": "Bonjour, comment puis-je vous aider ?",
     "suggestions": [
-      "Meilleures offres restaurants aujourd'hui",
-      "Réductions de plus de 30% près de moi",
-      "Comment utiliser une offre ?"
+      "🍽️ Voir les offres restaurants",
+      "💆 Offres beauté & bien-être",
+      "🛍️ Meilleures réductions du moment"
     ],
-    "placeholder": "Rechercher des offres…",
+    "placeholder": "Écrivez votre demande…",
     "error": "Désolé, une erreur est survenue. Réessayez."
   },
   "home": {

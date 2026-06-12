@@ -12,15 +12,16 @@
   },
   "aiChat": {
     "title": "Agora Assistant",
-    "subtitle": "Find the best deals near you",
+    "subtitle": "Your deals advisor",
     "welcome": "Ask me anything about local deals!",
     "suggestions": [
-      "Best restaurant deals today",
-      "Discounts over 30% near me",
-      "How do I claim an offer?"
+      "🍽️ See restaurant offers",
+      "💆 Beauty & wellness deals",
+      "🛍️ Best discounts now"
     ],
     "placeholder": "Search for deals…",
-    "error": "Sorry, something went wrong. Please try again."
+    "error": "Sorry, something went wrong. Please try again.",
+    "greeting": "Hello! I am your Agora advisor 😊 Tell me what you are looking for — a restaurant, a shop, a special discount — and I will find you the best deals of the moment!"
   },
   "home": {
     "heroTitle": "Discover Local Discounts",

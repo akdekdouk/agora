@@ -12,15 +12,16 @@
   },
   "aiChat": {
     "title": "Agora Asistanı",
-    "subtitle": "Yakınındaki en iyi fırsatları bul",
+    "subtitle": "Fırsat danışmanınız",
     "welcome": "Yerel fırsatlar hakkında her şeyi sorabilirsin!",
     "suggestions": [
-      "Bugün en iyi restoran fırsatları",
-      "Yakınımda %30'dan fazla indirim",
-      "Bir teklifi nasıl kullanabilirim?"
+      "🍽️ Restoran teklifleri",
+      "💆 Güzellik teklifleri",
+      "🛍️ En iyi indirimler"
     ],
     "placeholder": "Fırsat ara…",
-    "error": "Üzgünüz, bir hata oluştu. Lütfen tekrar deneyin."
+    "error": "Üzgünüz, bir hata oluştu. Lütfen tekrar deneyin.",
+    "greeting": "Merhaba! Ben sizin Agora danışmanınızım 😊 Ne aradığınızı söyleyin — bir restoran, mağaza veya özel indirim — ve size en iyi teklifleri bulayım!"
   },
   "home": {
     "heroTitle": "Yerel İndirimleri Keşfet",
