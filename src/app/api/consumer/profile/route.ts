@@ -14,6 +14,7 @@ export async function GET() {
       name: true,
       phone: true,
       city: true,
+      avatar: true,
       interests: true,
       emailNotifications: true,
       googleId: true,
@@ -32,6 +33,7 @@ export async function PATCH(req: NextRequest) {
     name?: string;
     phone?: string;
     city?: string;
+    avatar?: string;
     interests?: string[];
     emailNotifications?: boolean;
   };
@@ -42,10 +44,11 @@ export async function PATCH(req: NextRequest) {
       ...(body.name !== undefined && { name: body.name }),
       ...(body.phone !== undefined && { phone: body.phone }),
       ...(body.city !== undefined && { city: body.city }),
+      ...(body.avatar !== undefined && { avatar: body.avatar }),
       ...(body.interests !== undefined && { interests: JSON.stringify(body.interests) }),
       ...(body.emailNotifications !== undefined && { emailNotifications: body.emailNotifications }),
     },
-    select: { id: true, name: true, phone: true, city: true, interests: true, emailNotifications: true },
+    select: { id: true, name: true, phone: true, city: true, avatar: true, interests: true, emailNotifications: true },
   });
 
   return NextResponse.json(updated);

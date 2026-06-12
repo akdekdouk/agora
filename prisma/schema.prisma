@@ -66,6 +66,7 @@ model Consumer {
   name       String?
   phone      String?
   city       String?
+  avatar     String?
   interests  String   @default("[]") // JSON array: ["restaurant","shop","artisan"]
   googleId   String?  @unique
   facebookId String?  @unique
