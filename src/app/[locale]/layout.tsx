@@ -18,9 +18,13 @@ export const metadata: Metadata = {
 async function getPlatformTheme() {
   try {
     const config = await prisma.platformConfig.findUnique({ where: { id: "default" } });
-    return { theme: config?.theme ?? "orange", fontStyle: config?.fontStyle ?? "modern" };
+    return {
+      theme: config?.theme ?? "orange",
+      fontStyle: config?.fontStyle ?? "modern",
+      backgroundPattern: config?.backgroundPattern ?? "none",
+    };
   } catch {
-    return { theme: "orange", fontStyle: "modern" };
+    return { theme: "orange", fontStyle: "modern", backgroundPattern: "none" };
   }
 }
 
@@ -34,14 +38,14 @@ export default async function LocaleLayout({
   const { locale } = await params;
   if (!routing.locales.includes(locale as (typeof routing.locales)[number])) notFound();
 
-  const [messages, { theme, fontStyle }] = await Promise.all([
+  const [messages, { theme, fontStyle, backgroundPattern }] = await Promise.all([
     getMessages(),
     getPlatformTheme(),
   ]);
 
   return (
-    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} data-theme={theme} data-font={fontStyle}>
-      <body className="bg-gray-50 min-h-screen">
+    <html lang={locale} dir={locale === "ar" ? "rtl" : "ltr"} data-theme={theme} data-font={fontStyle} data-bg={backgroundPattern}>
+      <body className="min-h-screen">
         <NextIntlClientProvider messages={messages}>
           <Providers>
             <Navbar />

@@ -32,6 +32,7 @@ export async function PUT(request: NextRequest) {
       activeCategories?: string[];
       theme?: string;
       fontStyle?: string;
+      backgroundPattern?: string;
     };
 
     const config = await prisma.platformConfig.upsert({
@@ -41,11 +42,13 @@ export async function PUT(request: NextRequest) {
         activeCategories: JSON.stringify(body.activeCategories ?? ["restaurant", "shop", "artisan", "beauty", "hotel"]),
         theme: body.theme ?? "orange",
         fontStyle: body.fontStyle ?? "modern",
+        backgroundPattern: body.backgroundPattern ?? "none",
       },
       update: {
         ...(body.activeCategories && { activeCategories: JSON.stringify(body.activeCategories) }),
         ...(body.theme && { theme: body.theme }),
         ...(body.fontStyle && { fontStyle: body.fontStyle }),
+        ...(body.backgroundPattern !== undefined && { backgroundPattern: body.backgroundPattern }),
       },
     });
 
