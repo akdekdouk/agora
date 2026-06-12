@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import LatestDeals from "@/components/LatestDeals";
 import { Link } from "@/i18n/navigation";
 
@@ -31,7 +31,7 @@ interface Props {
   latestDealsLabel: string;
 }
 
-// Stop words to ignore when extracting keywords from a natural language query
+// Stop words stripped from natural-language queries before keyword matching
 const STOP_WORDS = new Set([
   "je", "tu", "il", "elle", "on", "nous", "vous", "ils", "elles",
   "cherche", "chercher", "veux", "voudrais", "aimerais", "souhaite",
@@ -45,7 +45,6 @@ const STOP_WORDS = new Set([
   "ce", "cet", "cette", "ces", "y", "a", "est", "sont", "pas",
 ]);
 
-// Category aliases so "beaute" matches category "beauty"
 const CATEGORY_ALIASES: Record<string, string[]> = {
   beauty: ["beaute", "beauté", "bien-être", "bienetre", "soin", "soins", "spa", "esthetique", "esthétique", "coiffure", "coiffeur"],
   restaurant: ["resto", "restau", "manger", "cuisine", "nourriture", "repas", "table"],
@@ -78,34 +77,84 @@ function offerMatchesKeyword(o: Offer, keyword: string): boolean {
     normalize(o.merchant.category),
     o.category ? normalize(o.category) : "",
   ];
-
-  // Direct match in any field
   if (fields.some(f => f.includes(keyword))) return true;
-
-  // Category alias match
   for (const [cat, aliases] of Object.entries(CATEGORY_ALIASES)) {
     if (aliases.includes(keyword) || keyword === cat) {
       if (fields.some(f => f.includes(cat) || aliases.some(a => f.includes(a)))) return true;
     }
   }
-
   return false;
 }
 
+function localFilter(offers: Offer[], query: string): Offer[] {
+  const keywords = extractKeywords(query);
+  if (keywords.length === 0) return offers;
+  return offers.filter(o => keywords.some(kw => offerMatchesKeyword(o, kw)));
+}
 
+export default function HomeSearch({
   offers, isConsumerLoggedIn, savedOfferIds, activeCategories, consumerInterests,
   heroTitle, heroSubtitle, exploreMapLabel, latestDealsLabel,
 }: Props) {
   const [search, setSearch] = useState("");
+  const [displayedOffers, setDisplayedOffers] = useState<Offer[]>(offers);
+  const [aiSearching, setAiSearching] = useState(false);
+  const [aiActive, setAiActive] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const abortRef = useRef<AbortController | null>(null);
+  const offerMap = useRef(new Map(offers.map(o => [o.id, o])));
 
-  const filteredOffers = search.trim()
-    ? (() => {
-        const keywords = extractKeywords(search);
-        if (keywords.length === 0) return offers;
-        // An offer matches if ANY keyword matches
-        return offers.filter(o => keywords.some(kw => offerMatchesKeyword(o, kw)));
-      })()
-    : offers;
+  const runAiSearch = useCallback(async (query: string) => {
+    abortRef.current?.abort();
+    const ctrl = new AbortController();
+    abortRef.current = ctrl;
+    setAiSearching(true);
+    try {
+      const res = await fetch("/api/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query }),
+        signal: ctrl.signal,
+      });
+      if (!res.ok) return;
+      const data = await res.json() as { offers: Array<{ id: string }> };
+      // Map API result IDs back to full offer objects (to keep claimsCount, etc.)
+      const matched = (data.offers ?? [])
+        .map(o => offerMap.current.get(o.id))
+        .filter(Boolean) as Offer[];
+      // If AI found nothing, fall back to local filter
+      setDisplayedOffers(matched.length > 0 ? matched : localFilter(offers, query));
+      setAiActive(true);
+    } catch (e) {
+      if ((e as Error).name !== "AbortError") {
+        setDisplayedOffers(localFilter(offers, query));
+      }
+    } finally {
+      setAiSearching(false);
+    }
+  }, [offers]);
+
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    const q = search.trim();
+    if (!q) {
+      abortRef.current?.abort();
+      setDisplayedOffers(offers);
+      setAiSearching(false);
+      setAiActive(false);
+      return;
+    }
+
+    // Instant local results
+    setDisplayedOffers(localFilter(offers, q));
+    setAiActive(false);
+
+    // AI search after 500ms pause
+    if (q.length >= 3) {
+      debounceRef.current = setTimeout(() => runAiSearch(q), 500);
+    }
+  }, [search, offers, runAiSearch]);
 
   return (
     <>
@@ -116,14 +165,21 @@ function offerMatchesKeyword(o: Offer, keyword: string): boolean {
 
           {/* Search bar */}
           <div className="relative mb-6">
-            <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
-            </svg>
+            {aiSearching ? (
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-orange-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+              </svg>
+            ) : (
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+              </svg>
+            )}
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Restaurant, artisan, beauté, ville…"
+              placeholder="Ex: je cherche des offres beauté à Paris…"
               className="w-full pl-12 pr-12 py-4 rounded-2xl text-gray-800 text-base shadow-lg focus:outline-none focus:ring-4 focus:ring-white/40"
             />
             {search && (
@@ -148,11 +204,15 @@ function offerMatchesKeyword(o: Offer, keyword: string): boolean {
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">{latestDealsLabel}</h2>
           {search && (
-            <span className="text-sm text-gray-500">{filteredOffers.length} résultat{filteredOffers.length !== 1 ? "s" : ""} pour « {search} »</span>
+            <span className="flex items-center gap-2 text-sm text-gray-500">
+              {aiSearching && <span className="text-xs text-orange-500 font-medium">✨ Recherche IA…</span>}
+              {!aiSearching && aiActive && <span className="text-xs text-green-600 font-medium">✨ Résultats IA</span>}
+              <span>{displayedOffers.length} résultat{displayedOffers.length !== 1 ? "s" : ""} pour « {search} »</span>
+            </span>
           )}
         </div>
         <LatestDeals
-          offers={filteredOffers}
+          offers={displayedOffers}
           isConsumerLoggedIn={isConsumerLoggedIn}
           savedOfferIds={savedOfferIds}
           defaultCategory="all"
