@@ -11,7 +11,7 @@ const CATEGORY_EMOJI: Record<string, string> = {
 
 const CATEGORY_LABEL: Record<string, string> = {
   restaurant: "Restaurants", shop: "Boutiques", artisan: "Artisans",
-  beauty: "Beauté & Bien-être", hotel: "Hôtellerie", education: "Éducation",
+  beauty: "Beauté", hotel: "Hôtellerie", education: "Éducation",
   health: "Santé", sport: "Sport", services: "Services", other: "Autres",
 };
 
@@ -25,28 +25,31 @@ interface Merchant {
   _count?: { offers: number; products: number };
 }
 
-function MerchantItem({ merchant }: { merchant: Merchant }) {
+function MerchantDrawer({ merchant }: { merchant: Merchant }) {
   const [hovered, setHovered] = useState(false);
   const { id, businessName, city, description, logo, _count } = merchant;
 
   return (
     <Link href={`/merchants/${id}`}>
       <div
-        className="relative flex-shrink-0 w-44 bg-white border border-gray-100 rounded-2xl p-4 cursor-pointer select-none"
+        className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-100 rounded-xl cursor-pointer transition-all"
         style={{
-          transition: "box-shadow 0.2s, transform 0.2s",
-          boxShadow: hovered ? "0 8px 24px rgba(0,0,0,0.14)" : "0 2px 8px rgba(0,0,0,0.07)",
-          transform: hovered ? "translateY(-4px)" : "none",
+          boxShadow: hovered ? "0 4px 16px rgba(0,0,0,0.10)" : "0 1px 4px rgba(0,0,0,0.05)",
+          transform: hovered ? "translateX(4px)" : "none",
+          transition: "all 0.15s ease",
+          borderLeftWidth: hovered ? "3px" : "1px",
+          borderLeftColor: hovered ? "var(--color-primary)" : undefined,
         }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <div className="flex justify-center mb-3">
+        {/* Logo */}
+        <div className="flex-shrink-0">
           {logo ? (
-            <Image src={logo} alt={businessName} width={56} height={56} className="rounded-full object-cover" />
+            <Image src={logo} alt={businessName} width={40} height={40} className="rounded-full object-cover" />
           ) : (
             <div
-              className="w-14 h-14 rounded-full flex items-center justify-center text-white text-xl font-bold"
+              className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold"
               style={{ backgroundColor: "var(--color-primary)" }}
             >
               {businessName[0]}
@@ -54,34 +57,38 @@ function MerchantItem({ merchant }: { merchant: Merchant }) {
           )}
         </div>
 
-        <p className="text-sm font-semibold text-gray-900 text-center leading-tight truncate">{businessName}</p>
-        <p className="text-xs text-gray-500 text-center mt-0.5">{city}</p>
+        {/* Name + city */}
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-semibold text-gray-900 truncate leading-tight">{businessName}</p>
+          <p className="text-xs text-gray-500 truncate">{city}</p>
+        </div>
 
-        {hovered && (
-          <div className="mt-3 space-y-1.5" style={{ animation: "fadeInUp 0.15s ease" }}>
-            {description && (
-              <p className="text-xs text-gray-600 line-clamp-2 text-center">{description}</p>
-            )}
-            {_count && (_count.offers > 0 || _count.products > 0) && (
-              <div className="flex justify-center gap-2 flex-wrap">
-                {_count.offers > 0 && (
-                  <span className="text-[10px] font-medium text-white px-2 py-0.5 rounded-full"
-                    style={{ backgroundColor: "var(--color-primary)" }}>
-                    {_count.offers} offre{_count.offers > 1 ? "s" : ""}
-                  </span>
-                )}
-                {_count.products > 0 && (
-                  <span className="text-[10px] font-medium bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
-                    {_count.products} produit{_count.products > 1 ? "s" : ""}
-                  </span>
-                )}
-              </div>
-            )}
-            <p className="text-[11px] text-center font-semibold" style={{ color: "var(--color-primary)" }}>
-              Voir le profil →
-            </p>
-          </div>
+        {/* Hover: description snippet */}
+        {hovered && description && (
+          <p className="hidden md:block text-xs text-gray-500 max-w-[200px] line-clamp-1 flex-shrink-0">
+            {description}
+          </p>
         )}
+
+        {/* Badges */}
+        <div className="flex-shrink-0 flex items-center gap-1.5">
+          {_count && _count.offers > 0 && (
+            <span
+              className="text-[10px] font-bold text-white px-2 py-0.5 rounded-full"
+              style={{ backgroundColor: "var(--color-primary)" }}
+            >
+              {_count.offers} offre{_count.offers > 1 ? "s" : ""}
+            </span>
+          )}
+          {_count && _count.products > 0 && (
+            <span className="text-[10px] font-medium bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
+              {_count.products} produit{_count.products > 1 ? "s" : ""}
+            </span>
+          )}
+          <svg className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
       </div>
     </Link>
   );
@@ -98,25 +105,45 @@ export default function MerchantsByCategory({ merchants }: { merchants: Merchant
   const categories = Object.keys(groups).sort((a, b) => groups[b].length - groups[a].length);
   if (categories.length === 0) return null;
 
+  const [activeTab, setActiveTab] = useState(categories[0]);
+
   return (
-    <div className="space-y-10">
-      {categories.map((cat) => (
-        <div key={cat}>
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-2xl">{CATEGORY_EMOJI[cat] ?? "🏪"}</span>
-            <h3 className="text-lg font-bold text-gray-900">{CATEGORY_LABEL[cat] ?? cat}</h3>
-            <span className="text-sm text-gray-400 font-normal">· {groups[cat].length} commerce{groups[cat].length > 1 ? "s" : ""}</span>
-          </div>
-          <div
-            className="flex gap-4 overflow-x-auto pb-3"
-            style={{ scrollbarWidth: "thin", scrollbarColor: "var(--color-primary) transparent" }}
+    <div>
+      {/* Horizontal category tabs */}
+      <div className="flex gap-2 overflow-x-auto pb-3 mb-6" style={{ scrollbarWidth: "none" }}>
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setActiveTab(cat)}
+            className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all border"
+            style={
+              activeTab === cat
+                ? { backgroundColor: "var(--color-primary)", color: "white", borderColor: "var(--color-primary)" }
+                : { backgroundColor: "white", color: "#4b5563", borderColor: "#e5e7eb" }
+            }
           >
-            {groups[cat].map((m) => (
-              <MerchantItem key={m.id} merchant={m} />
-            ))}
-          </div>
-        </div>
-      ))}
+            <span>{CATEGORY_EMOJI[cat] ?? "🏪"}</span>
+            <span>{CATEGORY_LABEL[cat] ?? cat}</span>
+            <span
+              className="text-[11px] px-1.5 py-0.5 rounded-full font-bold"
+              style={
+                activeTab === cat
+                  ? { backgroundColor: "rgba(255,255,255,0.25)", color: "white" }
+                  : { backgroundColor: "#f3f4f6", color: "#6b7280" }
+              }
+            >
+              {groups[cat].length}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* Vertical list of merchant drawers */}
+      <div className="space-y-2">
+        {(groups[activeTab] ?? []).map((m) => (
+          <MerchantDrawer key={m.id} merchant={m} />
+        ))}
+      </div>
     </div>
   );
 }
