@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { usePathname } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 
 interface OfferCard {
@@ -57,6 +58,8 @@ const LOCALE_LANG: Record<string, string> = {
 export default function AiChat() {
   const t = useTranslations("aiChat");
   const locale = useLocale();
+  const pathname = usePathname();
+  const isMerchant = pathname?.includes("/dashboard");
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [greeted, setGreeted] = useState(false);
@@ -83,7 +86,7 @@ export default function AiChat() {
   useEffect(() => {
     if (open && !greeted) {
       setGreeted(true);
-      setMessages([{ role: "assistant", content: t("greeting") }]);
+      setMessages([{ role: "assistant", content: isMerchant ? t("merchantGreeting") : t("greeting") }]);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
@@ -286,8 +289,8 @@ export default function AiChat() {
           >
             <span className="text-xl">✨</span>
             <div>
-              <p className="text-white font-semibold text-sm">{t("title")}</p>
-              <p className="text-white/70 text-xs">{t("subtitle")}</p>
+              <p className="text-white font-semibold text-sm">{isMerchant ? t("merchantTitle") : t("title")}</p>
+              <p className="text-white/70 text-xs">{isMerchant ? t("merchantSubtitle") : t("subtitle")}</p>
             </div>
           </div>
 
@@ -310,7 +313,7 @@ export default function AiChat() {
                 {/* Suggestion chips below the first greeting message */}
                 {msg.role === "assistant" && i === 0 && messages.length === 1 && !loading && (
                   <div className="mt-2 w-full space-y-1.5">
-                    {(t.raw("suggestions") as string[]).map((s, si) => (
+                    {(t.raw(isMerchant ? "merchantSuggestions" : "suggestions") as string[]).map((s, si) => (
                       <button
                         key={si}
                         onClick={() => sendMessage(s)}

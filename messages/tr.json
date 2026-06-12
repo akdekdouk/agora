@@ -19,6 +19,14 @@
       "💆 Güzellik teklifleri",
       "🛍️ En iyi indirimler"
     ],
+    "merchantTitle": "İş Danışmanı",
+    "merchantSubtitle": "İşletmenizi büyütmek için asistanınız",
+    "merchantGreeting": "Merhaba! Ben sizin Agora iş danışmanınızım 💼 Tekliflerinizi analiz edebilir, yeni fikirler önerebilir veya sonuçlarınızı en üst düzeye çıkarmanıza yardımcı olabilirim. Nereden başlamak istersiniz?",
+    "merchantSuggestions": [
+      "📊 Mevcut tekliflerimi analiz et",
+      "💡 Yeni teklifler öner",
+      "📅 Yakında sona erecek teklifler"
+    ],
     "placeholder": "Fırsat ara…",
     "error": "Üzgünüz, bir hata oluştu. Lütfen tekrar deneyin.",
     "greeting": "Merhaba! Ben sizin Agora danışmanınızım 😊 Ne aradığınızı söyleyin — bir restoran, mağaza veya özel indirim — ve size en iyi teklifleri bulayım!"

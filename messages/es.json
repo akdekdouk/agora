@@ -19,6 +19,14 @@
       "💆 Ofertas de belleza",
       "🛍️ Mejores descuentos ahora"
     ],
+    "merchantTitle": "Asesor de Negocio",
+    "merchantSubtitle": "Tu asistente para desarrollar tu negocio",
+    "merchantGreeting": "¡Hola! Soy tu asesor de negocio Agora 💼 Puedo analizar tus ofertas, sugerir nuevas ideas o ayudarte a maximizar tus resultados. ¿Por dónde quieres empezar?",
+    "merchantSuggestions": [
+      "📊 Analizar mis ofertas actuales",
+      "💡 Sugerir nuevas ofertas",
+      "📅 Ofertas que expiran pronto"
+    ],
     "placeholder": "Buscar ofertas…",
     "error": "Lo sentimos, algo salió mal. Inténtalo de nuevo.",
     "greeting": "¡Hola! Soy tu asesor Agora 😊 Dime qué buscas — un restaurante, una tienda, un descuento especial — ¡y te encuentro las mejores ofertas del momento!"
