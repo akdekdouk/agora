@@ -383,5 +383,14 @@
   "map": {
     "title": "Mappa dei commercianti",
     "subtitle": "Attività con offerte attive vicino a te"
+  },
+  "bubbleOffers": {
+    "title": "Offerte del momento",
+    "subtitle": "Passa il cursore su una bolla per i dettagli",
+    "viewOffer": "Vedi offerta →",
+    "expiresToday": "Scade oggi",
+    "daysLeft": "{days}g rimasti",
+    "zoomIn": "Ingrandisci",
+    "zoomOut": "Riduci"
   }
 }

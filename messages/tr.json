@@ -379,5 +379,14 @@
   "map": {
     "title": "İşyerleri Haritası",
     "subtitle": "Yakınındaki aktif teklifli işyerleri"
+  },
+  "bubbleOffers": {
+    "title": "Güncel teklifler",
+    "subtitle": "Ayrıntılar için bir balonun üzerine gelin",
+    "viewOffer": "Teklifi gör →",
+    "expiresToday": "Bugün sona eriyor",
+    "daysLeft": "{days} gün kaldı",
+    "zoomIn": "Yakınlaştır",
+    "zoomOut": "Uzaklaştır"
   }
 }

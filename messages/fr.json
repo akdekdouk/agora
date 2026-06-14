@@ -383,5 +383,14 @@
   "map": {
     "title": "Carte des commerces",
     "subtitle": "Commerces avec offres actives près de vous"
+  },
+  "bubbleOffers": {
+    "title": "Les offres du moment",
+    "subtitle": "Survolez une bulle pour voir les détails",
+    "viewOffer": "Voir l'offre →",
+    "expiresToday": "Expire aujourd'hui",
+    "daysLeft": "{days}j restants",
+    "zoomIn": "Agrandir",
+    "zoomOut": "Rétrécir"
   }
 }

@@ -383,5 +383,14 @@
   "map": {
     "title": "Merchants Map",
     "subtitle": "Businesses with active offers near you"
+  },
+  "bubbleOffers": {
+    "title": "Current offers",
+    "subtitle": "Hover a bubble to see details",
+    "viewOffer": "View offer →",
+    "expiresToday": "Expires today",
+    "daysLeft": "{days}d left",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out"
   }
 }
