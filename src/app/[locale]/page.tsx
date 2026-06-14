@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import MerchantsByCategory from "@/components/MerchantsByCategory";
 import HomeSearch from "@/components/HomeSearch";
 import ProductCard from "@/components/ProductCard";
+import BubbleOffers from "@/components/BubbleOffers";
 import { getTranslations } from "next-intl/server";
 import { getConsumerSession } from "@/lib/auth-consumer";
 
@@ -137,6 +138,15 @@ export default async function HomePage() {
         exploreMapLabel={t("exploreMap")}
         latestDealsLabel={t("latestDeals")}
       />
+
+      {/* Bubble offers */}
+      {serializedOffers.length > 0 && (
+        <section className="max-w-6xl mx-auto px-4 py-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">🧺 Les offres du moment</h2>
+          <p className="text-sm text-gray-400 mb-4">Survolez une bulle pour voir les détails</p>
+          <BubbleOffers offers={serializedOffers} />
+        </section>
+      )}
 
       {/* Latest Products */}
       {products.length > 0 && (
